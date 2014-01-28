@@ -11,8 +11,8 @@ define([/*'angular'*/], function () {
 	//	app.compileProvider    = $compileProvider;
 	//  app.filterProvider     = $filterProvider;
 	//	app.provide            = $provide;
-		app.controller = $controllerProvider.register;
-
+		app.directive          = $compileProvider.directive;
+		app.controller         = $controllerProvider.register;
 	}]);
 
 	return app;

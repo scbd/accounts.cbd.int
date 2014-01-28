@@ -1,0 +1,47 @@
+<script src="/app/views/activate-resend.html.js"></script>
+<div ng-controller="ActivateResendController">
+	<div class="row">
+		<div class="col-sm-8">
+			<h1>Activating your CBD account.</h1>
+
+			<div class="alert alert-warning">
+				<strong>The activation link is expired?</strong>
+				<div>If you reached this page by clicking on the activation link present in the <strong>welcome email</strong> received from the Secretariat, the link might be expired.</div>
+			</div>
+			<div class="alert alert-danger" ng-cloak ng-show="error">
+				<strong>Error as occured...</strong>
+				<div>{{error}}</div>
+			</div>
+			
+			<p>
+				 Fill out the form below to receive a new validation link by email.
+			</p>
+			<p>
+				<div class="row">
+					<div class="col-sm-8 col-xs-10">
+
+						<form name="form" role="form" ng-submit="actionSubmit()">
+							<div class="form-group" ng-class="{ 'has-error': form.email.$invalid, 'has-success': !form.email.$invalid }">
+								<label class="control-label" for="password">Email</label>
+								<input type="text" class="form-control" name="email" ng-model="email" placeholder="email@domain.xyz" required validate-email>
+								<p class="help-block error" ng-show="form.email.$error.required">This field is required</p>
+								<p class="help-block error" ng-show="form.email.$error.email">Email is not valid / complete</p>
+							</div>
+							<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit</button>
+						</form>
+					</div>
+				</div>
+			</p>
+		</div>
+	</div>
+</div>
+<style>
+	.has-error > label.control-label {
+		color: #666665;
+	}
+	.help-block.error {
+		text-transform: uppercase;
+		font-size:10px;
+		font-weight: bold;
+	}
+</style>

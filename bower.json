@@ -12,6 +12,8 @@
     "requirejs": "latest",
     "requirejs-domready": "latest",
     "requirejs-text": "latest",
-    "requirejs-plugins": "latest"
+    "requirejs-plugins": "latest",
+    "underscore": "latest",
+    "bootstrap-duallistbox": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git"
   }
 }

@@ -3,18 +3,18 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg      : grunt.file.readJSON('package.json'),
-    autoprefixer: {
-      options    : {
-        browsers: ['> 1%']
-      },
-      single_file: {
-        options: {
-          // Target-specific options go here.
-        },
-        src    : 'assets/css/main.css',
-        dest   : 'assets/css/main.css'
-      }
-    },
+    // autoprefixer: {
+    //   options    : {
+    //     browsers: ['> 1%']
+    //   },
+    //   single_file: {
+    //     options: {
+    //       // Target-specific options go here.
+    //     },
+    //     src    : 'assets/css/main.css',
+    //     dest   : 'assets/css/main.css'
+    //   }
+    // },
     sass: {
       main: {
         options: {
@@ -123,14 +123,14 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-autoprefixer');
+  //grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-csso');
-  grunt.loadNpmTasks('grunt-karma');
+  //grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-bower-task');
 
   // register css task to have option to separate styles compilation and build

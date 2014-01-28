@@ -1,0 +1,120 @@
+<script src="/app/views/signin.html.js"></script>
+
+<div class="row" ng-controller="AuthorizeController">
+	
+	<div class="col-sm-6">
+
+		<h1>Sign in</h1>
+
+		<div class="alert alert-danger" ng-show="errorInvalid">
+			<strong>Oops! Login failed.</strong></br>
+			The email address and password combination you entered is incorrect.
+		</div>
+
+		<div class="alert alert-danger" ng-show="errorTimeout">
+			<strong>Aw, Snap! Operation failed.</strong></br>
+			The service is not available. Please try again later.
+		</div>
+
+		<form name="form" ng-submit="signIn()">
+
+			<div class="form-group">
+				<label for="inputEmail">Email</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+					<input type="text" class="form-control" id="inputEmail" name="email" ng-model="email" placeholder="registered email address" required>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword">Password</label>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-lock" style="width:14px"></i></span>
+					<input type="password" class="form-control" id="inputPassword" name="password" ng-model="password" placeholder="password" required>
+				</div>
+			</div>
+			<div class="form-group">
+      			<div class="checkbox">
+	        		<label><input type="checkbox" ng-model="rememberMe"> Remember me</label> · <a href="/password/reset">Forgot password?</a>
+    			</div>
+  			</div>
+  			<div class="form-group">
+    			<button type="submit" class="btn btn-primary" ng-disabled="waiting">Sign in</button>
+    			<div class="spinner" ng-show="waiting">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+				</div>
+  			</div>
+		</form>
+	</div>
+
+	<div class="col-sm-offset-1 col-sm-5">
+		<h1>No account?</h1>
+		<p>
+			<strong>Get started.</strong><br>
+			Create your CBD account.
+		</p>
+		
+		<a href="/signup" class="btn btn-info" ng-disabled="waiting" style="margin-bottom:24px">Sign up</a>
+
+		<p>Sign up to access your manage your registered events, print your priority passes, access in-session documents and much more.</p>
+		<p>Sign up to access and manage your information registered under the different Clearing-Houses including the BCH, ABS-CH and CHM.</p>
+	</div>
+</div>
+<style>
+.spinner {
+margin: 0px 20px;
+/*width: 70px;
+text-align: center;*/
+display: inline-block;
+}
+.spinner > div {
+width: 12px;
+height: 12px;
+background-color: #333;
+
+border-radius: 100%;
+display: inline-block;
+-webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+animation: bouncedelay 1.4s infinite ease-in-out;
+/* Prevent first frame from flickering when animation starts */
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both;
+}
+.spinner .bounce1 {
+-webkit-animation-delay: -0.32s;
+animation-delay: -0.32s;
+}
+.spinner .bounce2 {
+-webkit-animation-delay: -0.16s;
+animation-delay: -0.16s;
+}
+@-webkit-keyframes bouncedelay {
+0%, 80%, 100% { -webkit-transform: scale(0.0) }
+40% { -webkit-transform: scale(1.0) }
+}
+@keyframes bouncedelay {
+0%, 80%, 100% { 
+transform: scale(0.0);
+-webkit-transform: scale(0.0);
+} 40% { 
+transform: scale(1.0);
+-webkit-transform: scale(1.0);
+}
+}
+</style>
+<style>
+	.has-error .fa-validate:before {
+		content: "\f00d";
+		color: #a94442;
+	}
+	.has-success .fa-validate:before {
+		content: "\f00c";
+		color: #468847;
+	}
+	.help-block.error {
+		text-transform: uppercase;
+		font-size:10px;
+		font-weight: bold;
+	}
+</style>

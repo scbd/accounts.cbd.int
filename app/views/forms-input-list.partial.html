@@ -1,0 +1,9 @@
+<div>
+	<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="text in getTexts()">
+		<span class="input-group-addon"><i class="fa fa-phone"></i></span>
+		<input type="text" class="form-control" ng-model="text.value" ng-change="save()" placeholder="{{placeholder}}" ng-required="isRequired()">
+		<span class="input-group-btn" ng-if="!$last">
+			<button class="btn btn-warning" ng-click="remove($index)" ng-show="!$last" style="height:36px"><i class="fa fa-times"></i></button>
+		</span>
+	</div>
+<div>
