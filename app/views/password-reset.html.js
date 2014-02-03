@@ -1,4 +1,4 @@
-require('app').controller('ActivateResendController', ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+require('app').controller('PasswordResetController', ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
 
     // if($scope.user.isAuthenticated) {
     //     authentication.signOut();
@@ -12,7 +12,7 @@ require('app').controller('ActivateResendController', ['$scope', '$http', '$loca
 
         $http.post('/api/v2013/users/'+encodeURIComponent($scope.email)+'/activations', angular.toJson({})).success(function onsuccess(data, status, headers, config) {
 
-            $location.path('/signup/done');
+            $location.path('/password/reset/done');
 
         }).error(function (data, status, headers, config) {
 
