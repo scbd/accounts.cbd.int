@@ -9,84 +9,48 @@ require('app').controller('PasswordController', ['$scope', '$location', '$http',
     //============================================================
     $scope.actionChangePassword = function(data) {
 
+        $scope.error   = undefined;
+        $scope.success = undefined;
+        $scope.waiting = true;
+
         var credentials = { 'email': $scope.user.email, 'password': $scope.document.oldPassword };
 
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
-        
+
             var headers = { Authorization: "Ticket " + success.data.authenticationToken };
 
-            $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers }).success(function (data, status, headers, config) {
-                
-                $scope.error = "";
+            return $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers });
 
-                alert("Thank you!\r\n\r\nYour password has been updated.")
-                
-                //$window.location = 'https://chm.cbd.int/';
+        }).then(function onsuccess(success) {
 
-            }).error(function (data, status, headers, config) {
-                $scope.error = status;
-                $scope.success = undefined;
-            });
+            $scope.waiting = false;
+                
+            alert("Thank you!\r\n\r\nYour password has been updated.")
+
+            //$window.location = 'https://chm.cbd.int/';
+
         }, function onerror(error) {
 
-            $scope.password = "";
-            $scope.isLoading = false;
-            $scope.isForbidden = error.errorCode == 403;
-            $scope.isNoService = error.errorCode == 404;
-            $scope.isError = error.errorCode != 403 && error.errorCode != 404;
-            $scope.error = error.error;
-            if($scope.error == "")
-                $scope.error = "Old password does not seem valid"
-            throw error;
-        });
-    };
+            $scope.waiting = false;
 
-    //============================================================
-    //
-    //
-    //============================================================
-    $scope.updateComplexity =  function(){
-        //debugger;
-        $("#password").complexify({}, function (valid, complexity) {
-            if (!valid) {
-                $('#progress').css({'width':complexity + '%'}).removeClass('progressbarValid').addClass('progressbarInvalid');
+            if(error.status==400) {
+                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 12 characters long.';
+            } else if(error.status==403) {
+                $scope.error = 'The original password you is incorrect.';
             } else {
-                $('#progress').css({'width':complexity + '%'}).removeClass('progressbarInvalid').addClass('progressbarValid');
+                $scope.error = error.status;
             }
-            $('#complexity').html(Math.round(complexity) + '%');
         });
     };
+
+    //============================================================
+    //
+    //
+    //============================================================
+    $scope.$watch('document.password+document.confirmation', function () {
+        if(!$scope.document) return;
+        console.log($scope.document.password==$scope.document.confirmation);
+        $scope.form.password2.$setValidity('match', $scope.document.password==$scope.document.confirmation);
+    })
+
 }]);
-
-// angular.module('kmApp').compileProvider.directive('validLength', [function() {
-//     return {
-//         require: 'ngModel',
-//         link: function(scope, elm, attrs, ctrl) {
-//             var validator = function(value) {
-//                 ctrl.$setValidity('length', (value||'').length>=10);
-//                 return value;
-//             };
-//             ctrl.$parsers.unshift(validator);
-//             ctrl.$formatters.unshift(validator);
-//         }
-//     };
-// }]);
-
-// angular.module('kmApp').compileProvider.directive('validPassword', [function() {
-//     return {
-//         require: 'ngModel',
-//         link: function(scope, elm, attrs, ctrl) {
-//             var validator = function(value) {
-//                 var count = 0;
-//                 count += (/[a-z]/g).test(value) ? 1 : 0;
-//                 count += (/[A-Z]/g).test(value) ? 1 : 0;
-//                 count += (/[0-9]/g).test(value) ? 1 : 0;
-//                 count += (/[^0-9^A-Z^a-z]/g).test(value) ? 1 : 0;
-//                 ctrl.$setValidity('password', (value||'').length>=10 && count>=2);
-//                 return value;
-//             };
-//             ctrl.$parsers.unshift(validator);
-//             ctrl.$formatters.unshift(validator);
-//         }
-//     };
-// }]);

@@ -1,21 +1,27 @@
 <script src="/app/views/activate.html.js"></script>
 <div ng-controller="ActivateController">
-
+		
 	<div ng-show="!initialized">
 		<h1>Activate your CBD account.</h1>
-
-		<p ng-show="!loaded" style="display:inline-block">Validating activation link
+		<p style="display:inline-block">
+			Validating activation link
 			<div class="spinner">
-			  <div class="bounce1"></div>
-			  <div class="bounce2"></div>
-			  <div class="bounce3"></div>
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
 			</div>
 		</p>
 	</div>
 
+	<h1 ng-show="initialized">Activate your CBD account.</h1>
+
 	<div ng-show="initialized" class="row">
 		<div class="col-sm-8">
-			<h1>Activate your CBD account.</h1>
+
+			<div class="alert alert-danger" ng-cloak ng-show="error">
+				<strong>Error as occured...</strong>
+				<div>{{error}}</div>
+			</div>
 
 			<p>
 				<strong>You're almost done!</strong><br>
@@ -26,122 +32,42 @@
 				Use a long password passwords with at least 10 characters. Adding numbers, symbols and mixed-case letters makes it harder for others to guess your password.
 			</p>
 			
-			<div>
-				<div class="alert alert-danger" ng-cloak ng-show="error.custom">
-					<strong>Error as occured...</strong>
-					<div>{{error}}</div>
-				</div>
-				<div class="alert alert-danger" ng-cloak ng-show="error.invalid">
-					<strong>Aw, Snap! The activation link appears to be invalid or expired.</strong>
-					<div>If you reached this page by clicking the activation link from your welcome email, the link might be expired. To immediately obtain a new validation link by email, simply fill out the form below.</div>
-				</div>
-				<div ng-cloak ng-show="success">
-					<div>{{success}}</div>
-				</div>
+			<div class="alert alert-danger" ng-cloak ng-show="error.custom">
+				<strong>Error as occured...</strong>
+				<div>{{error}}</div>
+			</div>
+			<div class="alert alert-danger" ng-cloak ng-show="error.invalid">
+				<strong>Aw, Snap! The activation link appears to be invalid or expired.</strong>
+				<div>If you reached this page by clicking the activation link from your welcome email, the link might be expired. To immediately obtain a new validation link by email, simply fill out the form below.</div>
+			</div>
+			<div ng-cloak ng-show="success">
+				<div>{{success}}</div>
+			</div>
 
-				
-				<div ng-hide="status=='hidden'||status=='loading'" style="margin-top:24px">
-					<form name="form" role="form" ng-submit="actionChangePassword()" novalidate>
-						<div class="row">
-							<div class="col-sm-8 col-xs-10">
-								<div class="form-group">
-									<label class="control-label" for="password">Email</label>
-									<input type="text" class="form-control" ng-model="email" disabled>
-								</div>
-							</div>
+			<div class="row" ng-hide="status=='hidden'||status=='loading'" >
+				<div class="col-sm-6">
+					<form name="form" role="form" ng-submit="actionChangePassword()">
+						<div class="form-group">
+							<label class="control-label" for="password">New password</label>
+							<input type="password" id="password" name="password" class="form-control" ng-model="document.password" required>
+							<p class="help-block error" ng-show="form.password.$invalid">This field is mandatory</p>
 						</div>
-						<div class="row">
-							<div class="col-sm-4 col-xs-6">
-								<div class="form-group">
-									<label class="control-label" for="password">Password</label>
-									<input type="password" id="password" name="password" class="form-control" name="password" ng-model="document.password" valid-length valid-password>
-								</div>
-							</div>
-							<div class="col-sm-6 col-xs-6">
-								<label class="control-label">&nbsp;</label>
-								<div ng-show="document.password && form.password.$error.length" style="padding:7px;color:#e80"><i class="icon icon-warning-sign"></i> &nbsp;not strong enough.</div>
-								<div ng-show="document.password && !form.password.$error.length && form.password.$error.password" style="padding:7px;color:#e80"><i class="icon icon-warning-sign"></i> &nbsp;try numbers, symbols and mixed-case letters.</div>
-								<div ng-show="!form.password.$error.password" style="padding:7px;color:#090"><i class="icon icon-ok"></i></div>
-							</div>
-							<!-- <div class="col-sm-4 col-sm-offset-1 col-xs-3 col-xs-offset-1">
-								<div class="form-group">
-									<label>Strength</label>
-									<div id="progressbar">
-										<div id="progress" class="progressbarValid" style="height:14px"></div>
-									</div>
-								</div>
-							</div> -->
+						<div class="form-group">
+							<label class="control-label" for="password2">New password - Confirmation</label>
+							<input type="password" id="password2" class="form-control" name="password2" ng-model="document.confirmation" required>
+							<p class="help-block error" ng-show="form.password2.$error.match">Passwords do not match</p>
 						</div>
-						<div class="row">
-							<div class="col-sm-4 col-xs-6">
-								<div class="form-group">
-									<label class="control-label" for="password2">Confirmation</label>
-									<input type="password" id="password2" class="form-control" name="password" ng-model="document.confirmation" valid-password>
-								</div>
-							</div>
-							<div class="col-sm-6 col-xs-6">
-								<label class="control-label">&nbsp;</label>
-								<div ng-show="document.confirmation && document.password!=document.confirmation" style="padding:7px;color:#e80"><i class="icon icon-warning-sign"></i> passwords do not match.</div>
-								<div ng-show="document.confirmation && document.password==document.confirmation" style="padding:7px;color:#090"><i class="icon icon-ok"></i></div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-								<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit</button>
-							</div>
+						<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || waiting">Submit</button>
+						<div class="spinner" ng-show="waiting">
+							<div class="bounce1"></div>
+							<div class="bounce2"></div>
+							<div class="bounce3"></div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<style>
-	.spinner {
-  margin: 0px 20px;
-  /*width: 70px;
-  text-align: center;*/
-  display: inline-block;
-}
-
-.spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #333;
-
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
-  animation: bouncedelay 1.4s infinite ease-in-out;
-  /* Prevent first frame from flickering when animation starts */
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.spinner .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.spinner .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
-}
-
-@-webkit-keyframes bouncedelay {
-  0%, 80%, 100% { -webkit-transform: scale(0.0) }
-  40% { -webkit-transform: scale(1.0) }
-}
-
-@keyframes bouncedelay {
-  0%, 80%, 100% { 
-    transform: scale(0.0);
-    -webkit-transform: scale(0.0);
-  } 40% { 
-    transform: scale(1.0);
-    -webkit-transform: scale(1.0);
-  }
-}
-	</style>
-	<script src="/app/js/utilities/jquery.complexify.js"></script>
-	<script src="/app/shared/directives/users/password.js"></script>
 </div>
+<script src="/app/js/utilities/jquery.complexify.js"></script>
+<script src="/app/shared/directives/users/password.js"></script>
