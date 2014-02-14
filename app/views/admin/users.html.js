@@ -28,7 +28,22 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location) {
 		$scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
 	};
 
+	//============================================================
 	//
+	//
+	//============================================================
+	$scope.actionDelete = function actionDelete (userID) {
+		
+		if (confirm('Are you sure you want to delete this user account?')) {
+
+			authHttp.delete('/api/v2013/users/' + userID).success(function (data, status, headers, config) {
+				populate();
+				alert('The user account has been deleted.');
+	        }).error(function (data, status, headers, config) {
+    	    	alert(data);
+        	});
+	    }
+	}
 
     $scope.pageCount = 4;
     $scope.pages = [0, 1, 2, 3];
