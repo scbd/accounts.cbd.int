@@ -10,7 +10,7 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location) {
         return;
     }
 
-	 authHttp.get('/api/v2013/roles', { cache: true }).then(function (response) { 
+	authHttp.get('/api/v2013/roles', { cache: true }).then(function (response) { 
 		var map = {};
 		response.data.forEach(function (role) {
 			map[role.roleId] = role;
@@ -18,9 +18,19 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location) {
 		$scope.roles = map; 
 	});
 
+	authHttp.get('/api/v2013/countries', { cache: true }).then(function (response) { 
+		var map = {};
+		response.data.forEach(function (country) {
+			country.name = country.name.en;
+			map[country.code] = country;
+		});
+		$scope.countries = map; 
+	});
+
 	function populate () {
 		authHttp.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 } }).then(function (response) {
-			$scope.users =  response.data;
+			$scope.users = response.data;
+			$scope.users.forEach(function (user) { if(user.government) user.government = user.government.toUpperCase(); });
 		});
 	};
 

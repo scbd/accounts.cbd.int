@@ -38,7 +38,8 @@
 		<tr ng-repeat="user in users">
 			<td>
 				<div><strong>{{user.firstName}} {{user.lastName}}</strong></div>
-				<div>{{user.organization}}</div>
+				<div ng-if="user.government">{{countries[user.government].name}}</div>
+				<div ng-if="!user.government">{{user.organization}}</div>
 			</td>
 			<td style="width:40%">
 				<div>{{user.email}}</div>
