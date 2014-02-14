@@ -145,12 +145,13 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-6 col-xs-12">
-								<div class="form-group">
+								<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
 									<label>Email</label>
 									<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
-										<span class="input-group-addon"><i class="fa-envelope fa"></i></span>
-										<input type="email" class="form-control" ng-model="document.Email"> <!-- ng-disabled="document.UserID==null" -->
+										<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+										<input type="email" name="email" class="form-control" ng-model="document.Email" placeholder="email@domain.xyz" required>
 									</div>
+									<p class="help-block error" ng-show="form.email.$invalid && !form.email.$error.email">This field is mandatory</p>
 								</div>
 							</div>
 							<div class="col-sm-6 col-xs-12">
