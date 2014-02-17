@@ -1,4 +1,4 @@
-require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$window', function ($scope, $http, $browser, $window) {
+require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$window', '$location', function ($scope, $http, $browser, $window, $location) {
 	
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
@@ -83,6 +83,30 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         document.cookie = cookieString
     };
 
+    //============================================================
+    //
+    //
+    //============================================================
+    this.authorize = function () {
+
+        var client_id    = $location.search().client_id||'';
+        var redirect_uri = $location.search().redirect_uri||'';
+        var state        = $location.search().state||'';
+        var authorized   = false;
+
+        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://localhost:2010/oauth2/callback');
+
+        if(authorized) {
+            $window.location.href = redirect_uri + '?code=' + $browser.cookies().authenticationToken + '&state=' + encodeURIComponent(state);
+        } else {
+            alert('unauthorized redirect_uri');
+        }
+
+        //$window.location.href = 'http://localhost:3010/oauth2/authorize/?client_id='+client_id+'&redirect_uri='+redirect_uri+'&scope=all';
+    };
+
+    if($scope.user.isAuthenticated) 
+        this.authorize();
 }]);
 
 

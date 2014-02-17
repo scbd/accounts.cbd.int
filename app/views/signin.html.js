@@ -1,10 +1,5 @@
-require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$location', 'authentication', function ($scope, $http, $browser, $location, authentication) {
+require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
 	
-    if($scope.user.isAuthenticated) {
-        $location.path('/');
-        return;
-    }
-
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
     $scope.rememberMe = !!$browser.cookies().email;
@@ -37,7 +32,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
 
             authentication.reset();
 
-            $location.path('/');
+            self.redirect();
 
         	//$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
 
@@ -93,6 +88,43 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
 
         document.cookie = cookieString
     };
+
+    //============================================================
+    //
+    //
+    //============================================================
+    this.authorize = function () {
+
+        var client_id    = $location.search().client_id||'';
+        var redirect_uri = $location.search().redirect_uri||'';
+        var state        = $location.search().state||'';
+        var authorized   = false;
+
+        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://absch.cbd.int/oauth2/callback');
+        authorized = authorized || (client_id=='0000000000000000000000000000000000000000000000000000000000000000' && redirect_uri=='http://localhost:2010/oauth2/callback');
+
+        if(authorized) {
+            $window.location.href = redirect_uri + '?code=' + $browser.cookies().authenticationToken + '&state=' + encodeURIComponent(state);
+        } else {
+            console.log('invalid client_id');
+        }
+    };
+
+    //============================================================
+    //
+    //
+    //============================================================
+    this.redirect = function () {
+        if($location.search().client_id) {
+            this.authorize();
+        } else {
+            $location.path('/');
+        }
+    }
+
+    if($scope.user.isAuthenticated) {
+        this.redirect();
+    }
 
 }]);
 

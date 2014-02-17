@@ -12,7 +12,7 @@ define(['app', 'authentication'], function (app) {
     
         $routeProvider.
             when('/',                     { templateUrl: '/app/views/index.html'                , resolve: { user: resolveUser }}).
-            when('/oauth2/authorize',     { templateUrl: '/app/views/oauth2/authorize.html'     , resolve: { user: resolveUser }}).
+            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolve: { user: resolveUser }}).
             when('/activate',             { templateUrl: '/app/views/activate.html'             , resolve: { user: resolveUser }}).
             when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolve: { user: resolveUser }}).
             when('/password',             { templateUrl: '/app/views/password.html'             , resolve: { user: resolveUser }}).
