@@ -15,7 +15,7 @@ function getCookie(cname) {
 }
 
 function receiveMessage(event) {
-    if(event.origin=='http://localhost:2010' || event.origin=='https://absch.cbd.int') {
+    if(event.origin=='https://absch.cbd.int' || event.origin=='http://absch.infra.cbd.int' || event.origin=='http://localhost:2010') {
         var message = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken') };
         window.parent.postMessage(JSON.stringify(message), event.origin);
     }
