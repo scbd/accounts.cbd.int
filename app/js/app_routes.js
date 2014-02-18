@@ -23,6 +23,7 @@ define(['app', 'authentication'], function (app) {
             when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolve: { user: resolveUser }}).
             when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolve: { user: resolveUser }}).
             when('/signin',               { templateUrl: '/app/views/signin.html'               , resolve: { user: resolveUser }}).
+            when('/signout',              { templateUrl: '/app/views/signout.html'              , resolve: { user: resolveUser }}).
             when('/signup',               { templateUrl: '/app/views/signup.html'               , resolve: { user: resolveUser }}).
             when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolve: { user: resolveUser }}).
             when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolve: { user: resolveUser }}).
