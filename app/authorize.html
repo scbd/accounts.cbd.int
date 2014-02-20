@@ -27,13 +27,13 @@ function receiveMessage(event) {
         
         var message = JSON.parse(event.data);
 
+        if(message.type=='getAuthenticationToken') {
+            var response = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken'), authenticationEmail: getCookie('email') };
+            window.parent.postMessage(JSON.stringify(response), event.origin);
+        }
         if(message.type=='setAuthenticationToken') {
             setCookie('authenticationToken', message.authenticationToken, 7, '/');
             setCookie('email', message.authenticationEmail, 30, '/');
-        }
-        else {
-            var response = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken') };
-            window.parent.postMessage(JSON.stringify(response), event.origin);
         }
     }
 }
