@@ -102,7 +102,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
 
         authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='https://absch.cbd.int:443/oauth2/callback');
         authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://absch.infra.cbd.int:80/oauth2/callback');
-        authorized = authorized || (client_id=='0000000000000000000000000000000000000000000000000000000000000000' && redirect_uri=='http://localhost:2010/oauth2/callback');
+        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://localhost:2010/oauth2/callback');
 
         if(authorized) {
             $window.location.href = redirect_uri + '?code=' + $browser.cookies().authenticationToken + '&state=' + encodeURIComponent(state);
