@@ -22,8 +22,25 @@ function setCookie(cname,cvalue,exdays)
     document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
 }
 
+function contains(values, value)
+{
+    if(!values)        return false;
+    if(values.indexOf) return values.indexOf(value)>=0;
+
+    for(var i=0;i<values.length; ++i)
+        if(values[i]===value)
+            return true;
+
+    return false;
+}
+
+var origins = [
+    'https://absch.cbd.int',   'http://absch.infra.cbd.int',   'http://localhost:2010', // ABSCH
+    'https://lifeweb.cbd.int', 'http://lifeweb.infra.cbd.int', 'http://localhost:2020'  // LIFEWEB
+];
+
 function receiveMessage(event) {
-    if(event.origin=='https://absch.cbd.int' || event.origin=='http://absch.infra.cbd.int' || event.origin=='http://localhost:2010') {
+    if(contains(origins, event.origin)) {
         
         var message = JSON.parse(event.data);
 
