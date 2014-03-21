@@ -17,6 +17,8 @@ define(['app', 'authentication'], function (app) {
             when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolve: { user: resolveUser }}).
             when('/password',             { templateUrl: '/app/views/password.html'             , resolve: { user: resolveUser }}).
             when('/password/reset',       { templateUrl: '/app/views/password-reset.html'       , resolve: { user: resolveUser }}).
+            when('/password/reset/sent',  { templateUrl: '/app/views/password-reset-sent.html'  , resolve: { user: resolveUser }}).
+            when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolve: { user: resolveUser }}).
             when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , resolve: { user: resolveUser }}).
             when('/profile',              { templateUrl: '/app/views/profile.html'              , resolve: { user: resolveUser }}).
             when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolve: { user: resolveUser }}).

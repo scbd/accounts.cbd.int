@@ -10,9 +10,9 @@ require('app').controller('PasswordResetController', ['$scope', '$http', '$locat
     //============================================================
     $scope.actionSubmit = function() {
 
-        $http.post('/api/v2013/users/'+encodeURIComponent($scope.email)+'/activations', angular.toJson({})).success(function onsuccess(data, status, headers, config) {
+        $http.post('/api/v2013/users/'+encodeURIComponent($scope.email)+'/password-resets', angular.toJson({})).success(function onsuccess(data, status, headers, config) {
 
-            $location.path('/password/reset/done');
+            $location.path('/password/reset/sent');
 
         }).error(function (data, status, headers, config) {
 
