@@ -6,6 +6,9 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.swp
+*.vimrc
+*.DS_STORE
 
 pids
 logs
@@ -15,3 +18,6 @@ npm-debug.log
 node_modules
 app/libs
 app_build
+
+.sass-cache
+.bower-storage
