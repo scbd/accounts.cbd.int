@@ -31,6 +31,10 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
             $scope.initialRoles = [];
         } else {
             $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data, status, headers, config) {
+
+                if(data.Government=="eur")
+                    data.Government = "eu"; // BCH country patch
+
                 $scope.document = data;
                 $scope.loadPhones();
                 $scope.loadFaxes();

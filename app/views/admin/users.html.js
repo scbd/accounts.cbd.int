@@ -24,6 +24,9 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location) {
 			country.name = country.name.en;
 			map[country.code] = country;
 		});
+
+		map["EUR"] = map["EU"];//patch BCH
+
 		$scope.countries = map; 
 	});
 
