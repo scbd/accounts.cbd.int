@@ -85,7 +85,7 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav" ng-cloak ng-show="user.isAuthenticated">
                             <!-- <li><a ng-class="{active: portal=='home'}" href="/profile">Account</a></li> -->
-                            <li><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></li>
+                            <li ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></li>
                         </ul>
                         <ul class="nav subnav" ng-cloak ng-show="user.isAuthenticated">
                             <!-- <li><a ng-class="{active: portal=='resources'}" href="/password">Password</a></li> -->

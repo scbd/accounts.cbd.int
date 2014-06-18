@@ -1,7 +1,7 @@
-define(['app'], function (app) {
+define(['app','underscore'], function (app) {
 	'use strict';
 
-	app.controller('TemplateController', ['$scope', '$window', 'authentication', function ($scope, $window, authentication) {
+	app.controller('TemplateController', ['$scope', '$window', 'authentication','$rootScope', function ($scope, $window, authentication,$rootScope) {
 
     	$scope.controller = "TemplateController";
 
@@ -13,6 +13,10 @@ define(['app'], function (app) {
         	$window.location.href = $window.location.href; // force page reload to clear everyting from memory 
         };
 
+        $scope.isAdmin = function(){        	
+			return $rootScope.user && _.contains($rootScope.user.roles, "Administrator");
+		}
+
 	}]);
 
 	function _loadCss(url) {
@@ -22,4 +26,6 @@ define(['app'], function (app) {
 	    link.href = url;
 	    document.getElementsByTagName("head")[0].appendChild(link);
 	}
+
+	
 });
