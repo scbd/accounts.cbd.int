@@ -23,7 +23,8 @@ require('app').controller('PasswordResetSetController', ['$scope', '$http', '$lo
                 
             alert("Thank you!\r\n\r\nYour password has been updated.")
             
-            $window.location = 'https://chm.cbd.int/';
+           // $window.location = 'https://chm.cbd.int/';
+           $location.path('/');
 
         }, function onerror(error) {
 
