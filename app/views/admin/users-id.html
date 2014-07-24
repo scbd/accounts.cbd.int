@@ -7,7 +7,7 @@
 	<div class="col-md-10 col-sm-12">
 		<h1 ng-hide="document.UserID">Create a new user profile</h1>
 		<h1 ng-show="document.UserID">Update a user profile</h1>
-		
+
 
 
 
@@ -17,7 +17,7 @@
 		</div>
 
 		<div ng-show="status=='loading'"><em>Loading...</em></div>
-		
+
 		<div ng-hide="status=='hidden'||status=='loading'">
 			<form name="form" role="form" ng-submit="onPostSave()">
 
@@ -176,7 +176,8 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label>Government</label>
-									<div><select class="form-control" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select></div>
+									<div><select class="form-control" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select>
+									<span  class="btn btn-default btn-small"  ng-click="document.Government = undefined;"> clear government </span></div>
 								</div>
 
 							</div>
