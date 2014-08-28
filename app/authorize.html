@@ -37,12 +37,12 @@ function contains(values, value)
 var origins = [
     'https://absch.cbd.int',   'http://absch.infra.cbd.int',   'http://localhost:2010', // ABSCH
     'https://lifeweb.cbd.int', 'http://lifeweb.infra.cbd.int', 'http://localhost:2020'  // LIFEWEB
-    ,'http://test.chm.cbd.int', 'http://54.82.117.207'
+    ,'http://test.chm.cbd.int', 'http://54.82.117.207', 'https://dev.absch.cbd.int'
 ];
 
 function receiveMessage(event) {
     if(contains(origins, event.origin)) {
-        
+
         var message = JSON.parse(event.data);
 
         if(message.type=='getAuthenticationToken') {
