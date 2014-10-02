@@ -258,6 +258,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if($route.current.params.id=='new') {
 
             authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
+                $scope.document = data;
                 $scope.actionUpdateRoles();
 
             }).error(function (data, status, headers, config) {
