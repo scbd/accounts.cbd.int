@@ -9,7 +9,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         return;
     }
 
-    $http.get("/api/v2013/countries").then(function(result) { 
+    $http.get("/api/v2013/countries").then(function(result) {
 
         var sortedData = $filter('orderBy')(result.data, 'name.en')
 
@@ -18,7 +18,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         });
     });
 
-    $http.get("/api/v2013/roles", { cache: true }).then(function(response) { 
+    $http.get("/api/v2013/roles", { cache: true }).then(function(response) {
         $scope.roleList = $filter('orderBy')(response.data, 'name');
     });
 
@@ -55,7 +55,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.getPhones = function () 
+    $scope.getPhones = function ()
     {
         if($scope.phones==undefined)
         {
@@ -65,9 +65,9 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if($scope.phones.length==0)
             $scope.phones.push({value : "", type: ""});
 
-        var sLastValue = $scope.phones[$scope.phones.length-1].value; 
-        var sLastType  = $scope.phones[$scope.phones.length-1].type; 
-        var sLastExt   = $scope.phones[$scope.phones.length-1].ext; 
+        var sLastValue = $scope.phones[$scope.phones.length-1].value;
+        var sLastType  = $scope.phones[$scope.phones.length-1].type;
+        var sLastExt   = $scope.phones[$scope.phones.length-1].ext;
 
         //NOTE: IE can set value to 'undefined' for a moment
         if((sLastValue && sLastValue!="") ||
@@ -114,7 +114,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.removePhone = function(index) 
+    $scope.removePhone = function(index)
     {
         $scope.phones.splice(index, 1);
         $scope.savePhones();
@@ -123,7 +123,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.getFaxes = function () 
+    $scope.getFaxes = function ()
     {
         if($scope.faxes==undefined)
         {
@@ -133,8 +133,8 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if($scope.faxes.length==0)
             $scope.faxes.push({value : "", type: ""});
 
-        var sLastValue = $scope.faxes[$scope.faxes.length-1].value; 
-        var sLastExt = $scope.faxes[$scope.faxes.length-1].ext; 
+        var sLastValue = $scope.faxes[$scope.faxes.length-1].value;
+        var sLastExt = $scope.faxes[$scope.faxes.length-1].ext;
 
         //NOTE: IE can set value to 'undefined' for a moment
         if((sLastValue && sLastValue!="") ||
@@ -180,7 +180,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.removeFaxe = function(index) 
+    $scope.removeFaxe = function(index)
     {
         $scope.faxes.splice(index, 1);
         $scope.saveFaxes();
@@ -189,7 +189,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.getEmails = function () 
+    $scope.getEmails = function ()
     {
         if($scope.EmailsCc==undefined)
         {
@@ -244,7 +244,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     //
     //==============================
-    $scope.removeEmail = function(index) 
+    $scope.removeEmail = function(index)
     {
         $scope.EmailsCc.splice(index, 1);
         $scope.saveEmails();
@@ -254,18 +254,18 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //
     //==================================
     $scope.onPostSave = function(data) {
-        
+
         if($route.current.params.id=='new') {
 
             authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
                 $scope.actionUpdateRoles();
-                
+
             }).error(function (data, status, headers, config) {
                 $scope.error = data;
             });
 
         } else {
-           
+
             authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
                 $scope.actionUpdateRoles();
             }).error(function (data, status, headers, config) {
@@ -297,7 +297,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         });
     }
 
-    $scope.init();    
+    $scope.init();
 
 }]);
 
@@ -318,10 +318,10 @@ require('app').directive('duallistbox', ["$timeout", function ($timeout) {
             $element.bind("DOMSubtreeModified", function () { console.log('syncing');
                 if(!syncing) {
                     syncing = true;
-                    $timeout(function () { 
+                    $timeout(function () {
                         box.trigger('bootstrapduallistbox.refresh');
                         syncing = false;
-                    }, 250);
+                    }, 500);
                 }
             });
         },
