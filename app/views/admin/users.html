@@ -3,13 +3,27 @@
 <div ng-controller="UsersController">
 
 	<h1>User management</h1>
-	
+
 	<div class="bs-filter">
 		<form ng-submit="signIn()">
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-search"></i></span>
 					<input type="text" class="form-control" ng-model="freetext" placeholder="name or email">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group">
+					<div class="row">
+						<div class="col-lg-6">
+								Government:	<select class="form-control" ng-model="government" ng-options="c.code as c.name for c in countriesList"></select>
+								<span  class="btn btn-default btn-small"  ng-click="government = undefined;"> clear government </span>
+						</div>
+						<div class="col-lg-6">
+								Roles:	<select class="form-control" ng-model="roleFilter" ng-options="r.roleId as r.name for r in roleList"></select>
+								<span  class="btn btn-default btn-small"  ng-click="roleFilter = undefined;"> clear role </span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>
