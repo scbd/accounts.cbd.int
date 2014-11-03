@@ -29,7 +29,7 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location, $filt
 
 		$scope.countries = map;
     $scope.countriesList=[];
-    $filter('orderBy')(response.data, 'name.en').forEach(function (country) {
+    $filter('orderBy')(response.data, 'name').forEach(function (country) {
 
           $scope.countriesList.push({ code : country.code.toLowerCase(), name: country.name });
     });
