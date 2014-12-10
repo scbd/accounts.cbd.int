@@ -20,9 +20,9 @@ require('app').controller('PasswordResetSetController', ['$scope', '$http', '$lo
         $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers }).then(function onsuccess(success) {
 
             $scope.waiting = false;
-                
+
             alert("Thank you!\r\n\r\nYour password has been updated.")
-            
+
            // $window.location = 'https://chm.cbd.int/';
            $location.path('/');
 
@@ -31,7 +31,7 @@ require('app').controller('PasswordResetSetController', ['$scope', '$http', '$lo
             $scope.waiting = false;
 
             if(error.status==400) {
-                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 12 characters long.';
+                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 10 characters long.';
             } else if(error.status==403) {
                 $scope.error = 'The original password you is incorrect.';
             } else {

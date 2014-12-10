@@ -20,9 +20,9 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
         $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers }).then(function onsuccess(success) {
 
             $scope.waiting = false;
-                
+
             alert("Thank you!\r\n\r\nYour account has been successfully activated.")
-            
+
             $window.location = 'https://chm.cbd.int/';
 
         }, function onerror(error) {
@@ -30,7 +30,7 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
             $scope.waiting = false;
 
             if(error.status==400) {
-                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 12 characters long.';
+                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 10 characters long.';
             } else if(error.status==403) {
                 $scope.error = 'The original password you is incorrect.';
             } else {
