@@ -23,7 +23,7 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
 
             alert("Thank you!\r\n\r\nYour account has been successfully activated.")
 
-            $window.location = 'https://chm.cbd.int/';
+            $window.location = '/';
 
         }, function onerror(error) {
 
