@@ -1,5 +1,5 @@
 require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
-	
+
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
     $scope.rememberMe = !!$browser.cookies().email;
@@ -28,7 +28,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
         	self.setCookie("authenticationToken", success.data.authenticationToken, 365, '/');
-        	self.setCookie("email", $scope.rememberMe ? $scope.email : undefined, 365, '/');
+        	self.setCookie("email", $scope.rememberMe ? $scope.email : "", 365, '/');
 
             authentication.reset();
 
@@ -37,11 +37,11 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         	//$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
 
             // authentication.loadCurrentUser().then(function () {
-             
+
             //     if ($location.search().returnUrl) 	$location.url($location.search().returnUrl);
-            //     else								$location.path("/management"); 
+            //     else								$location.path("/management");
             // });
-            
+
             // authentication.signIn(sEmail, sPassword).then(function onsuccess (data) {
 
         }, function onerror(error) {
@@ -58,7 +58,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
     //
     //============================================================
     this.clearErrors = function () {
-        
+
         $scope.isError = false;
         $scope.error = null;
     }
