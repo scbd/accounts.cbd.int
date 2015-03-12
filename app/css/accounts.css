@@ -1,0 +1,223 @@
+.nav > li > a {
+    font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+.sec2 .body-content h2 {
+    font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+h3 {
+    font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+a.getstarted {
+    font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+}
+.home-page .nav a {
+    color: #eee;
+    font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: bold;
+}
+.home-page .header-actions > li > a {
+    color: #eee;
+}
+.dropdown li {
+    border-right: none;
+}
+.home-page .main-nav p {
+    color: #eee;
+}
+.home-page .header-banner {
+    background-color: rgba(0,0,0,0.50);
+    border-bottom: 1px solid black;
+}
+#main-nav .logo img {
+    margin-top: 16px;
+    max-height: 65px;
+}
+.header-banner {
+    background: url('/app/img/banner.jpg');
+    background-size: cover;
+    font-size: 1.5em;
+    height: 120px;
+}
+
+@media (min-width: 768px) {
+    .lead {
+        font-size: 24px;
+    }
+    #PortalName {
+        background-color: rgba(0, 0, 0, 0.4);
+        border-left-color: rgb(0, 155, 72);
+        border-left-style: solid;
+        border-left-width: 5px;
+        color: rgb(255, 255, 255);
+        display: table-cell;
+        height: 120px;
+        /*padding-right: 19px;*/
+        text-align: center;
+        vertical-align: middle;
+        width: 200px;
+    }
+    #PortalAnchor:hover div {
+        color: #fff;
+        background-color: #009b48;
+        cursor: pointer;
+        cursor: hand;
+    }
+
+}
+a {
+    color: rgb(66, 139, 202);
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: #666;
+  text-decoration: none;
+}
+
+/*.showb{
+    border: 1px solid red;
+}
+.showy{
+    border: 1px solid yellow;
+}
+
+.wrapper {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    background-color: #f0f;
+}
+@media (min-width: 768px) {
+    .wrapper {
+        width: 780px;
+    }
+}
+@media (min-width: 992px) {
+    .wrapper {
+        width: 1000px;
+    }
+}
+@media (min-width: 1200px) {
+    .wrapper {
+        width: 1200px;
+    }
+}
+
+
+/*@media (min-width: 768px) {
+    .container-wrapper {
+        width: 750px;
+    }
+}
+@media (min-width: 992px) {
+    .container-wrapper {
+        width: 970px;
+    }
+}
+@media (min-width: 1200px) {
+    .container-wrapper {
+        width: 1170px;
+    }
+}*/
+
+
+/*
+
+.cbd-canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition: .3s ease all;
+    transition: .3s ease all;
+
+    padding: 5% 0; /* Temp: Just spacing. */
+        /*background-color: #fff;
+        height: auto;
+
+}*/
+
+
+
+/*
+.container {
+    padding-right: 40px;
+    padding-left: 40px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+nav {
+    margin: 0px -20px 0px -20px;
+}*/
+/*
+.container {
+    background-color: #fff;
+}
+
+.navbar-default {
+    background-color: #fff;
+    border-color: #fff;
+}
+.navbar {
+     border-radius: 0px;
+}
+
+.header-banner {
+    background: url('/app/img/banner.jpg');
+    background-size: cover;
+    font-size: 1.5em;
+    height: 120px;
+}
+
+.header-bannerX {
+    background: url('/app/img/banner.jpg');
+    background-size: cover;
+    font-size: 1.5em;*/
+    /*margin: 0px 15px 0px 15px;*/
+    /*height: 120px;*/
+    /*width: 100%;*/
+/*}*/
+
+
+/*dl {
+    white-space: normal;
+}
+.dl-horizontal dt
+{
+    white-space: normal;
+    width: 200px;
+}*/
+/*
+@media (min-width: 768px) {
+    .lead {
+        font-size: 24px;
+    }
+    #PortalName {
+        background-color: rgba(0, 0, 0, 0.4);
+        border-left-color: rgb(0, 155, 72);
+        border-left-style: solid;
+        border-left-width: 5px;
+        color: rgb(255, 255, 255);
+        display: table-cell;
+        height: 120px;*/
+        /*padding-right: 19px;*/
+        /*text-align: center;
+        vertical-align: middle;
+        width: 200px;
+    }
+
+    #PortalAnchor:hover div {
+        color: #fff;
+        background-color: #009b48;
+        /*cursor: pointer;
+        cursor: hand;*/
+    /*}*/
+/*}*/*/*/

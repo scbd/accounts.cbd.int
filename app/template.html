@@ -2,65 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Clearing-House Mechanism</title>
+    <title>Accounts: Convention on Biological Diversity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Clearing-House Mechanism of the Convention on Biological Diversity">
+    <meta name="description" content="Accounts: Convention on Biological Diversity">
     <link rel="shortcut icon" href="/app/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="/app/libs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/app/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/app/css/accounts.css">
     <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
-    <style>
-        .nav > li > a {
-            font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: normal;
-        }
-        .sec2 .body-content h2 {
-            font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: normal;
-        }
-        h3 {
-            font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: normal;
-        }
-        a.getstarted {
-            font-family: "HelveticaNeueW01-75Bold", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: normal;
-        }
-        .home-page .nav a {
-            color: #eee;
-            font-family: "HelveticaNeueW02-55Roma", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-            font-weight: bold;
-        }
-        .home-page .header-actions > li > a {
-            color: #eee;  
-        }
-        .dropdown li {
-            border-right: none;
-        }
-        .home-page .main-nav p {
-            color: #eee;  
-        }
-        .home-page .header-banner {
-            background-color: rgba(0,0,0,0.50);
-            border-bottom: 1px solid black;
-        }
-        #main-nav .logo img {
-          margin-top: 16px;
-          max-height: 65px;
-        }
-    </style>
+
 </head>
 <body ng-controller="TemplateController" ng-class="{'home-page':xhomePage}">
     <div>
-        <div class="header-banner" style="position:absolute;width:100%;height:140px"></div>
         <div class="container" id="main-nav">
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3">
-                    <a class="logo" href="http://www.cbd.int/" title="Convention on Biological Diversity">
-                        <img src="/app/img/cbd-logo-en.min.svg" class="svg" alt="CBD Logo">
+                <div class="col-lg-3 col-md-3 col-sm-4">
+                    <a class="navbar-brand" href="http://www.cbd.int/">
+                        <img src="/app/img/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
+                        <img src="/app/img/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
                     </a>
                 </div>
-                <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="col-lg-5 col-md-5 col-sm-4">
                     <div class="navbar visible-xs">
                         <div class="navbar-header">
                             <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -123,15 +85,12 @@
                     </ul>
                 </div>
             </div>
-            <div class="row ng-cloak" style="max-height:120px;overflow:hidden">
-                <div class="col-sm-12">
-                    <div style="position:absolute;width:100%">
-                        <img src="/app/img/banner.jpg" style="width:100%">
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-3">
-                    <div style="background-color:rgba(0,0,0,0.4);height:120px;padding-top:20px;padding-left:18px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:24px;font-weight:bold;color:#fff">
-                        <a href="/" style="color:#fff">Accounts</a>
+            <div class="row ng-cloak header-banner hidden-xs" style="max-height:120px; ">
+                <div class="col-sm-12 " >
+                    <div class="col-lg-3 col-md-3 col-sm-3" style="margin-left: -10px;">
+                        <span id="PortalAnchor">
+                            <div id="PortalName">Accounts</div>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -201,14 +160,6 @@
             <div class="col-lg-6 col-md-6 col-sm-6 logorow">
                 <p style="margin:-8px">© 2014 SCBD | <a href="http://www.cbd.int/privacy">Privacy Policy</a> | <a href="http://www.cbd.int/terms">Terms of Use</a></p>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <ul class="social clearfix">
-                <li><a href="http://twitter.com/scbd" class="twitter"></a></li>
-                <li><a href="http://www.linkedin.com/company/scbd" class="linkedin"></a></li>
-                <li><a href="https://www.facebook.com/scbd" class="facebook"></a></li>
-                <li><a href="https://plus.google.com/0000/posts" class="google"></a></li>
-                <li><a href="/database/news" class="rss"></a></li>
-            </ul>
         </div>
     </footer>
     <script src="/app/libs/requirejs/require.js" data-main="/app/js/boot.js"></script>
