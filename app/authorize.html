@@ -14,12 +14,25 @@ function getCookie(cname) {
     return "";
 }
 
-function setCookie(cname,cvalue,exdays)
+function setCookie(cname, cvalue, exdays)
 {
-    var d = new Date();
-    d.setTime(d.getTime()+(exdays*24*60*60*1000));
-    var expires = "expires="+d.toGMTString();
-    document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+    if(cvalue===null || cvalue === undefined)
+        exdays = -365;
+
+    var parts = [cname + "=" + (cvalue||"")];
+
+    if(exdays) {
+
+        var d = new Date();
+
+        d.setDate(d.getDate()+exdays);
+
+        parts.push("expires="+d.toGMTString())
+    }
+
+    parts.push("path=/");
+
+    document.cookie =  parts.join("; ");
 }
 
 function contains(values, value)
@@ -51,8 +64,12 @@ function receiveMessage(event) {
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
         if(message.type=='setAuthenticationToken') {
-            setCookie('authenticationToken', message.authenticationToken, 7);
-            setCookie('email', message.authenticationEmail, 30);
+
+            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, 7);
+            else                            setCookie('authenticationToken', null); //Delete the cookie
+
+            if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 30);
+            if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
         }
     }
 }
