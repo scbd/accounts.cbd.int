@@ -16,7 +16,7 @@ require('app').controller('PasswordResetController', ['$scope', '$http', '$locat
 
         }).error(function (data, status, headers, config) {
 
-            $scope.error = status;
+            $scope.error = data.error;
         });
     };
 
