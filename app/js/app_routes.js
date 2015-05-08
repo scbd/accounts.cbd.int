@@ -9,7 +9,7 @@ define(['app', 'authentication'], function (app) {
     app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $locationProvider.hashPrefix('!');
-    
+
         $routeProvider.
             when('/',                     { templateUrl: '/app/views/index.html'                , resolve: { user: resolveUser }}).
             when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolve: { user: resolveUser }}).
