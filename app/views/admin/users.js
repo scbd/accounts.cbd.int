@@ -1,4 +1,6 @@
-function UsersController ($rootScope, $scope, authHttp, $route, $location, $filter) {
+define(['app', 'underscore', 'authentication'], function(app, _) { 'use strict';
+
+    return ['$rootScope', '$scope', 'authHttp', '$route', '$location', '$filter', function($rootScope, $scope, authHttp, $route, $location, $filter) {
 
     if(!$rootScope.user.isAuthenticated) {  //navigation.securize();
         $location.path('/signin');
@@ -25,7 +27,7 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location, $filt
 			map[country.code] = country;
 		});
 
-		map["EUR"] = map["EU"];//patch BCH
+		map.EUR = map.EUR || map.EU;
 
 		$scope.countries = map;
     $scope.countriesList=[];
@@ -50,11 +52,11 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location, $filt
           			$scope.users = response.data;
           			$scope.users.forEach(function (user) { if(user.government) user.government = user.government.toUpperCase(); });
         		});
-	};
+	}
 
 	function setPage (page) {
 		$scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
-	};
+	}
 
 	//============================================================
 	//
@@ -64,14 +66,14 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location, $filt
 
 		if (confirm('Are you sure you want to delete this user account?')) {
 
-			authHttp.delete('/api/v2013/users/' + userID).success(function (data, status, headers, config) {
+			authHttp.delete('/api/v2013/users/' + userID).success(function () {
 				populate();
 				alert('The user account has been deleted.');
-	        }).error(function (data, status, headers, config) {
+	        }).error(function (data) {
     	    	alert(data);
         	});
 	    }
-	}
+	};
 
     $scope.pageCount = 4;
     $scope.pages = [0, 1, 2, 3];
@@ -83,4 +85,5 @@ function UsersController ($rootScope, $scope, authHttp, $route, $location, $filt
   $scope.$watch('government', populate);
   $scope.$watch('roleFilter', populate);
 	$scope.$watch('currentPage', populate);
-}
+}];
+});

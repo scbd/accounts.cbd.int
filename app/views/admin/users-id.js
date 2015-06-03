@@ -1,9 +1,13 @@
-require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($rootScope, $http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
+
+define(['app', 'underscore', 'authentication', 'directives/bootstrap/dual-list'], function(app, _) { 'use strict';
+
+    return ["$rootScope", "$http", "authHttp", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($rootScope, $http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
 
     if(!$rootScope.user.isAuthenticated) {  //navigation.securize();
         $location.path('/signin');
         return;
     }
+
     if(!_.contains($rootScope.user.roles, "Administrator")) {  //navigation.securize();
         $location.path('/help/403');
         return;
@@ -11,10 +15,10 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
 
     $http.get("/api/v2013/countries").then(function(result) {
 
-        var sortedData = $filter('orderBy')(result.data, 'name.en')
+        var sortedData = $filter('orderBy')(result.data, 'name.en');
 
         $scope.countries = _.map(sortedData, function(o) {
-            return { code : o.code.toLowerCase(), name: o.name.en }
+            return { code : o.code.toLowerCase(), name: o.name.en };
         });
     });
 
@@ -30,7 +34,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if($route.current.params.id=='new') {
             $scope.initialRoles = [];
         } else {
-            $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data, status, headers, config) {
+            $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data) {
 
                 if(data.Government=="eur")
                     data.Government = "eu"; // BCH country patch
@@ -39,14 +43,14 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
                 $scope.loadPhones();
                 $scope.loadFaxes();
                 $scope.loadEmails();
-            }).error(function (data, status, headers, config) {
+            }).error(function (data) {
                 alert('ERROR\r\n----------------\r\n'+data);
             });
 
-            $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data, status, headers, config) {
+            $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data) {
                 $scope.roles = data;
                 $scope.initialRoles = data.slice(0); // clone array
-            }).error(function (data, status, headers, config) {
+            }).error(function (data) {
                 alert('ERROR\r\n----------------\r\n'+data);
             });
         }
@@ -57,12 +61,12 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==============================
     $scope.getPhones = function ()
     {
-        if($scope.phones==undefined)
+        if(!$scope.phones)
         {
             $scope.phones = [];
         }
 
-        if($scope.phones.length==0)
+        if($scope.phones.length===0)
             $scope.phones.push({value : "", type: ""});
 
         var sLastValue = $scope.phones[$scope.phones.length-1].value;
@@ -88,13 +92,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if(phones)
         {
             $.each(phones, function( index, phone ) {
-                if(phone!=undefined && phone!='')
+                if(phone)
                 {
-                    $scope.phones.push({value: phone})
+                    $scope.phones.push({value: phone});
                 }
             });
         }
-    }
+    };
 
     //==============================
     //
@@ -103,13 +107,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.document.Phone = "";
         $.each($scope.phones, function( index, value ) {
-            if(value.value!=undefined && value.value!='')
+            if(value.value)
             {
                 $scope.document.Phone += value.value;
                 $scope.document.Phone += ';';
             }
         });
-    }
+    };
 
     //==============================
     //
@@ -118,19 +122,19 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.phones.splice(index, 1);
         $scope.savePhones();
-    }
+    };
 
     //==============================
     //
     //==============================
     $scope.getFaxes = function ()
     {
-        if($scope.faxes==undefined)
+        if(!$scope.faxes)
         {
             $scope.faxes = [];
         }
 
-        if($scope.faxes.length==0)
+        if($scope.faxes.length===0)
             $scope.faxes.push({value : "", type: ""});
 
         var sLastValue = $scope.faxes[$scope.faxes.length-1].value;
@@ -154,13 +158,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if(Faxes)
         {
             $.each(Faxes, function( index, faxe ) {
-                if(faxe!=undefined && faxe!='')
+                if(faxe)
                 {
-                    $scope.faxes.push({value: faxe})
+                    $scope.faxes.push({value: faxe});
                 }
             });
         }
-    }
+    };
 
     //==============================
     //
@@ -169,13 +173,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.document.Fax = "";
         $.each($scope.faxes, function( index, value ) {
-            if(value.value!=undefined && value.value!='')
+            if(value.value)
             {
                 $scope.document.Fax += value.value;
                 $scope.document.Fax += ';';
             }
         });
-    }
+    };
 
     //==============================
     //
@@ -184,25 +188,25 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.faxes.splice(index, 1);
         $scope.saveFaxes();
-    }
+    };
 
     //==============================
     //
     //==============================
     $scope.getEmails = function ()
     {
-        if($scope.EmailsCc==undefined)
+        if(!$scope.EmailsCc)
         {
             $scope.EmailsCc = [];
         }
 
-        if($scope.EmailsCc.length==0)
+        if($scope.EmailsCc.length===0)
             $scope.EmailsCc.push({value: ""});
 
         var sLastValue = $scope.EmailsCc[$scope.EmailsCc.length-1];
 
         //NOTE: IE can set value to 'undefined' for a moment
-        if(sLastValue.value && sLastValue.value!="")
+        if(sLastValue.value)
             $scope.EmailsCc.push({value: ""});
 
         return $scope.EmailsCc;
@@ -218,13 +222,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         if(emails)
         {
             $.each(emails, function( index, email ) {
-                if(email!=undefined && email!='')
+                if(email)
                 {
-                    $scope.EmailsCc.push({value: email})
+                    $scope.EmailsCc.push({value: email});
                 }
             });
         }
-    }
+    };
 
     //==============================
     //
@@ -233,13 +237,13 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.document.EmailsCc = "";
         $.each($scope.EmailsCc, function( index, email ) {
-            if(email.value!=undefined && email.value!='')
+            if(email.value)
             {
                 $scope.document.EmailsCc += email.value;
                 $scope.document.EmailsCc += ';';
             }
         });
-    }
+    };
 
     //==============================
     //
@@ -248,28 +252,28 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     {
         $scope.EmailsCc.splice(index, 1);
         $scope.saveEmails();
-    }
+    };
 
     //==================================
     //
     //==================================
-    $scope.onPostSave = function(data) {
+    $scope.onPostSave = function() {
 
         if($route.current.params.id=='new') {
 
-            authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
+            authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data) {
                 $scope.document = data;
                 $scope.actionUpdateRoles();
 
-            }).error(function (data, status, headers, config) {
+            }).error(function (data) {
                 $scope.error = data;
             });
 
         } else {
 
-            authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
+            authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function () {
                 $scope.actionUpdateRoles();
-            }).error(function (data, status, headers, config) {
+            }).error(function (data) {
                 $scope.error = data;
             });
         }
@@ -278,7 +282,7 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
     //==================================
     //
     //==================================
-    $scope.actionUpdateRoles = function(data) {
+    $scope.actionUpdateRoles = function() {
 
         var rolesToGrant  = _.difference($scope.roles, $scope.initialRoles);
         var rolesToRevoke = _.difference($scope.initialRoles, $scope.roles);
@@ -296,37 +300,10 @@ require('app').controller('UsersIdController', ["$rootScope", "$http", "authHttp
         $q.all(tasks).then(function done () {
             $location.path('/admin/users');
         });
-    }
+    };
 
     $scope.init();
 
-}]);
+}];
 
-require('app').directive('duallistbox', ["$timeout", function ($timeout) {
-    return {
-        priority: 0,
-        restrict: 'AC',
-        scope: false,
-        link: function ($scope, $element, $attr, $ctrl) {
-            var box = $element.bootstrapDualListbox({
-                nonselectedlistlabel: 'Non-selected',
-                selectedlistlabel: 'Selected',
-                preserveselectiononmove: 'moved',
-                moveonselect: false
-            });
-
-            var syncing;
-            $element.bind("DOMSubtreeModified", function () { console.log('syncing');
-                if(!syncing) {
-                    syncing = true;
-                    $timeout(function () {
-                        box.trigger('bootstrapduallistbox.refresh');
-                        syncing = false;
-                    }, 500);
-                }
-            });
-        },
-        controller: ['$scope', function ($scope) {
-        }]
-    };
-}]);
+});
