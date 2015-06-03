@@ -1,4 +1,7 @@
-require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
+define(['app', 'authentication'], function() {
+
+
+	return ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
 
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
@@ -33,17 +36,6 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
             authentication.reset();
 
             self.redirect();
-
-        	//$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
-
-            // authentication.loadCurrentUser().then(function () {
-
-            //     if ($location.search().returnUrl) 	$location.url($location.search().returnUrl);
-            //     else								$location.path("/management");
-            // });
-
-            // authentication.signIn(sEmail, sPassword).then(function onsuccess (data) {
-
         }, function onerror(error) {
 
         	$scope.password     = "";
@@ -61,7 +53,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
 
         $scope.isError = false;
         $scope.error = null;
-    }
+    };
 
     //============================================================
     // TODO: USE ANGULARJS EQUIVALENT
@@ -86,7 +78,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
             cookieString += "; expires=" + expirationDate.toUTCString();
         }
 
-        document.cookie = cookieString
+        document.cookie = cookieString;
     };
 
     //============================================================
@@ -125,22 +117,11 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         } else {
             $location.path('/');
         }
-    }
+    };
 
     if($scope.user.isAuthenticated) {
         this.redirect();
     }
 
-}]);
-
-
-
-            // //==============================
-            // //
-            // //==============================
-            // $scope.isAuthenticated = function () {
-            //     if (authentication.user())
-            //         return authentication.user().isAuthenticated && !!authentication.token();
-
-            //     return !!authentication.token();
-            // }
+}];
+});

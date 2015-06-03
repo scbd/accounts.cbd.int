@@ -7,7 +7,7 @@ define(['app', 'authentication', 'ngRoute', 'providers/extended-route'], functio
 
         $routeProvider.
             when('/',                     { templateUrl: '/app/views/index.html'                , resolveUser: true, resolveController : true }).
-            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolveUser: true }).
+            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolveUser: true, resolveController : true }).
             when('/activate',             { templateUrl: '/app/views/activate.html'             , resolveUser: true }).
             when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolveUser: true }).
             when('/password',             { templateUrl: '/app/views/password.html'             , resolveUser: true }).
