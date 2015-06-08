@@ -1,8 +1,6 @@
-'use strict';
+define(['app', 'angular'], function (app, ng) { 'use strict';
 
-define(['app'], function (app) {
-
-	app.factory('authentication', ["$http", "$browser", function($http, $browser) {
+	app.factory('authentication', ["$http", "$browser", "$q", function($http, $browser, $q) {
 
 		var currentUser = null;
 
@@ -12,14 +10,21 @@ define(['app'], function (app) {
 	    //============================================================
 		function getUser () {
 
-			if(currentUser) return currentUser;
+			if(currentUser)
+				return $q.when(currentUser);
 
-			var headers = { Authorization: "Ticket " + $browser.cookies().authenticationToken };
 
-			currentUser = $http.get('/api/v2013/authentication/user', { headers: headers}).then(function onsuccess (response) {
-				return response.data;
-			}, function onerror (error) {
-				return { userID: 1, name: 'anonymous', email: 'anonymous@domain', government: null, userGroups: null, isAuthenticated: false, isOffline: true, roles: [] };
+			currentUser = $http.get('/api/v2013/authentication/user').then(function onsuccess (response) {
+
+				currentUser = response.data;
+
+				return currentUser;
+
+			}).catch(function () {
+
+				currentUser = { userID: 1, name: 'anonymous', email: 'anonymous@domain', government: null, userGroups: null, isAuthenticated: false, isOffline: true, roles: [] };
+
+				return currentUser;
 			});
 
 			return currentUser;
@@ -48,31 +53,43 @@ define(['app'], function (app) {
 
 	}]);
 
-	app.factory('authHttp', ["$http", "$browser", function($http, $browser) {
+	app.factory('apiToken', ["$browser", function($browser) {
 
-		function addAuthentication(config) {
-
-			if(!config)         config         = {};
-			if(!config.headers) config.headers = {};
-
-			if($browser.cookies().authenticationToken) config.headers.Authorization = "Ticket "+$browser.cookies().authenticationToken;
-			else                                       config.headers.Authorization = undefined;
-
-			return config;
-		}
-
-		function authHttp(config) {
-			return $http(addAuthentication(config));
-		}
-
-		authHttp["get"   ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "GET"   , 'url' : url })); };
-		authHttp["head"  ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "HEAD"  , 'url' : url })); };
-		authHttp["delete"] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "DELETE", 'url' : url })); };
-		authHttp["jsonp" ] = function(url,       config) { return authHttp(angular.extend(config||{}, { 'method' : "JSONP" , 'url' : url })); };
-		authHttp["post"  ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "POST"  , 'url' : url, 'data' : data })); };
-		authHttp["put"   ] = function(url, data, config) { return authHttp(angular.extend(config||{}, { 'method' : "PUT"   , 'url' : url, 'data' : data })); };
-
-		return authHttp;
+		return {
+			get : function() {
+				return $browser.cookies().authenticationToken;
+			}
+		};
 	}]);
 
+	app.factory('authenticationHttpIntercepter', ["$q", "apiToken", function($q, apiToken) {
+
+		return {
+			request: function(config) {
+
+				var trusted = /^https:\/\/api.cbd.int\//i .test(config.url) ||
+						      /^https:\/\/localhost[:\/]/i.test(config.url) ||
+							  /^\/\w+/i                   .test(config.url);
+
+				var hasAuthorization = (config.headers||{}).hasOwnProperty('Authorization') ||
+							  		   (config.headers||{}).hasOwnProperty('authorization');
+
+				if(!trusted || hasAuthorization) // no need to alter config
+					return config;
+
+				//Add token to http headers
+
+				return $q.when(apiToken.get()).then(function(token) {
+
+					if(token) {
+						config.headers = ng.extend(config.headers||{}, {
+							Authorization : "Token " + token
+						});
+					}
+
+					return config;
+				});
+			}
+		};
+	}]);
 });

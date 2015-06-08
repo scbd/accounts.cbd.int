@@ -113,14 +113,14 @@ define(['app', 'authentication'], function() {
     //============================================================
     this.redirect = function () {
         if($location.search().client_id) {
-            this.authorize();
+			self.authorize();
         } else {
             $location.path('/');
         }
     };
 
     if($scope.user.isAuthenticated) {
-        this.redirect();
+		self.redirect();
     }
 
 }];

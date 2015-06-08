@@ -1,4 +1,4 @@
-define(['app', 'authentication', 'ngRoute', 'providers/extended-route'], function (app) { 'use strict';
+define(['app', 'underscore', 'authentication', 'ngRoute', 'providers/extended-route'], function (app, _) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
@@ -15,18 +15,46 @@ define(['app', 'authentication', 'ngRoute', 'providers/extended-route'], functio
             when('/password/reset/sent',  { templateUrl: '/app/views/password-reset-sent.html'  , resolveUser: true }).
             when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolveUser: true }).
             when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , resolveUser: true }).
-            when('/profile',              { templateUrl: '/app/views/profile.html'              , resolveUser: true }).
-            when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolveUser: true }).
+            when('/profile',              { templateUrl: '/app/views/profile.html'              , resolve : { user : securize() } }).
+            when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolve : { user : securize() } }).
             when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolveUser: true }).
             when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolveUser: true }).
-            when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser: true }).
+            when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser: true, resolveController : true }).
             when('/signout',              { templateUrl: '/app/views/signout.html'              , resolveUser: true }).
             when('/signup',               { templateUrl: '/app/views/signup.html'               , resolveUser: true }).
             when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser: true }).
             when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolveUser: true }).
             when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser: true }).
-            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser: true, resolveController : true }).
-            when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveUser: true, resolveController : true }).
+            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolve : { user : securize(['Administrator']) }, resolveController : true }).
+            when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolve : { user : securize(['Administrator']) }, resolveController : true }).
             otherwise({redirectTo:'/help/404'});
     }]);
-});
+
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function securize(roles)
+    {
+        return ["$location", "$q", "authentication", function ($location, $q, authentication) {
+
+            return $q.when(authentication.getUser()).then(function (user) {
+
+                if (!user.isAuthenticated) {
+
+                    $location.search({ returnUrl: $location.search().returnUrl || $location.url() });
+                    $location.path('/signin');
+                }
+                else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
+
+                    console.log("securize: not authorized");
+
+                    $location.search({ path: $location.url() });
+                    $location.path('/help/403');
+                }
+
+                return user;
+            });
+        }];
+    }});

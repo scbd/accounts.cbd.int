@@ -1,6 +1,6 @@
-require('app').controller('ProfileController', ['$scope', 'authHttp', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
+require('app').controller('ProfileController', ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
 
-    if(!$scope.user.isAuthenticated) 
+    if(!$scope.user.isAuthenticated)
         return $location.path('/');
 
     //============================================================
@@ -20,10 +20,10 @@ require('app').controller('ProfileController', ['$scope', 'authHttp', '$location
             $scope.error = response.data;
         });
 
-        authHttp.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function onerror (response) { 
-            
-            $scope.countries = $filter('orderBy')(response.data, 'name'); 
-        
+        authHttp.get('/api/v2013/thesaurus/domains/countries/terms', { cache: true }).then(function onerror (response) {
+
+            $scope.countries = $filter('orderBy')(response.data, 'name');
+
         }).catch(function onerror (response) {
 
             $scope.error = response.data;
@@ -39,9 +39,9 @@ require('app').controller('ProfileController', ['$scope', 'authHttp', '$location
         $scope.waiting = true;
 
         authHttp.put('/api/v2013/users/' + $scope.user.userID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
-            
+
             $location.path('/profile/done');
-            
+
         }).error(function (data, status, headers, config) {
             $scope.waiting = false;
             $scope.error = data;
@@ -83,7 +83,7 @@ require('app').directive('formsInputList', ['$http', function($http) {
             binding     : "=ngModel",
             required    : "@"
         },
-        link: function ($scope, $element, attrs, ngModelController) 
+        link: function ($scope, $element, attrs, ngModelController)
         {
             $scope.skipLoad = false;
             $scope.texts    = [];
@@ -95,12 +95,12 @@ require('app').directive('formsInputList', ['$http', function($http) {
                 });
             }
         },
-        controller: ["$scope", function ($scope) 
+        controller: ["$scope", function ($scope)
         {
             //==============================
             //
             //==============================
-            $scope.load = function () 
+            $scope.load = function ()
             {
                 if($scope.skipLoad)
                 {
@@ -117,11 +117,11 @@ require('app').directive('formsInputList', ['$http', function($http) {
                     $scope.texts.push({value : text});
                 });
             };
-            
+
             //==============================
             //
             //==============================
-            $scope.remove = function (index) 
+            $scope.remove = function (index)
             {
                 $scope.texts.splice(index, 1);
 
@@ -131,7 +131,7 @@ require('app').directive('formsInputList', ['$http', function($http) {
             //==============================
             //
             //==============================
-            $scope.save = function () 
+            $scope.save = function ()
             {
                 var oNewBinding = [];
                 var oText       = $scope.texts;
@@ -152,12 +152,12 @@ require('app').directive('formsInputList', ['$http', function($http) {
             //==============================
             //
             //==============================
-            $scope.getTexts = function () 
+            $scope.getTexts = function ()
             {
                 if($scope.texts.length==0)
                     $scope.texts.push({value : ""});
 
-                var sLastValue = $scope.texts[$scope.texts.length-1].value; 
+                var sLastValue = $scope.texts[$scope.texts.length-1].value;
 
                 //NOTE: IE can set value to 'undefined' for a moment
                 if(sLastValue && sLastValue!="")
@@ -171,7 +171,7 @@ require('app').directive('formsInputList', ['$http', function($http) {
             //==============================
             $scope.isRequired = function()
             {
-                return $scope.required!=undefined 
+                return $scope.required!=undefined
                     && $.isEmptyObject($scope.binding);
             }
         }]

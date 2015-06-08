@@ -1,7 +1,7 @@
 
 define(['app', 'underscore', 'authentication', 'directives/bootstrap/dual-list'], function(app, _) { 'use strict';
 
-    return ["$rootScope", "$http", "authHttp", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($rootScope, $http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
+    return ["$rootScope", "$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($rootScope, $http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
 
     if(!$rootScope.user.isAuthenticated) {  //navigation.securize();
         $location.path('/signin');
