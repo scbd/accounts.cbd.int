@@ -1,7 +1,7 @@
-define(['app', 'underscore', 'authentication'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
-    return ['$rootScope', '$scope', '$http', '$route', '$location', '$filter', function($rootScope, $scope, $http, $route, $location, $filter) {
-    
+    return ['$scope', '$http', '$route', '$location', '$filter', '$q', function($scope, $http, $route, $location, $filter, $q) {
+
     $http.get('/api/v2013/roles', { cache: true }).then(function (response) {
 		var map = {};
 		response.data.forEach(function (role) {

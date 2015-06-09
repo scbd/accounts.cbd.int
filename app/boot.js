@@ -10,9 +10,10 @@ require.config({
         'ngRoute'         : 'libs/angular-route/angular-route',
         'async'           : 'libs/requirejs-plugins/src/async',
         'domReady'        : 'libs/requirejs-domready/domReady',
+        'text'            : 'libs/requirejs-text/text',
         'jquery'          : 'libs/jquery/jquery',
         'bootstrap'       : 'libs/bootstrap/bootstrap',
-        'underscore'      : 'libs/underscore/underscore'
+        'lodash'          : 'libs/lodash/lodash'
     },
     shim: {
         'libs/angular/angular'     : { deps: ['jquery'] },

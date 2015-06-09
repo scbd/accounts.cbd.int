@@ -81,7 +81,7 @@
 
             </li> -->
     <!--        signin-->
-                <li ng-cloak ng-hide="user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
+                <li ng-cloak ng-show="user && !user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
                     <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
                 </li>
                 <li ng-cloak class="dropdown navbar-right" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">

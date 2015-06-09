@@ -1,7 +1,7 @@
 define(['app', 'authentication'], function() {
 
 
-	return ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
+	return ['$scope', '$http', '$browser', '$location', 'authentication', '$window', 'user', function ($scope, $http, $browser, $location, authentication, $window, user) {
 
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
@@ -119,7 +119,7 @@ define(['app', 'authentication'], function() {
         }
     };
 
-    if($scope.user.isAuthenticated) {
+    if(user.isAuthenticated) {
 		self.redirect();
     }
 

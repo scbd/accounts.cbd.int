@@ -1,6 +1,8 @@
-define(['app','underscore'], function (app, _) { 'use strict';
+define(['app','lodash'], function (app, _) { 'use strict';
 
-	app.controller('TemplateController', ['$scope', '$window', 'authentication','$rootScope', function ($scope, $window, authentication,$rootScope) {
+	app.controller('TemplateController', ['$scope', '$window', 'authentication', '$q', function ($scope, $window, authentication, $q) {
+
+		$scope.$on('$routeChangeStart', loadCurrentUser);
 
         $scope.actionSignOut = function () {
         	authentication.signOut();
@@ -8,9 +10,15 @@ define(['app','underscore'], function (app, _) { 'use strict';
         };
 
         $scope.isAdmin = function() {
-			return $rootScope.user && _.contains($rootScope.user.roles, "Administrator");
+			return $scope.user && _.contains($scope.user.roles, "Administrator");
 		};
 
+		function loadCurrentUser() {
+
+			return $q.when(authentication.getUser(), function (user) {
+				$scope.user = user;
+			});
+		}
 	}]);
 
 });

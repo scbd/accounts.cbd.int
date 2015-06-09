@@ -1,4 +1,4 @@
-define(['app', 'underscore', 'authentication', 'ngRoute', 'providers/extended-route'], function (app, _) { 'use strict';
+define(['app', 'lodash', 'authentication', 'ngRoute', 'providers/extended-route'], function (app, _) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
@@ -6,27 +6,27 @@ define(['app', 'underscore', 'authentication', 'ngRoute', 'providers/extended-ro
         $locationProvider.hashPrefix('!');
 
         $routeProvider.
-            when('/',                     { templateUrl: '/app/views/index.html'                , resolveUser: true, resolveController : true }).
-            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolveUser: true, resolveController : true }).
-            when('/activate',             { templateUrl: '/app/views/activate.html'             , resolveUser: true }).
-            when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolveUser: true }).
-            when('/password',             { templateUrl: '/app/views/password.html'             , resolveUser: true }).
-            when('/password/reset',       { templateUrl: '/app/views/password-reset.html'       , resolveUser: true }).
-            when('/password/reset/sent',  { templateUrl: '/app/views/password-reset-sent.html'  , resolveUser: true }).
-            when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolveUser: true }).
-            when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , resolveUser: true }).
+            when('/',                     { templateUrl: '/app/views/index.html'                , resolveController : true }).
+            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolveController : true }).
+            when('/activate',             { templateUrl: '/app/views/activate.html'             , resolveController : true }).
+            when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , }).
+            when('/password',             { templateUrl: '/app/views/password.html'             , resolveController : true, resolve : { user : securize() } }).
+            when('/password/reset',       { templateUrl: '/app/views/password-reset.html'       , }).
+            when('/password/reset/sent',  { templateUrl: '/app/views/password-reset-sent.html'  , }).
+            when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolveController : true }).
+            when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , }).
             when('/profile',              { templateUrl: '/app/views/profile.html'              , resolve : { user : securize() } }).
             when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolve : { user : securize() } }).
-            when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolveUser: true }).
-            when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolveUser: true }).
-            when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser: true, resolveController : true }).
-            when('/signout',              { templateUrl: '/app/views/signout.html'              , resolveUser: true }).
-            when('/signup',               { templateUrl: '/app/views/signup.html'               , resolveUser: true }).
-            when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser: true }).
-            when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolveUser: true }).
-            when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser: true }).
-            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolve : { user : securize(['Administrator']) }, resolveController : true }).
-            when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolve : { user : securize(['Administrator']) }, resolveController : true }).
+            when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , }).
+            when('/activity',             { templateUrl: '/app/views/help/offline.html'         , }).
+            when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveController : true, resolveUser : true }).
+            when('/signout',              { templateUrl: '/app/views/signout.html'              , }).
+            when('/signup',               { templateUrl: '/app/views/signup.html'               , }).
+            when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , }).
+            when('/help/403',             { templateUrl: '/app/views/help/403.html'             , }).
+            when('/help/404',             { templateUrl: '/app/views/help/404.html'             , }).
+            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveController : true, resolve : { user : securize(['Administrator']) } }).
+            when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveController : true, resolve : { user : securize(['Administrator']) } }).
             otherwise({redirectTo:'/help/404'});
     }]);
 

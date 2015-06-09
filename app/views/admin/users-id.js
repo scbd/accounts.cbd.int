@@ -1,17 +1,7 @@
 
-define(['app', 'underscore', 'authentication', 'directives/bootstrap/dual-list'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], function(app, _) { 'use strict';
 
-    return ["$rootScope", "$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($rootScope, $http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
-
-    if(!$rootScope.user.isAuthenticated) {  //navigation.securize();
-        $location.path('/signin');
-        return;
-    }
-
-    if(!_.contains($rootScope.user.roles, "Administrator")) {  //navigation.securize();
-        $location.path('/help/403');
-        return;
-    }
+    return ["$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
 
     $http.get("/api/v2013/countries").then(function(result) {
 
