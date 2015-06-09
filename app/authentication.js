@@ -37,7 +37,11 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 		function signOut () {
 
 			document.cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
 			reset();
+
+			return $http.delete('/api/v2013/authentication/token');
+
 		}
 
 		//============================================================

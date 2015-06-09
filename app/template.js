@@ -5,8 +5,9 @@ define(['app','lodash'], function (app, _) { 'use strict';
 		$scope.$on('$routeChangeStart', loadCurrentUser);
 
         $scope.actionSignOut = function () {
-        	authentication.signOut();
-        	$window.location.href = $window.location.href; // force page reload to clear everyting from memory
+        	authentication.signOut().finally(function () {
+				$window.location.href = $window.location.href; // force page reload to clear everyting from memory
+        	});
         };
 
         $scope.isAdmin = function() {
