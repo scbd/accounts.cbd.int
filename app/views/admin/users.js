@@ -35,13 +35,30 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
   });
 
+    var cancelPopulate;
 	function populate () {
-        $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 ,
-                                                  government : $scope.government, role: $scope.roleFilter} })
-            .then(function (response) {
-          			$scope.users = response.data;
-          			$scope.users.forEach(function (user) { if(user.government) user.government = user.government.toUpperCase(); });
-        		});
+
+        if(cancelPopulate) {
+            cancelPopulate.resolve();
+            cancelPopulate = undefined;
+        }
+
+        cancelPopulate = $q.defer();
+
+        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise }).then(function (response) {
+
+            var users = _.map(response.data, function (user) {
+
+                if(user.government)
+                    user.government = user.government.toUpperCase();
+
+                return user;
+    		});
+
+            $scope.users = users;
+
+            return users;
+        });
 	}
 
 	function setPage (page) {
@@ -71,9 +88,9 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
     $scope.actionSetPage = setPage;
 
-	$scope.$watch('freetext', populate);
-  $scope.$watch('government', populate);
-  $scope.$watch('roleFilter', populate);
+	$scope.$watch('freetext',    _.debounce(populate, 250));
+    $scope.$watch('government',  populate);
+    $scope.$watch('roleFilter',  populate);
 	$scope.$watch('currentPage', populate);
 }];
 });
