@@ -1,31 +1,34 @@
-require('app').controller('PasswordController', ['$scope', '$location', '$http', '$window', function ($scope, $location, $http, $window) {
+define(['app', 'directives/security/password-rules'], function() {
 
-    if(!$scope.user.isAuthenticated)
-        $location.path('/signin');
+    return ['$scope', '$location', '$http', function ($scope, $location, $http) {
 
     //============================================================
     //
     //
     //============================================================
-    $scope.actionChangePassword = function(data) {
+    $scope.actionChangePassword = function() {
 
         $scope.error   = undefined;
         $scope.success = undefined;
         $scope.waiting = true;
 
-        var credentials = { 'email': $scope.user.email, 'password': $scope.document.oldPassword };
+        $scope.oldPassword ="";
+        $scope.newPassword1="";
+        $scope.newPassword2="";
+
+        var credentials = { 'email': $scope.user.email, 'password': $scope.oldPassword };
 
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
             var headers = { Authorization: "Ticket " + success.data.authenticationToken };
 
-            return $http.put('/api/v2013/changepassword', angular.toJson($scope.document), { headers:headers });
+            return $http.put('/api/v2013/changepassword', angular.toJson({ password : $scope.newPassword1 }), { headers:headers });
 
-        }).then(function onsuccess(success) {
+        }).then(function() {
 
             $scope.waiting = false;
 
-            alert("Thank you!\r\n\r\nYour password has been updated.")
+            alert("Thank you!\r\n\r\nYour password has been updated.");
 
             //$window.location = 'https://chm.cbd.int/';
 
@@ -47,10 +50,10 @@ require('app').controller('PasswordController', ['$scope', '$location', '$http',
     //
     //
     //============================================================
-    $scope.$watch('document.password+document.confirmation', function () {
-        if(!$scope.document) return;
-        console.log($scope.document.password==$scope.document.confirmation);
-        $scope.form.password2.$setValidity('match', $scope.document.password==$scope.document.confirmation);
-    })
+    $scope.$watch('newPassword1+newPassword2', function () {
+        $scope.form.password2.$setValidity('match', $scope.newPassword1==$scope.newPassword2);
+    });
 
-}]);
+}];
+
+});

@@ -1,4 +1,6 @@
-require('app').controller('ActivateController', ['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
+define(['app', 'directives/security/password-rules'], function() {
+
+    return['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
 
     // if($scope.user.isAuthenticated) {
     //     authentication.signOut();
@@ -21,9 +23,10 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
 
             $scope.waiting = false;
 
-            alert("Thank you!\r\n\r\nYour account has been successfully activated.")
+            alert("Thank you!\r\n\r\nYour password has been updated.")
 
-            $window.location = '/';
+           // $window.location = 'https://chm.cbd.int/';
+           $location.path('/');
 
         }, function onerror(error) {
 
@@ -73,8 +76,9 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
         if(!$scope.document) return;
         console.log($scope.document.password==$scope.document.confirmation);
         $scope.form.password2.$setValidity('match', $scope.document.password==$scope.document.confirmation);
-    })
+    });
 
     init();
 
-}]);
+}];
+});

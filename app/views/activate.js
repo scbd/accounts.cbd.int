@@ -1,8 +1,6 @@
-require('app').controller('PasswordResetSetController', ['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
+define(['app', 'directives/security/password-rules'], function() {
 
-    // if($scope.user.isAuthenticated) {
-    //     authentication.signOut();
-    // }
+    return ['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
 
     //============================================================
     //
@@ -21,10 +19,9 @@ require('app').controller('PasswordResetSetController', ['$scope', '$http', '$lo
 
             $scope.waiting = false;
 
-            alert("Thank you!\r\n\r\nYour password has been updated.")
+            alert("Thank you!\r\n\r\nYour account has been successfully activated.")
 
-           // $window.location = 'https://chm.cbd.int/';
-           $location.path('/');
+            $window.location = '/';
 
         }, function onerror(error) {
 
@@ -74,8 +71,9 @@ require('app').controller('PasswordResetSetController', ['$scope', '$http', '$lo
         if(!$scope.document) return;
         console.log($scope.document.password==$scope.document.confirmation);
         $scope.form.password2.$setValidity('match', $scope.document.password==$scope.document.confirmation);
-    })
+    });
 
     init();
 
-}]);
+}];
+});
