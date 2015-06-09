@@ -77,7 +77,6 @@ define(['require', 'app', 'angular', 'ngRoute', 'authentication'], function(requ
         function resolveUser() {
             return ['$q', '$rootScope', 'authentication', function($q, $rootScope, authentication) {
                 return $q.when(authentication.getUser()).then(function (user) {
-                    $rootScope.user = user;
                     return user;
                 });
             }];

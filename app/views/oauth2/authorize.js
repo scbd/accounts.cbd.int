@@ -1,5 +1,7 @@
-require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$window', '$location', function ($scope, $http, $browser, $window, $location) {
-	
+define(['app'], function() {
+
+	return ['$scope', '$http', '$browser', '$window', '$location', 'user', function ($scope, $http, $browser, $window, $location, user) {
+
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
     $scope.rememberMe = !!$browser.cookies().email;
@@ -32,11 +34,11 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         	$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
 
             // authentication.loadCurrentUser().then(function () {
-             
+
             //     if ($location.search().returnUrl) 	$location.url($location.search().returnUrl);
-            //     else								$location.path("/management"); 
+            //     else								$location.path("/management");
             // });
-            
+
             // authentication.signIn(sEmail, sPassword).then(function onsuccess (data) {
 
         }, function onerror(error) {
@@ -52,7 +54,7 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
     //
     //============================================================
     this.clearErrors = function () {
-        
+
         $scope.isError = false;
         $scope.error = null;
     }
@@ -105,18 +107,8 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         //$window.location.href = 'http://localhost:3010/oauth2/authorize/?client_id='+client_id+'&redirect_uri='+redirect_uri+'&scope=all';
     };
 
-    if($scope.user.isAuthenticated) 
+    if(user.isAuthenticated)
         this.authorize();
-}]);
+}];
 
-
-
-            // //==============================
-            // //
-            // //==============================
-            // $scope.isAuthenticated = function () {
-            //     if (authentication.user())
-            //         return authentication.user().isAuthenticated && !!authentication.token();
-
-            //     return !!authentication.token();
-            // }
+});

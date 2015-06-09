@@ -1,9 +1,5 @@
 require('app').controller('ActivateResendController', ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
 
-    // if($scope.user.isAuthenticated) {
-    //     authentication.signOut();
-    // }
-
     //============================================================
     //
     //

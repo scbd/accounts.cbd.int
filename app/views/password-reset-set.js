@@ -2,10 +2,6 @@ define(['app', 'directives/security/password-rules'], function() {
 
     return['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
 
-    // if($scope.user.isAuthenticated) {
-    //     authentication.signOut();
-    // }
-
     //============================================================
     //
     //
