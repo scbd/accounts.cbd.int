@@ -1,16 +1,4 @@
 require('app').controller('SignupController', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
-// angular.module('kmApp').compileProvider.directive('user', ["$rootScope", "$http", "$http", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
-//     return {
-//         priority: 0,
-//         restrict: 'EAC',
-//         templateUrl: '/app/shared/directives/admin/user.partial.html?v'+new Date().getTime(),
-//         replace: true,
-//         transclude: false,
-//         scope: false,
-//         link: function ($scope, $element, $attr, $ctrl) {
-//             $scope.init();
-//         },
-//         controller: ['$scope' , '$filter', '$location', '$route', '$q', function ($scope, $filter, $location, $route, $q) {
 
     $scope.options = { countries: [] };
 
