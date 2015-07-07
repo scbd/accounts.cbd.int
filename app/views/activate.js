@@ -30,7 +30,7 @@ define(['app', 'directives/security/password-rules'], function() {
             if(error.status==400) {
                 $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 10 characters long.';
             } else if(error.status==403) {
-                $scope.error = 'The original password you is incorrect.';
+                $scope.error = 'The old password you entered is incorrect.';
             } else {
                 $scope.error = error.status;
             }
