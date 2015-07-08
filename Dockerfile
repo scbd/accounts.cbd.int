@@ -1,10 +1,12 @@
 FROM node:0.10
 
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY . /usr/src/app
+COPY package.json bower.json .bowerrc .npmrc ./
+
 RUN npm install
+
+COPY . ./
 
 ENV PORT 8000
 

@@ -12,7 +12,7 @@ require.config({
         'domReady'        : 'libs/requirejs-domready/domReady',
         'text'            : 'libs/requirejs-text/text',
         'jquery'          : 'libs/jquery/jquery',
-        'bootstrap'       : 'libs/bootstrap/bootstrap',
+        'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap',
         'lodash'          : 'libs/lodash/lodash'
     },
     shim: {
