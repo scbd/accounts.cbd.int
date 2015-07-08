@@ -12,17 +12,18 @@ define(['app', 'directives/security/password-rules'], function() {
         $scope.success = undefined;
         $scope.waiting = true;
 
-        $scope.oldPassword ="";
-        $scope.newPassword1="";
-        $scope.newPassword2="";
-
         var credentials = { 'email': $scope.user.email, 'password': $scope.oldPassword };
+        var newPassword = { 'password' : $scope.newPassword1 };
+
+        $scope.oldPassword  = "";
+        $scope.newPassword1 = "";
+        $scope.newPassword2 = "";
 
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
             var headers = { Authorization: "Ticket " + success.data.authenticationToken };
 
-            return $http.put('/api/v2013/changepassword', angular.toJson({ password : $scope.newPassword1 }), { headers:headers });
+            return $http.put('/api/v2013/changepassword', angular.toJson(newPassword), { headers:headers });
 
         }).then(function() {
 
