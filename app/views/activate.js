@@ -1,8 +1,6 @@
-require('app').controller('ActivateController', ['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
+define(['app', 'directives/security/password-rules'], function() {
 
-    // if($scope.user.isAuthenticated) {
-    //     authentication.signOut();
-    // }
+    return ['$scope', '$http', '$location', '$window', '$timeout', function ($scope, $http, $location, $window, $timeout) {
 
     //============================================================
     //
@@ -32,7 +30,7 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
             if(error.status==400) {
                 $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 10 characters long.';
             } else if(error.status==403) {
-                $scope.error = 'The original password you is incorrect.';
+                $scope.error = 'The old password you entered is incorrect.';
             } else {
                 $scope.error = error.status;
             }
@@ -73,8 +71,9 @@ require('app').controller('ActivateController', ['$scope', '$http', '$location',
         if(!$scope.document) return;
         console.log($scope.document.password==$scope.document.confirmation);
         $scope.form.password2.$setValidity('match', $scope.document.password==$scope.document.confirmation);
-    })
+    });
 
     init();
 
-}]);
+}];
+});

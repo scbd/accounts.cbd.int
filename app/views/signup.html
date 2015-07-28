@@ -1,10 +1,10 @@
 <script src="/app/views/signup.html.js"></script>
 <div ng-controller="SignupController">
 	<div class="row">
-		<div class="col-sm-11 col-md-10">
-			
+		<div class="col-sm-12">
+
 			<h1>Create your CBD Account.</h1>
-			
+
 			<p><strong>One single account.</strong><br>
 				Just one account gets you into everything from Event Registration to Clearing-Houses.
 			</p>
@@ -19,7 +19,7 @@
 			</div>
 
 			<div ng-show="status=='loading'"><em>Loading...</em></div>
-			
+
 			<div ng-hide="status=='hidden'||status=='loading'" style="margin-top:30px">
 				<form name="form" role="form" ng-submit="onPostSave()">
 
@@ -55,8 +55,8 @@
 							</div>
 
 							<div class="form-group">
-								<label for="departement">Departement</label>
-								<input type="text" class="form-control" id="departement" ng-model="document.Department">
+								<label for="department">Department</label>
+								<input type="text" class="form-control" id="department" ng-model="document.Department">
 							</div>
 							<div class="form-group" ng-class="{ 'has-warning': form.organization.$invalid }">
 								<label for="organization">Organization</label>
@@ -119,7 +119,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default panel-coordinates">
 						<div class="panel-body">
 							<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>

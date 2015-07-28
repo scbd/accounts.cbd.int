@@ -1,6 +1,5 @@
-<script src="/app/views/profile.html.js"></script>
-<div ng-controller="ProfileController">
-	
+<div>
+
 	<h1>My profile.</h1>
 
 	<div ng-show="!document && !error" style="display:inline-block">Loading your profile...
@@ -12,8 +11,8 @@
 	</div>
 
 	<div class="row">
-		<div class="col-sm-11 col-md-10">
-			
+		<div class="col-xs-12">
+
 			<div class="alert alert-danger" ng-cloak ng-show="error">
 				<strong>Error as occured...</strong>
 				<div>{{error}}</div>
@@ -54,8 +53,8 @@
 							</div>
 
 							<div class="form-group">
-								<label for="departement">Departement</label>
-								<input type="text" class="form-control" id="departement" ng-model="document.Department">
+								<label for="department">Department</label>
+								<input type="text" class="form-control" id="department" ng-model="document.Department">
 							</div>
 							<div class="form-group" ng-class="{ 'has-warning': form.organization.$invalid }">
 								<label for="organization">Organization</label>
@@ -118,7 +117,7 @@
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-default panel-coordinates">
 						<div class="panel-body">
 							<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>

@@ -1,21 +1,9 @@
 require('app').controller('SignupController', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
-// angular.module('kmApp').compileProvider.directive('user', ["$rootScope", "$http", "authHttp", "$browser", "authentication", function ($rootScope, $http, authHttp, $browser, authentication) {
-//     return {
-//         priority: 0,
-//         restrict: 'EAC',
-//         templateUrl: '/app/shared/directives/admin/user.partial.html?v'+new Date().getTime(),
-//         replace: true,
-//         transclude: false,
-//         scope: false,
-//         link: function ($scope, $element, $attr, $ctrl) {
-//             $scope.init();
-//         },
-//         controller: ['$scope' , '$filter', '$location', '$route', '$q', function ($scope, $filter, $location, $route, $q) {
 
     $scope.options = { countries: [] };
 
-    $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o) { 
-        $scope.options.countries = $filter('orderBy')(o.data, 'name'); 
+    $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o) {
+        $scope.options.countries = $filter('orderBy')(o.data, 'name');
     });
 
     //==================================
@@ -47,7 +35,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.getPhones = function () 
+    $scope.getPhones = function ()
     {
         if($scope.phones==undefined)
         {
@@ -57,9 +45,9 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
         if($scope.phones.length==0)
             $scope.phones.push({value : "", type: ""});
 
-        var sLastValue = $scope.phones[$scope.phones.length-1].value; 
-        var sLastType  = $scope.phones[$scope.phones.length-1].type; 
-        var sLastExt   = $scope.phones[$scope.phones.length-1].ext; 
+        var sLastValue = $scope.phones[$scope.phones.length-1].value;
+        var sLastType  = $scope.phones[$scope.phones.length-1].type;
+        var sLastExt   = $scope.phones[$scope.phones.length-1].ext;
 
         //NOTE: IE can set value to 'undefined' for a moment
         if((sLastValue && sLastValue!="") ||
@@ -106,7 +94,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.removePhone = function(index) 
+    $scope.removePhone = function(index)
     {
         $scope.phones.splice(index, 1);
         $scope.savePhones();
@@ -115,7 +103,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.getFaxes = function () 
+    $scope.getFaxes = function ()
     {
         if($scope.faxes==undefined)
         {
@@ -125,8 +113,8 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
         if($scope.faxes.length==0)
             $scope.faxes.push({value : "", type: ""});
 
-        var sLastValue = $scope.faxes[$scope.faxes.length-1].value; 
-        var sLastExt = $scope.faxes[$scope.faxes.length-1].ext; 
+        var sLastValue = $scope.faxes[$scope.faxes.length-1].value;
+        var sLastExt = $scope.faxes[$scope.faxes.length-1].ext;
 
         //NOTE: IE can set value to 'undefined' for a moment
         if((sLastValue && sLastValue!="") ||
@@ -172,7 +160,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.removeFaxe = function(index) 
+    $scope.removeFaxe = function(index)
     {
         $scope.faxes.splice(index, 1);
         $scope.saveFaxes();
@@ -181,7 +169,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.getEmails = function () 
+    $scope.getEmails = function ()
     {
         if($scope.EmailsCc==undefined)
         {
@@ -236,7 +224,7 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     //==============================
     //
     //==============================
-    $scope.removeEmail = function(index) 
+    $scope.removeEmail = function(index)
     {
         $scope.EmailsCc.splice(index, 1);
         $scope.saveEmails();
@@ -251,9 +239,9 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
         console.log($scope.document);
 
         $http.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
-            
+
             $location.path('/signup/done');
-            
+
         }).error(function (data, status, headers, config) {
             $scope.error = data;
         });

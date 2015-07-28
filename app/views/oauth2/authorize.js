@@ -1,4 +1,6 @@
-require('app').controller('AuthorizeController', ['$scope', '$http', '$browser', '$location', 'authentication', '$window', function ($scope, $http, $browser, $location, authentication, $window) {
+define(['app'], function() {
+
+	return ['$scope', '$http', '$browser', '$window', '$location', 'user', function ($scope, $http, $browser, $window, $location, user) {
 
 	$scope.password   = "";
     $scope.email      = $browser.cookies().email || "";
@@ -19,7 +21,6 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
 
         $scope.errorInvalid = false;
         $scope.errorTimeout = false;
-        $scope.waiting      = true;
 
         //$scope.isLoading = true;
 
@@ -28,13 +29,9 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
         	self.setCookie("authenticationToken", success.data.authenticationToken, 365, '/');
-        	self.setCookie("email", $scope.rememberMe ? $scope.email : "", 365, '/');
+        	self.setCookie("email", $scope.rememberMe ? $scope.email : undefined, 365, '/');
 
-            authentication.reset();
-
-            self.redirect();
-
-        	//$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
+        	$window.location = 'https://chm.cbd.int/#token=' + success.data.authenticationToken;
 
             // authentication.loadCurrentUser().then(function () {
 
@@ -49,7 +46,6 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         	$scope.password     = "";
             $scope.errorInvalid = error.status == 403;
             $scope.errorTimeout = error.status != 403;
-            $scope.waiting      = false;
         });
     };
 
@@ -100,47 +96,19 @@ require('app').controller('AuthorizeController', ['$scope', '$http', '$browser',
         var state        = $location.search().state||'';
         var authorized   = false;
 
-        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='https://absch.cbd.int:443/oauth2/callback');
-        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://absch.infra.cbd.int:80/oauth2/callback');
         authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://localhost:2010/oauth2/callback');
-
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='https://lifeweb.cbd.int:443/oauth2/callback');
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='http://lifeweb.infra.cbd.int:80/oauth2/callback');
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='http://localhost:2020/oauth2/callback');
 
         if(authorized) {
             $window.location.href = redirect_uri + '?code=' + $browser.cookies().authenticationToken + '&state=' + encodeURIComponent(state);
         } else {
-            console.log('invalid client_id');
+            alert('unauthorized redirect_uri');
         }
+
+        //$window.location.href = 'http://localhost:3010/oauth2/authorize/?client_id='+client_id+'&redirect_uri='+redirect_uri+'&scope=all';
     };
 
-    //============================================================
-    //
-    //
-    //============================================================
-    this.redirect = function () {
-        if($location.search().client_id) {
-            this.authorize();
-        } else {
-            $location.path('/');
-        }
-    }
+    if(user.isAuthenticated)
+        this.authorize();
+}];
 
-    if($scope.user.isAuthenticated) {
-        this.redirect();
-    }
-
-}]);
-
-
-
-            // //==============================
-            // //
-            // //==============================
-            // $scope.isAuthenticated = function () {
-            //     if (authentication.user())
-            //         return authentication.user().isAuthenticated && !!authentication.token();
-
-            //     return !!authentication.token();
-            // }
+});

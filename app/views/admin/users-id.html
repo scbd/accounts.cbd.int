@@ -1,9 +1,4 @@
-<script src="/app/views/admin/users-id.html.js"></script>
-<script src="/app/libs/underscore/underscore.js"></script>
-<script src="/app/libs/bootstrap-duallistbox/bootstrap-duallistbox/jquery.bootstrap-duallistbox.js"></script>
-<link href="/app/libs/bootstrap-duallistbox/bootstrap-duallistbox/bootstrap-duallistbox.css" rel="stylesheet">
-
-<div class="row" ng-controller="UsersIdController">
+<div class="row">
 	<div class="col-md-10 col-sm-12">
 		<h1 ng-hide="document.UserID">Create a new user profile</h1>
 		<h1 ng-show="document.UserID">Update a user profile</h1>
@@ -34,7 +29,7 @@
 							<div class="col-sm-5 col-xs-12">
 								<div class="form-group">
 									<label for="firstName">First name</label>
-									<input type="text" class="form-control" id="firstName" ng-model="document.FirstName" required>
+									<input type="text" class="form-control" id="firstName" ng-model="document.FirstName">
 								</div>
 							</div>
 							<div class="col-sm-5 col-xs-12">
@@ -51,8 +46,8 @@
 						</div>
 
 						<div class="form-group">
-							<label for="departement">Departement</label>
-							<input type="text" class="form-control" id="departement" ng-model="document.Department">
+							<label for="department">Department</label>
+							<input type="text" class="form-control" id="department" ng-model="document.Department">
 						</div>
 						<div class="form-group">
 							<label for="organization">Organization</label>

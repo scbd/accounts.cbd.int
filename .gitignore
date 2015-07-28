@@ -21,3 +21,4 @@ app_build
 
 .sass-cache
 .bower-storage
+bower_components

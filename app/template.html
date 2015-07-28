@@ -1,19 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="/">
     <meta charset="utf-8">
     <title>Accounts: Convention on Biological Diversity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Accounts: Convention on Biological Diversity">
     <link rel="shortcut icon" href="/app/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="/app/libs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/app/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/app/css/accounts.css">
     <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
 
 </head>
 <body ng-controller="TemplateController" ng-class="{'home-page':xhomePage}">
-    <div>
+
+    <nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop">
+      <div class="container container-cbd">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a href="http://www.cbd.int"><img src="/app/img/cbd-logo-spine-white.png" style="height:24px;position:relative;top:-2px;padding:0;margin:0 5px;"></a>
+          <a class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1"><i class="fa fa-bars"></i></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse-1" >
+          <ul class="nav navbar-nav">
+            <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
+            <li><a href="http://bch.cbd.int/protocol">Cartagena Protocol</a></li>
+            <li><a href="http://www.cbd.int/abs/">Nagoya Protocol<a></li>
+            <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
+            <li><a href="http://www.cbd.int/information/">Information</a></li>
+            <li><a href="http://www.cbd.int/secretariat/">Secretariat</a></li>
+
+    <!--       languages-->
+            <li class="navbar-right">
+                    <a class="pull-right set-languages" data-toggle="dropdown" href="#">
+                        &nbsp;&nbsp;&nbsp; <span class="badge badge-default bg-white">en</span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="disabled"><a>لعربية</a></li>
+                        <li class="disabled"><a>中文</a></li>
+                        <li><a href="#"><strong>English</strong></a></li>
+                        <li class="disabled"><a>Español</a></li>
+                        <li class="disabled"><a>Français</a></li>
+                        <li class="disabled"><a>Русский</a></li>
+                    </ul>
+            </li>
+
+    <!--        notifications-->
+            <!-- <li class="navbar-right">
+                <div ng-cloak id="dropdownNotification" ng-show="user && user.isAuthenticated"  >
+
+                                <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" ng-href="#" class="notification-btn">
+
+                                    <span ng-show="(notifications|filter:isUnread).length > 0 " >
+                                        <i class="fa fa-bell"></i>
+                                        <span class="label label-default">{{(notifications|filter:isUnread).length}}</span>
+                                    </span>
+
+                                    <span ng-show="(notifications|filter:isUnread).length==0">
+                                        <i class="fa fa-bell-o" class="bg-grey"></i>
+                                    </span>
+                                </a>
+
+                            <div class="dropdown-menu" style="padding:0;margin:0;" role="menu" aria-labelledby="dLabel">
+                                <div class="panel panel-danger" style="width:500px;padding:0;margin:0;">
+                                    <div class="panel-heading">
+                                        <h4>User Notifications and Recent Activity</h4>
+                                    </div>
+
+                                    <div class="panel-body" >
+                                        <div xuser-notifications></div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <a ng-href="/dashboard">
+                                            <h4 class="menu-title">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+            </li> -->
+    <!--        signin-->
+                <li ng-cloak ng-show="user && !user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
+                    <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
+                </li>
+                <li ng-cloak class="dropdown navbar-right" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
+                    <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size:15px"></i>&nbsp; {{user.name}}</a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/profile"><i class="fa fa-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
+                        <!-- <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; My Roles</a>
+                            <ul class="dropdown-menu bg-darkgrey" role="menu" style="min-width:200px">
+                              <li ng-repeat="role in user.roles|orderBy:'toString()'"><a tabindex="-1" href="#">{{role}}</a></li>
+                            </ul>
+                        </li> -->
+                        <li><a href="/password"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; Password</a></li>
+                        <li><a href="#" ng-click="actionSignOut()"><i class="fa fa-sign-out" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
+                    </ul>
+                </li>
+          </ul>
+
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <!-- PORTAL BRANDING -->
+        <nav class="navbar navbar-portal navbar-default navbar-static-top bg-white header-banner">
+            <div class="container container-portal">
+                <div class="row">
+                    <div class="col-xs-9">
+                        <a href="/" class="color-cbdgreen">
+                            <h1 style="font-size:40px;position:relative;top:26px;">
+                                <span class="hidden-xs color-white">accounts.cbd.int</span>
+                                <span class="visible-xs color-white" style="font-size:18px;">accounts.cbd.int</span>
+                            </h1>
+                        </a>
+                    </div>
+                    <div class="col-xs-3" style="vertical-align:middle;">
+                        <img src="/app/img/cbd-logo-white-en.svg" class="pull-right img-responsive" style="padding: 0; margin:5px 0 0 0;height:80px;" /><br>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- PORTAL LINKS-->
+        <nav class="navbar navbar-links navbar-default navbar-static-top">
+            <div class="container container-links">
+
+                     <div style="display:inline" >
+                        <a href="/"><i class="fa fa-home" ></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        <a href="/signin" ng-hide="user.isAuthenticated"><i class="fa fa-power-off"></i> Sign In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a href="/profile" ng-show="user.isAuthenticated"><i class="fa fa-user"></i> Update My Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a href="/password" ng-show="user.isAuthenticated"><i class="fa fa-lock"></i> Change My Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a href="#"  ng-show="user.isAuthenticated" ng-click="actionSignOut()"><i class="fa fa-sign-out"></i> Sign Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                    </div>
+
+                    <div class="pull-right"  ng-cloak ng-show="user.isAuthenticated">
+                        <span ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></span>
+                    </div>
+            </div>
+        </nav>
+
+
+    <!-- <div>
         <div class="container" id="main-nav">
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4">
@@ -46,14 +176,14 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav" ng-cloak ng-show="user.isAuthenticated">
-                            <!-- <li><a ng-class="{active: portal=='home'}" href="/profile">Account</a></li> -->
+                             <li><a ng-class="{active: portal=='home'}" href="/profile">Account</a></li>
                             <li ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></li>
                         </ul>
                         <ul class="nav subnav" ng-cloak ng-show="user.isAuthenticated">
-                            <!-- <li><a ng-class="{active: portal=='resources'}" href="/password">Password</a></li> -->
-                            <!-- <li><a ng-class="{active: portal=='resources'}" href="/recovery">Recovery options</a></li> -->
-                           <!--  <li><a ng-class="{active: portal=='resources'}" href="/activity">Recent activity</a></li> -->
-                            <!-- <li><a ng-class="{active: portal=='about'}" href="/twofactor">Two-factor authentication</a></li> -->
+                         <li><a ng-class="{active: portal=='resources'}" href="/password">Password</a></li>
+                         <li><a ng-class="{active: portal=='resources'}" href="/recovery">Recovery options</a></li>
+                         <li><a ng-class="{active: portal=='resources'}" href="/activity">Recent activity</a></li>
+                        <li><a ng-class="{active: portal=='about'}" href="/twofactor">Two-factor authentication</a></li>
                         </ul>
                         <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
                     </div>
@@ -85,84 +215,100 @@
                     </ul>
                 </div>
             </div>
-            <div class="row ng-cloak header-banner hidden-xs" style="max-height:120px; ">
-                <div class="col-sm-12 " >
-                    <div class="col-lg-3 col-md-3 col-sm-3" style="margin-left: -10px;">
-                        <span id="PortalAnchor">
-                            <div id="PortalName">Accounts</div>
-                        </span>
+
+        </div>
+    </div> -->
+    <div class="container page-content" >
+        <div><ng-view></ng-view></div>
+    </div>
+
+
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+        <div class="footer-page" >
+            <div class="container footer-page-container  text-right ">
+                <a href="#top" ng-click="gotoAnchor('Top')" class="color-darkgrey"><i class="fa fa-arrow-circle-up"></i> back to top</a>
+            </div>
+        </div>
+
+        <div class="footer-portal" >
+            <div class="container footer-portal-container color-white">
+                <div class="row" style="padding-bottom: 20px; ">
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>The Convention</h4>
+                            <ul>
+                                <li><a href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
+                                <li><a href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
+                                <li><a href="https://www.cbd.int/sp/">Strategic Plan</a></li>
+                                <li><a href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
+                                <li><a href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>Cartagena Protocol</h4>
+                            <ul>
+                                <li><a href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
+                                <li><a href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
+                                <li><a href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
+                                <li><a href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>Nagoya Protocol</h4>
+                            <ul>
+                                <li><a href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
+                                <li><a href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
+                                <li><a href="https://absch.cbd.int/">ABS Clearing-House</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>Programmes</h4>
+                            <ul>
+                                <li><a href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
+                                <li><a href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
+                                <li><a href="https://www.cbd.int/programmes/">Major Groups</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>Information</h4>
+                            <ul>
+                                <li><a href="https://www.cbd.int/meetings/">Meetings</a></li>
+                                <li><a href="https://www.cbd.int/notifications/">Notifications</a></li>
+                                <li><a href="https://www.cbd.int/countries/">National Information</a></li>
+                                <li><a href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2">
+                            <h4>Secretariat</h4>
+                            <ul>
+                                <li><a href="https://www.cbd.int/secretariat/">Overview</a></li>
+                                <li><a href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
+                                <li><a href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
+                                <li><a href="https://www.cbd.int/contact/">Contact Us</a></li>
+                            </ul>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="footer-cbd">
+            <div class="container footer-cbd-container">
+                <div class="row copyright">
+                    <div class="col-xs-12">
+                        <p style="margin:-10px" class="pull-left">© 2015 SCBD | <a href="http://www.cbd.int/privacy" class="color-white">Privacy Policy</a> | <a href="http://www.cbd.int/terms" class="color-white">Terms of Use</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container page-content">
-        <div style="margin:30px 0"><ng-view></ng-view></div>
-    </div>
-    <footer class="footer ng-cloak">
-        <div class="container" id="footer">
-        <div class="row hidden-xs">
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>The Convention</h4>
-                <ul>
-                    <li><a href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
-                    <li><a href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
-                    <li><a href="https://www.cbd.int/sp/">Strategic Plan</a></li>
-                    <li><a href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
-                    <li><a href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Cartagena Protocol</h4>
-                <ul>
-                    <li><a href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
-                    <li><a href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
-                    <li><a href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
-                    <li><a href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Nagoya Protocol</h4>
-                <ul>
-                    <li><a href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
-                    <li><a href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
-                    <li><a href="https://absch.cbd.int/">ABS Clearing-House</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Programmes</h4>
-                <ul>
-                    <li><a href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
-                    <li><a href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
-                    <li><a href="https://www.cbd.int/programmes/">Major Groups</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Information</h4>
-                <ul>
-                    <li><a href="https://www.cbd.int/meetings/">Meetings</a></li>
-                    <li><a href="https://www.cbd.int/notifications/">Notifications</a></li>
-                    <li><a href="https://www.cbd.int/countries/">National Information</a></li>
-                    <li><a href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2">
-                <h4>Secretariat</h4>
-                <ul>
-                    <li><a href="https://www.cbd.int/secretariat/">Overview</a></li>
-                    <li><a href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
-                    <li><a href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
-                    <li><a href="https://www.cbd.int/contact/">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row copyright">
-            <div class="col-lg-6 col-md-6 col-sm-6 logorow">
-                <p style="margin:-8px">© 2014 SCBD | <a href="http://www.cbd.int/privacy">Privacy Policy</a> | <a href="http://www.cbd.int/terms">Terms of Use</a></p>
-            </div>
-        </div>
-    </footer>
-    <script src="/app/libs/requirejs/require.js" data-main="/app/js/boot.js"></script>
+
+
+    <script src="/app/libs/requirejs/require.js" data-main="/app/boot.js"></script>
 
 </body>
 </html>
