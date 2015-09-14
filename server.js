@@ -1,22 +1,13 @@
 /* jshint node: true, browser: false */
 'use strict';
-// LOG UNHANDLED EXCEPTION AND EXIT
-process.on('uncaughtException', function (err) {
-  console.error((new Date()).toUTCString() + ' uncaughtException:', err.message);
-  console.error(err.stack);
-  process.exit(1);
-});
-
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////
-
 // CREATE HTTP SERVER AND PROXY
 
 var express = require('express');
 var app     = express();
 var server  = require('http').createServer(app);
 var proxy   = require('http-proxy').createProxyServer({});
+
+proxy.on('error', function () { }); // ignore proxy errors
 
 // LOAD CONFIGURATION
 
@@ -49,12 +40,4 @@ app.get('/*', function (req, res) { res.sendfile(__dirname + '/app/template.html
 server.listen(app.get('port'), '0.0.0.0');
 server.on('listening', function () {
 	console.log('Server listening on %j', this.address());
-});
-
-// LOG PROXY ERROR & RETURN http:500
-
-proxy.on('error', function (e, req, res) {
-    console.error(new Date().toUTCString() + ' error proxying: '+req.url);
-    console.error('proxy error:', e);
-    res.send( { code: 500, source:'accounts/proxy', message : 'proxy error', proxyError: e }, 500);
 });
