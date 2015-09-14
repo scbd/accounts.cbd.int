@@ -47,16 +47,25 @@ function contains(values, value)
     return false;
 }
 
+function fixOrigin(origin)
+{
+    if(origin && origin.indexOf("http://localhost:")===0)
+        return 'http://localhost';
+
+    return origin;
+}
+
 var origins = [
-    'https://absch.cbd.int',   'http://absch.infra.cbd.int',   'http://localhost:2010', // ABSCH
-    'https://lifeweb.cbd.int', 'http://lifeweb.infra.cbd.int', 'http://localhost:2020'  // LIFEWEB
-    ,'http://test.chm.cbd.int', 'http://54.82.117.207', 'https://dev.absch.cbd.int'
-    ,'https://chm.cbd.int', 'https://training-absch.cbd.int', 'https://dev-absch.cbd.int',
-    'http://localhost:2000','https://dev-chm.cbd.int'
+    'https://absch.cbd.int', 'https://training-absch.cbd.int', 'http://absch.infra.cbd.int', 'https://dev.absch.cbd.int', 'https://dev-absch.cbd.int', // ABSCH
+    'https://lifeweb.cbd.int', 'http://lifeweb.infra.cbd.int',  // LIFEWEB
+    'https://chm.cbd.int', 'https://dev-chm.cbd.int', 'http://test.chm.cbd.int', // CHM
+    'https://www.cbd.int', // WWW
+    'https://bch.cbd.int', // BCH
+    'http://localhost'     // DEVELOPMENT on localhost
 ];
 
 function receiveMessage(event) {
-    if(contains(origins, event.origin)) {
+    if(contains(origins, fixOrigin(event.origin))) {
 
         var message = JSON.parse(event.data);
 
