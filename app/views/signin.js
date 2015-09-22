@@ -8,6 +8,7 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
     $scope.rememberMe = !!$browser.cookies().email;
 
     $scope.isForbidden = false;
+	$scope.isAuthenticated = user.isAuthenticated;
 
 	// init sevice location
     // $scope.clearErrors();

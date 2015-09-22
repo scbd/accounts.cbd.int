@@ -14,7 +14,7 @@
 			The service is not available. Please try again later.
 		</div>
 
-		<form name="form" ng-submit="signIn()">
+		<form ng-hide="isAuthenticated" name="form" ng-submit="signIn()">
 
 			<div class="form-group">
 				<label for="inputEmail">Email</label>
@@ -46,7 +46,7 @@
 		</form>
 	</div>
 
-	<div class="col-sm-offset-1 col-sm-5">
+	<div ng-hide="isAuthenticated" class="col-sm-offset-1 col-sm-5">
 		<h1>No account?</h1>
 		<p>
 			<strong>Get started.</strong><br>
