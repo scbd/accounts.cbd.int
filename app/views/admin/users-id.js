@@ -34,14 +34,14 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], fu
                 $scope.loadFaxes();
                 $scope.loadEmails();
             }).error(function (data) {
-                alert('ERROR\r\n----------------\r\n'+data);
+                alert('ERROR\r\n----------------\r\n'+data.message);
             });
 
             $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data) {
                 $scope.roles = data;
                 $scope.initialRoles = data.slice(0); // clone array
             }).error(function (data) {
-                alert('ERROR\r\n----------------\r\n'+data);
+                alert('ERROR\r\n----------------\r\n'+data.message);
             });
         }
     };
@@ -256,7 +256,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], fu
                 $scope.actionUpdateRoles();
 
             }).error(function (data) {
-                $scope.error = data;
+                $scope.error = data.message;
             });
 
         } else {
@@ -264,7 +264,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], fu
             authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function () {
                 $scope.actionUpdateRoles();
             }).error(function (data) {
-                $scope.error = data;
+                $scope.error = data.message;
             });
         }
     };
