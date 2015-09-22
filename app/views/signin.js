@@ -1,4 +1,4 @@
-define(['app', 'authentication'], function() {
+define(['urijs/URI', 'app', 'authentication'], function(URI) {
 
 
 	return ['$scope', '$http', '$browser', '$location', 'authentication', '$window', 'user', function ($scope, $http, $browser, $location, authentication, $window, user) {
@@ -115,6 +115,33 @@ define(['app', 'authentication'], function() {
         if($location.search().client_id) {
 			self.authorize();
         } else {
+
+			var returnUrl = $location.search().returnurl || $location.search().returnUrl;
+
+			if(returnUrl)
+			{
+				var trustedHosts = [
+					"absch.cbd.int", 'training-absch.cbd.int', 'dev-absch.cbd.int',
+					"bch.cbd.int",
+					"chm.cbd.int", 'dev-chm.cbd.int',
+					'lifeweb.cbd.int',
+					"www.cbd.int",
+					"localhost"
+				];
+
+				var url = URI.parse(returnUrl);
+
+				if(!url.hostname) {
+					$location.url(returnUrl);
+					return;
+				}
+
+				if(trustedHosts.indexOf(url.hostname)>=0)  {
+					$window.location = returnUrl;
+					return;
+				}
+			}
+
             $location.path('/');
         }
     };

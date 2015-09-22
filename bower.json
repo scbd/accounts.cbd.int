@@ -15,6 +15,7 @@
     "requirejs-plugins": "latest",
     "bootstrap-duallistbox": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git#2.1.1",
     "angular-flex": "git://github.com/scbd/angular-flex.git",
-    "lodash": "~3.9.3"
+    "lodash": "~3.9.3",
+    "urijs": "~1.16.1"
   }
 }

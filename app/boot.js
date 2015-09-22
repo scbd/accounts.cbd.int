@@ -13,7 +13,8 @@ require.config({
         'text'            : 'libs/requirejs-text/text',
         'jquery'          : 'libs/jquery/jquery',
         'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap',
-        'lodash'          : 'libs/lodash/lodash'
+        'lodash'          : 'libs/lodash/lodash',
+        'urijs'           : 'libs/urijs/src'
     },
     shim: {
         'libs/angular/angular'     : { deps: ['jquery'] },
