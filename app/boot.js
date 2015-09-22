@@ -1,4 +1,4 @@
-'use strict';
+(function(){ 'use strict';
 
 window.name = "NG_DEFER_BOOTSTRAP!";
 
@@ -29,3 +29,5 @@ require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'template'], func
     ng.bootstrap(doc, ['app']);
     ng.resumeBootstrap();
 });
+
+})();
