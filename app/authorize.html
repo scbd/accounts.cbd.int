@@ -78,7 +78,7 @@ function receiveMessage(event) {
             if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, 7);
             else                            setCookie('authenticationToken', null); //Delete the cookie
 
-            if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 30);
+            if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
             if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
         }
     }
