@@ -112,6 +112,7 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
 
     return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function ($scope, authHttp, $location, $filter, $timeout, user) {
 
+    $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || '/';
 
     //============================================================
     //
