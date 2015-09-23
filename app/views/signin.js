@@ -31,7 +31,7 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
 
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
-        	self.setCookie("authenticationToken", success.data.authenticationToken, 7, '/');
+        	self.setCookie("authenticationToken", success.data.authenticationToken, 0, '/');
         	self.setCookie("email", $scope.rememberMe ? $scope.email : "", 365, '/');
 
             authentication.reset();
@@ -70,7 +70,7 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
         if(path)
             cookieString += "; path=" + path;
 
-        if(days || days == 0) {
+        if(days) {
 
             var expirationDate = new Date();
 

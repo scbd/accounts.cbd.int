@@ -75,7 +75,7 @@ function receiveMessage(event) {
         }
         if(message.type=='setAuthenticationToken') {
 
-            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, 7);
+            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken);
             else                            setCookie('authenticationToken', null); //Delete the cookie
 
             if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
