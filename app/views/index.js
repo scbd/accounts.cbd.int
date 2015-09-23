@@ -6,6 +6,8 @@ define(['app', 'authentication'], function(){
 			$location.path('/signin');
 			return;
 		}
+		
+		$scope.ready = true;
 
 		$scope.actionSignOut = function () {
 
