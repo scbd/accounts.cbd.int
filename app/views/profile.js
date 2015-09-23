@@ -24,9 +24,7 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
                         ngModelController.$setViewValue($scope.binding);
                     });
                 }
-            },
-            controller: ["$scope", function ($scope)
-            {
+
                 //==============================
                 //
                 //==============================
@@ -104,13 +102,13 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
                     return $scope.required!=undefined
                         && $.isEmptyObject($scope.binding);
                 }
-            }]
+            }
         }
     }]);
 
 
 
-    return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function ($scope, authHttp, $location, $filter, $timeout, user) {
+return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function ($scope, authHttp, $location, $filter, $timeout, user) {
 
     $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || '/';
 
@@ -145,21 +143,21 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
     //
     //
     //============================================================
-    $scope.actionSave = function(data) {
+    $scope.actionSave = function() {
 
         $scope.waiting = true;
 
-        authHttp.put('/api/v2013/users/' + $scope.user.userID, angular.toJson($scope.document)).success(function (data, status, headers, config) {
+        authHttp.put('/api/v2013/users/' + $scope.user.userID, angular.toJson($scope.document)).success(function () {
 
             $location.path('/profile/done');
 
-        }).error(function (data, status, headers, config) {
+        }).error(function (data) {
             $scope.waiting = false;
             $scope.error = data;
         });
     };
 
-    $scope.$watch('phones+faxes', function (value) {
+    $scope.$watch('phones+faxes', function () {
         if($scope.document) {
             $scope.document.Phone = ($scope.phones||[]).join('; ').replace(/^\s+|;$|\s+$/gm,'');
             $scope.document.Fax   = ($scope.faxes ||[]).join('; ').replace(/^\s+|;$|\s+$/gm,'');
