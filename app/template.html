@@ -30,7 +30,7 @@
             <li><a href="http://www.cbd.int/information/">Information</a></li>
             <li><a href="http://www.cbd.int/secretariat/">Secretariat</a></li>
 
-    <!--       languages-->
+            <!--languages-->
             <li class="navbar-right">
                     <a class="pull-right set-languages" data-toggle="dropdown" href="#">
                         &nbsp;&nbsp;&nbsp; <span class="badge badge-default bg-white">en</span>
@@ -45,42 +45,7 @@
                     </ul>
             </li>
 
-    <!--        notifications-->
-            <!-- <li class="navbar-right">
-                <div ng-cloak id="dropdownNotification" ng-show="user && user.isAuthenticated"  >
-
-                                <a id="dLabel" role="button" data-toggle="dropdown" data-target="#" ng-href="#" class="notification-btn">
-
-                                    <span ng-show="(notifications|filter:isUnread).length > 0 " >
-                                        <i class="fa fa-bell"></i>
-                                        <span class="label label-default">{{(notifications|filter:isUnread).length}}</span>
-                                    </span>
-
-                                    <span ng-show="(notifications|filter:isUnread).length==0">
-                                        <i class="fa fa-bell-o" class="bg-grey"></i>
-                                    </span>
-                                </a>
-
-                            <div class="dropdown-menu" style="padding:0;margin:0;" role="menu" aria-labelledby="dLabel">
-                                <div class="panel panel-danger" style="width:500px;padding:0;margin:0;">
-                                    <div class="panel-heading">
-                                        <h4>User Notifications and Recent Activity</h4>
-                                    </div>
-
-                                    <div class="panel-body" >
-                                        <div xuser-notifications></div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <a ng-href="/dashboard">
-                                            <h4 class="menu-title">View all<i class="glyphicon glyphicon-circle-arrow-right"></i></h4>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                    </div>
-
-            </li> -->
-    <!--        signin-->
+                <!--signin-->
                 <li ng-cloak ng-show="user && !user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
                     <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
                 </li>
@@ -143,86 +108,9 @@
         </nav>
 
 
-    <!-- <div>
-        <div class="container" id="main-nav">
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-4">
-                    <a class="navbar-brand" href="http://www.cbd.int/">
-                        <img src="/app/img/logo-cbd-leaf-line.gif" id="CCbdLogoLeaf" height="65" width="52" alt="Convention on Biological Diversity">
-                        <img src="/app/img/logo-cbd-text-en.gif" id="CCbdLogoText" height="65" alt="Convention on Biological Diversity">
-                    </a>
-                </div>
-                <div class="col-lg-5 col-md-5 col-sm-4">
-                    <div class="navbar visible-xs">
-                        <div class="navbar-header">
-                            <a class="btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>
-                            <ul class="header-actions">
-                                <li ng-hide="currentPath()=='/database/'">
-                                    <form action="/search" style="display: none;" class="site-search">
-                                        <input type="text" placeholder="Search the CHM" name="q" />
-                                        <input type="submit" value="" style="width:200px" />
-                                    </form>
-                                    <a href="" class="search-icon"></a>
-                                </li>
-                                <li><a href="/database/news" style="color:black">News</a></li>
-                                <li><a class="icon icon-globe" style="color:black">&nbsp;Language: EN</a></li>
-                                <li><a class="signin" href="/database" data-slug="signin" style="color:black">Search</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav" ng-cloak ng-show="user.isAuthenticated">
-                             <li><a ng-class="{active: portal=='home'}" href="/profile">Account</a></li>
-                            <li ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></li>
-                        </ul>
-                        <ul class="nav subnav" ng-cloak ng-show="user.isAuthenticated">
-                         <li><a ng-class="{active: portal=='resources'}" href="/password">Password</a></li>
-                         <li><a ng-class="{active: portal=='resources'}" href="/recovery">Recovery options</a></li>
-                         <li><a ng-class="{active: portal=='resources'}" href="/activity">Recent activity</a></li>
-                        <li><a ng-class="{active: portal=='about'}" href="/twofactor">Two-factor authentication</a></li>
-                        </ul>
-                        <p class="visible-xs">Get Started <a href="/database/" class="getstarted">Search</a></p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs" style="height:100px">
-                    <ul class="header-actions">
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" href="#"><i class="fa fa-globe" style="font-size:15px"></i>&nbsp; Language: <strong>EN</strong></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="disabled"><a>لعربية</a></li>
-                                <li class="disabled"><a>中文</a></li>
-                                <li><a href="#"><strong>English</strong></a></li>
-                                <li class="disabled"><a>Español</a></li>
-                                <li class="disabled"><a>Français</a></li>
-                                <li class="disabled"><a>Русский</a></li>
-                            </ul>
-                        </li>
-                        <li ng-cloak ng-hide="user.isAuthenticated" style="border-right:none;padding-right:0">
-                            <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
-                        </li>
-                        <li ng-cloak class="dropdown" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
-                            <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size:15px"></i>&nbsp; {{user.name}}</a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="/profile"><i class="fa fa-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
-                                <li><a href="/password"><i class="fa fa-user" style="font-size:15px"></i>&nbsp; Password</a></li>
-                                <li><a href="#" ng-click="actionSignOut()"><i class="fa fa-sign-out" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div> -->
     <div class="container page-content" >
         <div><ng-view></ng-view></div>
     </div>
-
-
 
     <!-- FOOTER -->
     <div class="footer">
@@ -293,8 +181,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <div class="footer-cbd">
             <div class="container footer-cbd-container">
