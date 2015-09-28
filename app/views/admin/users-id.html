@@ -116,25 +116,13 @@
 							<div class="col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label>Phone numbers</label>
-									<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
-										<span class="input-group-addon"><i class="fa-phone fa"></i></span>
-										<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="phone" ng-pattern=/[\u0030-\u0039]+/g />
-										<span class="input-group-btn" ng-if="!$last">
-									    	<button class="btn btn-default" ng-click="removePhone($index)" style="height:36px"><i class="glyphicon glyphicon-trash"></i></button>
-									    </span>
-									</div>
+									<forms-input-list ng-model="phones" icon="fa-phone"></forms-input-list>
 								</div>
 							</div>
 							<div class="col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label>Fax numbers</label>
-									<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getFaxes()">
-										<span class="input-group-addon"><i class="fa-phone fa"></i></span>
-										<input type="fax" class="form-control" ng-model="fax.value" ng-change="saveFaxes()" placeholder="fax" ng-pattern=/[\u0030-\u0039]+/g />
-										<span class="input-group-btn" ng-if="!$last">
-									    	<button class="btn btn-default" ng-click="removeFax($index)" style="height:36px"><i class="glyphicon glyphicon-trash"></i></button>
-									    </span>
-									</div>
+									<forms-input-list ng-model="faxes" icon="fa-fax"></forms-input-list>
 								</div>
 							</div>
 						</div>
@@ -152,13 +140,7 @@
 							<div class="col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label>Alternate email addresses</label>
-									<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getEmails()">
-										<span class="input-group-addon"><i class="fa-envelope fa"></i></span>
-										<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="email" ng-required="isRequired()"/>
-										<span class="input-group-btn" ng-if="!$last">
-									    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="glyphicon glyphicon-trash"></i></button>
-									    </span>
-									</div>
+									<forms-input-list ng-model="emailsCc" icon="fa-envelope"></forms-input-list>
 								</div>
 							</div>
 						</div>

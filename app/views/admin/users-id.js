@@ -1,5 +1,5 @@
 
-define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', '/app/views/forms-input-list.partial.html.js'], function(app, _) { 'use strict';
 
     return ["$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
 
@@ -29,10 +29,10 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], fu
                 if(data.Government=="eur")
                     data.Government = "eu"; // BCH country patch
 
-                $scope.document = data;
-                $scope.loadPhones();
-                $scope.loadFaxes();
-                $scope.loadEmails();
+                $scope.document = data;                
+                $scope.phones = ($scope.document.Phone||'').split(';');
+                $scope.faxes  = ($scope.document.Fax  ||'').split(';');
+                $scope.emailsCc  = ($scope.document.EmailsCc  ||'').split(';');
             }).error(function (data) {
                 alert('ERROR\r\n----------------\r\n'+data.message);
             });
@@ -46,203 +46,14 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list'], fu
         }
     };
 
-    //==============================
-    //
-    //==============================
-    $scope.getPhones = function ()
-    {
-        if(!$scope.phones)
-        {
-            $scope.phones = [];
+    
+    $scope.$watch('phones+faxes+emailsCc', function () {
+        if($scope.document) {
+            $scope.document.Phone = ($scope.phones||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+            $scope.document.Fax   = ($scope.faxes ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+            $scope.document.EmailsCc   = ($scope.emailsCc ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
         }
-
-        if($scope.phones.length===0)
-            $scope.phones.push({value : "", type: ""});
-
-        var sLastValue = $scope.phones[$scope.phones.length-1].value;
-        var sLastType  = $scope.phones[$scope.phones.length-1].type;
-        var sLastExt   = $scope.phones[$scope.phones.length-1].ext;
-
-        //NOTE: IE can set value to 'undefined' for a moment
-        if((sLastValue && sLastValue!="") ||
-           (sLastType  && sLastType!="")  ||
-           (sLastExt   && sLastExt!="") )
-            $scope.phones.push({value : ""});
-
-        return $scope.phones;
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.loadPhones = function ()
-    {
-        $scope.phones = [];
-        var phones = $scope.document.Phone ? $scope.document.Phone.split(';') : undefined;
-        if(phones)
-        {
-            $.each(phones, function( index, phone ) {
-                if(phone)
-                {
-                    $scope.phones.push({value: phone});
-                }
-            });
-        }
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.savePhones = function ()
-    {
-        $scope.document.Phone = "";
-        $.each($scope.phones, function( index, value ) {
-            if(value.value)
-            {
-                $scope.document.Phone += value.value;
-                $scope.document.Phone += ';';
-            }
-        });
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.removePhone = function(index)
-    {
-        $scope.phones.splice(index, 1);
-        $scope.savePhones();
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.getFaxes = function ()
-    {
-        if(!$scope.faxes)
-        {
-            $scope.faxes = [];
-        }
-
-        if($scope.faxes.length===0)
-            $scope.faxes.push({value : "", type: ""});
-
-        var sLastValue = $scope.faxes[$scope.faxes.length-1].value;
-        var sLastExt = $scope.faxes[$scope.faxes.length-1].ext;
-
-        //NOTE: IE can set value to 'undefined' for a moment
-        if((sLastValue && sLastValue!="") ||
-           (sLastExt && sLastExt!="") )
-            $scope.faxes.push({value : ""});
-
-        return $scope.faxes;
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.loadFaxes = function ()
-    {
-        $scope.faxes = [];
-        var Faxes = $scope.document.Fax ? $scope.document.Fax.split(';') : undefined;
-        if(Faxes)
-        {
-            $.each(Faxes, function( index, faxe ) {
-                if(faxe)
-                {
-                    $scope.faxes.push({value: faxe});
-                }
-            });
-        }
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.saveFaxes = function ()
-    {
-        $scope.document.Fax = "";
-        $.each($scope.faxes, function( index, value ) {
-            if(value.value)
-            {
-                $scope.document.Fax += value.value;
-                $scope.document.Fax += ';';
-            }
-        });
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.removeFaxe = function(index)
-    {
-        $scope.faxes.splice(index, 1);
-        $scope.saveFaxes();
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.getEmails = function ()
-    {
-        if(!$scope.EmailsCc)
-        {
-            $scope.EmailsCc = [];
-        }
-
-        if($scope.EmailsCc.length===0)
-            $scope.EmailsCc.push({value: ""});
-
-        var sLastValue = $scope.EmailsCc[$scope.EmailsCc.length-1];
-
-        //NOTE: IE can set value to 'undefined' for a moment
-        if(sLastValue.value)
-            $scope.EmailsCc.push({value: ""});
-
-        return $scope.EmailsCc;
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.loadEmails  = function ()
-    {
-        $scope.EmailsCc = [];
-        var emails = $scope.document.EmailsCc ? $scope.document.EmailsCc.split(';') : undefined;
-        if(emails)
-        {
-            $.each(emails, function( index, email ) {
-                if(email)
-                {
-                    $scope.EmailsCc.push({value: email});
-                }
-            });
-        }
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.saveEmails = function ()
-    {
-        $scope.document.EmailsCc = "";
-        $.each($scope.EmailsCc, function( index, email ) {
-            if(email.value)
-            {
-                $scope.document.EmailsCc += email.value;
-                $scope.document.EmailsCc += ';';
-            }
-        });
-    };
-
-    //==============================
-    //
-    //==============================
-    $scope.removeEmail = function(index)
-    {
-        $scope.EmailsCc.splice(index, 1);
-        $scope.saveEmails();
-    };
+    });
 
     //==================================
     //
