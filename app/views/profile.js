@@ -19,7 +19,9 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
                 $scope.texts    = [];
 
                 if(ngModelController) {
-                    $scope.$watch('binding', $scope.load);
+                    $scope.$watch('binding',function(oldVal,newval){
+                        $scope.load();
+                    });
                     $scope.$watch('binding', function() {
                         ngModelController.$setViewValue($scope.binding);
                     });
@@ -117,12 +119,13 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function 
     //
     //============================================================
     function initialize() {
-
+        
         authHttp.get('/api/v2013/users/' + $scope.user.userID).then(function onsuccess (response) {
 
             $scope.document = response.data;
             $scope.phones = ($scope.document.Phone||'').split(';');
             $scope.faxes  = ($scope.document.Fax  ||'').split(';');
+            $scope.emailsCc  = ($scope.document.EmailsCc  ||'').split(';');
 
         }).catch(function onerror (response) {
 
@@ -157,14 +160,16 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function 
         });
     };
 
-    $scope.$watch('phones+faxes', function () {
+    $scope.$watch('phones+faxes+emailsCc', function () {
         if($scope.document) {
-            $scope.document.Phone = ($scope.phones||[]).join('; ').replace(/^\s+|;$|\s+$/gm,'');
-            $scope.document.Fax   = ($scope.faxes ||[]).join('; ').replace(/^\s+|;$|\s+$/gm,'');
+            $scope.document.Phone = ($scope.phones||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+            $scope.document.Fax   = ($scope.faxes ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+            $scope.document.EmailsCc   = ($scope.emailsCc ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
         }
     });
-
+    
     $timeout(initialize, 350);
-
+    
+    
 }];
 });

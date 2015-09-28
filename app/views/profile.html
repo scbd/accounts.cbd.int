@@ -147,18 +147,12 @@
 										<p class="help-block error" ng-show="form.email.$error.email">Email is invalid or incomplete</p>
 									</div>
 								</div>
-								<!-- <div class="col-sm-6 col-xs-12">
+								 <div class="col-sm-6 col-xs-12">
 									<div class="form-group">
 										<label>Alternate email addresses</label>
-										<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getEmails()">
-											<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-											<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="alternate-email@domain.xyz"/>
-											<span class="input-group-btn" ng-if="!$last">
-										    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="icon-trash icon"></i></button>
-										    </span>
-										</div>
+										<forms-input-list ng-model="emailsCc"></forms-input-list>										
 									</div>
-								</div> -->
+								</div> 
 							</div>
 						</div>
 					</div>
