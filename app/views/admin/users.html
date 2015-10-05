@@ -28,9 +28,6 @@
 	</div>
 
 	<ul class="pagination pull-right" style="margin:0">
-		<li ng-class="{disabled:  currentPage-10 <=0}">
-			<a href ng-click="actionSetPage(currentPage-10)">« Prev 10</a>
-		</li>
 		<li ng-class="{disabled: currentPage == 0}">
 			<a href ng-click="actionSetPage(currentPage-1)">« Prev</a>
 		</li>
@@ -39,9 +36,6 @@
 		</li>
 		<li ng-class="{disabled: currentPage >= pageCount - 1}">
 			<a href ng-click="actionSetPage(currentPage+1)">Next »</a>
-		</li>
-		<li ng-class="{disabled: currentPage+10 >= pageCount - 1}">
-			<a href ng-click="actionSetPage(currentPage+10)">Next 10 »</a>
 		</li>
 	</ul>
 
