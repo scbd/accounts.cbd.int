@@ -124,7 +124,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
         	    	alert(data);
             	});
     	  }
-	};//$scope.actionDelete = function actionDelete (userID) 
+	};//$scope.actionDelete = function actionDelete (userID)
 
   $scope.actionSetPage = setPage;
   $scope.$watch('government',  populate);
