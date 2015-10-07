@@ -1,5 +1,7 @@
 FROM node:4.1
 
+RUN npm install -g protractor
+
 WORKDIR /usr/src/app
 
 COPY package.json bower.json .bowerrc .npmrc ./
