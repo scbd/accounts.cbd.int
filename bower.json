@@ -9,6 +9,7 @@
     "bootstrap": "~3.3.4",
     "font-awesome": "~4.3.0",
     "jquery": "~2.0.3",
+    "outdated-browser": "1.1.2",
     "requirejs": "latest",
     "requirejs-domready": "latest",
     "requirejs-text": "latest",
