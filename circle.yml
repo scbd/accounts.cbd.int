@@ -11,5 +11,5 @@ dependencies:
 test:
   override:
     - docker run -d --net host accounts-cbd-int
-    - docker run -d --net host selenium/standalone-chrome:2.47.1
+    - docker run -d --net host -v /dev/shm:/dev/shm selenium/standalone-chrome:2.47.1
     - docker run --rm --net host accounts-cbd-int protractor spec/conf.js
