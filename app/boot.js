@@ -1,7 +1,5 @@
 (function(){ 'use strict';
 
-window.name = "NG_DEFER_BOOTSTRAP!";
-
 require.config({
     waitSeconds: 120,
     baseUrl : '/app',
@@ -26,9 +24,7 @@ require.config({
 
 require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'template'], function (ng, doc) {
 
-
     ng.bootstrap(doc, ['app']);
-    ng.resumeBootstrap();
 });
 
 })();
