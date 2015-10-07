@@ -13,4 +13,4 @@ test:
     - docker run -d -p 8000:8000 --name node accounts-cbd-int; sleep 10
     - curl --retry 10 --retry-delay 5 -v http://localhost:8000
     - docker run -d -p 4444:4444 --name selenium selenium/standalone-chrome:2.47.1
-    - docker run -d --link node:node --link selenium:selenium accounts-cbd-int protractor spec/conf.js
+    - docker run --rm --link node:node --link selenium:selenium accounts-cbd-int protractor spec/conf.js
