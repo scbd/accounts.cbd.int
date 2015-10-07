@@ -7,7 +7,6 @@ require.config({
         'angular'         : 'libs/angular-flex/angular-flex',
         'ngRoute'         : 'libs/angular-route/angular-route',
         'async'           : 'libs/requirejs-plugins/src/async',
-        'domReady'        : 'libs/requirejs-domready/domReady',
         'text'            : 'libs/requirejs-text/text',
         'jquery'          : 'libs/jquery/jquery',
         'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap',
@@ -22,9 +21,11 @@ require.config({
     }
 });
 
-require(['angular', 'domReady!', 'bootstrap', 'app', 'routes', 'template'], function (ng, doc) {
+require(['angular', 'app', 'bootstrap', 'routes', 'template'], function (ng, app) {
 
-    ng.bootstrap(doc, ['app']);
+    ng.element(document).ready(function () {
+         ng.bootstrap(document, [app.name]);
+    });
 });
 
 })();
