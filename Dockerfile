@@ -8,9 +8,9 @@ COPY package.json bower.json .bowerrc .npmrc ./
 
 RUN npm install
 
-ENV PORT 8000
+ENV PORT 8888
 
-EXPOSE 8000
+EXPOSE 8888
 
 COPY . ./
 
