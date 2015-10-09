@@ -2,7 +2,7 @@ define(['angular'], function (angular) { 'use strict';
 
 	var deps = ['ngRoute'];
 
-    xangular.defineModules(deps);
+    angular.defineModules(deps);
 
     var app = angular.module('app', deps);
 
