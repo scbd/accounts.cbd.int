@@ -1,12 +1,12 @@
 FROM node:4.1
 
-RUN npm install -g protractor
+RUN npm install -g -q protractor
 
 WORKDIR /usr/src/app
 
 COPY package.json bower.json .bowerrc .npmrc ./
 
-RUN npm install
+RUN npm install -q
 
 ENV PORT 8000
 
