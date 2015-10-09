@@ -12,4 +12,4 @@ test:
   override:
     - docker run -d -v /dev/shm:/dev/shm --name selenium selenium/standalone-chrome:2.47.1
     - docker run -d --net container:selenium accounts-cbd-int
-    - docker run --rm --net container:selenium accounts-cbd-int protractor spec/conf.js
+    - docker run --net container:selenium accounts-cbd-int protractor spec/conf.js
