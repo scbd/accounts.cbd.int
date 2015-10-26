@@ -7,7 +7,7 @@
     "http-proxy": "1.11.1",
     "tmp": "0.0.26"
   },
-  "engine": "node >= 0.10.18",
+  "engine": "node >= 4.2",
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install --allow-root",
     "start": "node server"
