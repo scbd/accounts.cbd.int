@@ -4,8 +4,7 @@
   "dependencies": {
     "bower": "1.4.1",
     "express": "3.21.1",
-    "http-proxy": "1.11.1",
-    "tmp": "0.0.26"
+    "http-proxy": "1.11.1"
   },
   "engine": "node >= 4.2",
   "scripts": {
