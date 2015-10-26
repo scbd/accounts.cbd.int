@@ -5,7 +5,8 @@ define(['app', 'text!./password-rules.html'], function(app, template) { 'use str
             restrict: 'E',
             template : template,
             scope: {
-                password : "=password"
+                password : "=",
+                isValid : "="
             },
             link: function ($scope) {
 
@@ -14,14 +15,19 @@ define(['app', 'text!./password-rules.html'], function(app, template) { 'use str
                     password = password||"";
 
                     var validRuleCount = 0;
+                    var invalidChars = 0;
 
         			if (/[a-z]/.test(password)) validRuleCount++;
         			if (/[A-Z]/.test(password)) validRuleCount++;
         			if (/[0-9]/.test(password)) validRuleCount++;
         			if (/[!@#$%^&*()_+<>?/~|[\]\-\\]/.test(password)) validRuleCount++;
 
-                    $scope.length     = password.length>=10;
-                    $scope.complexity = validRuleCount >=2;
+                    if (/\s/.test(password)) invalidChars++;
+
+                    $scope.length       = password.length>=10;
+                    $scope.complexity   = validRuleCount >=2;
+                    $scope.invalidChars = invalidChars;
+                    $scope.isValid      = $scope.length && $scope.complexity && !invalidChars;
                 });
             }
         };

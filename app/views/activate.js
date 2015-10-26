@@ -28,7 +28,7 @@ define(['app', 'directives/security/password-rules'], function() {
             $scope.waiting = false;
 
             if(error.status==400) {
-                $scope.error = 'Passwords must contain at least one number, both upper and lower case letters, and be at least 10 characters long.';
+                $scope.error = 'New passwords does not match rules: '+error.data.message;
             } else if(error.status==403) {
                 $scope.error = 'The old password you entered is incorrect.';
             } else {
