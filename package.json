@@ -2,9 +2,10 @@
   "name": "accounts-cbd-int",
   "description": "accounts.cbd.int",
   "dependencies": {
-    "bower": "1.4.1",
-    "express": "3.21.1",
-    "http-proxy": "1.11.1"
+    "bower": "1.6.5",
+    "express": "4.13.3",
+    "http-proxy": "1.12.0",
+    "morgan": "1.6.1"
   },
   "engine": "node >= 4.2",
   "scripts": {

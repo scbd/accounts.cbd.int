@@ -1,37 +1,27 @@
-/* jshint node: true, browser: false */
-'use strict';
-// CREATE HTTP SERVER AND PROXY
+'use strict'; // jshint node: true, browser: false, esnext:true
 
 var express = require('express');
-var app     = express();
-var server  = require('http').createServer(app);
 var proxy   = require('http-proxy').createProxyServer({});
+var app     = express();
 
 proxy.on('error', function () { }); // ignore proxy errors
 
-// LOAD CONFIGURATION
-
-var oneDay = 86400000;
-
-app.use(express.logger('dev'));
-app.use(express.compress());
-
-app.set('port', process.env.PORT || 3000, '127.0.0.1');
-app.use('/app/libs',         express.static(__dirname + '/app/libs', { maxAge: 28*oneDay }));
-app.use('/app',              express.static(__dirname + '/app'));
+// Http calls debug
+app.use(require('morgan')('dev'));
 
 // SET ROUTES
 
-app.get   ('/app/*', function(req, res) { res.send('404', 404); } );
-app.all   ('/api/*', function(req, res) { proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false }); } );
+app.use('/app/libs', express.static(__dirname + '/app/libs'));
+app.use('/app',      express.static(__dirname + '/app'));
+app.get('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
+app.all('/api/*', (req, res) => proxy.web(req, res, { target: 'https://api.cbd.int:443', secure: false }));
 
 // SET TEMPLATE
 
-app.get('/*', function (req, res) { res.sendfile(__dirname + '/app/template.html'); });
+app.get('/*', (req, res) => res.sendFile(__dirname + '/app/template.html'));
 
 // START HTTP SERVER
 
-server.listen(app.get('port'), '0.0.0.0');
-server.on('listening', function () {
-	console.log('Server listening on %j', this.address());
+app.listen(process.env.PORT || 3000, function () {
+	console.info(`Server listening on ${this.address().port}`);
 });
