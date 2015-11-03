@@ -14,4 +14,4 @@ EXPOSE 8000
 
 COPY . ./
 
-CMD [ "npm", "start" ]
+CMD [ "node", "server" ]

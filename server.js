@@ -25,3 +25,5 @@ app.get('/*', (req, res) => res.sendFile(__dirname + '/app/template.html'));
 app.listen(process.env.PORT || 3000, function () {
 	console.info(`Server listening on ${this.address().port}`);
 });
+
+process.on('SIGTERM', ()=>process.exit());
