@@ -12,6 +12,7 @@ describe('Sign-In Page', function() {
         browser.get('/signin/');
 
         browser.manage().logs().get('browser').then(function(browserLog) {
+            console.log(browserLog);
             expect(browserLog.length).toEqual(0);
         });
     });
