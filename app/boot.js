@@ -5,17 +5,17 @@ require.config({
     baseUrl : '/app',
     paths: {
         'angular'         : 'libs/angular-flex/angular-flex',
-        'ngRoute'         : 'libs/angular-route/angular-route',
+        'ngRoute'         : 'libs/angular-route/angular-route.min',
         'async'           : 'libs/requirejs-plugins/src/async',
         'text'            : 'libs/requirejs-text/text',
-        'jquery'          : 'libs/jquery/jquery',
-        'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap',
-        'lodash'          : 'libs/lodash/lodash',
+        'jquery'          : 'libs/jquery/dist/jquery.min',
+        'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap.min',
+        'lodash'          : 'libs/lodash/lodash.min',
         'urijs'           : 'libs/urijs/src'
     },
     shim: {
-        'libs/angular/angular'     : { deps: ['jquery'] },
-        'angular'                  : { deps: ['libs/angular/angular'] },
+        'libs/angular/angular.min' : { deps: ['jquery'] },
+        'angular'                  : { deps: ['libs/angular/angular.min'] },
         'ngRoute'                  : { deps: ['angular'] },
         'bootstrap'                : { deps: ['jquery' ] }
     }
