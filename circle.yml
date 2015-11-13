@@ -13,7 +13,7 @@ dependencies:
 
 test:
   override:
-    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY
+    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY:
         background: true
     - docker run -d -p 8000:8000 accounts-cbd-int
     - wget --retry-connrefused 10 http://localhost:4444
