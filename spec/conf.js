@@ -2,7 +2,7 @@ exports.config = {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     framework: 'jasmine2',
-    seleniumAddress: 'http://localhost:4444/wd/hub',
+    sauceSeleniumAddress: 'localhost:4444/wd/hub',
     baseUrl: 'http://localhost:8000',
     specs: ['*[sS]pec.js'],
     multiCapabilities: [{

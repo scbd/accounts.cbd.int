@@ -4,13 +4,17 @@ machine:
     - docker
 
 dependencies:
+  post:
+    - wget https://saucelabs.com/downloads/sc-4.3-linux.tar.gz
+    - tar -xzf sc-4.3-linux.tar.gz
   override:
     - docker info
     - docker build -t accounts-cbd-int .
 
 test:
   override:
-    - docker run -d -p 4444:8000 -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY ustwo/docker-sauce-connect:4.3
+    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY
+        background: true
     - docker run -d -p 8000:8000 accounts-cbd-int
     - wget --retry-connrefused 10 http://localhost:4444
     - wget --retry-connrefused 10 http://localhost:8000
