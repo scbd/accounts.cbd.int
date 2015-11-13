@@ -1,5 +1,7 @@
 describe('Sign-In Page', function() {
 
+    var EC = protractor.ExpectedConditions;
+
     it('should have a title', function () {
 
         browser.get('/signin/');
@@ -7,14 +9,16 @@ describe('Sign-In Page', function() {
         expect(browser.getTitle()).toEqual('Accounts: Convention on Biological Diversity');
     });
 
-    it('should not write to console', function () {
+    it('should show alert message when invalid email/password is submitted', function () {
 
         browser.get('/signin/');
+        browser.waitForAngular();
 
-        browser.manage().logs().get('browser').then(function(browserLog) {
-            console.log(browserLog);
-            expect(browserLog.length).toEqual(0);
-        });
+        element(by.model('email')).sendKeys(1);
+        element(by.model('password')).sendKeys(2);
+        $('.btn-primary').click();
+
+        browser.wait(EC.visibilityOf($('#failedLoginAlert')), 5000);
     });
 
 });

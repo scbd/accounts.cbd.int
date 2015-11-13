@@ -22,7 +22,7 @@ app.get('/*', (req, res) => res.sendFile(__dirname + '/app/template.html'));
 
 // START HTTP SERVER
 
-app.listen(process.env.PORT || 3000, function () {
+app.listen(process.env.PORT || 8000, function () {
 	console.info(`Server listening on ${this.address().port}`);
 });
 
