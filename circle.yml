@@ -13,9 +13,8 @@ dependencies:
 
 test:
   override:
-    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY:
+    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
         background: true
+    - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
     - docker run -d -p 8000:8000 accounts-cbd-int
-    - wget --retry-connrefused 10 http://localhost:4444
-    - wget --retry-connrefused 10 http://localhost:8000
     - docker run --net host -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY accounts-cbd-int protractor spec/conf.js
