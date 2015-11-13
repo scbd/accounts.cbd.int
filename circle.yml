@@ -12,4 +12,6 @@ test:
   override:
     - docker run -d -p 4444:8000 -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY ustwo/docker-sauce-connect:4.3
     - docker run -d -p 8000:8000 accounts-cbd-int
+    - curl --retry 10 --retry-delay 2 -v http://localhost:4444
+    - curl --retry 10 --retry-delay 2 -v http://localhost:8000
     - docker run --net host accounts-cbd-int protractor spec/conf.js
