@@ -14,4 +14,4 @@ test:
     - docker run -d -p 8000:8000 accounts-cbd-int
     - wget --retry-connrefused 10 http://localhost:4444
     - wget --retry-connrefused 10 http://localhost:8000
-    - docker run --net host accounts-cbd-int protractor spec/conf.js
+    - docker run --net host -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY accounts-cbd-int protractor spec/conf.js
