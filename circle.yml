@@ -10,8 +10,6 @@ dependencies:
 
 test:
   override:
-    - docker run -p 4444:8000 -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY ustwo/docker-sauce-connect:4.3
-        background: true
-    - docker run -p 8000:8000 accounts-cbd-int
-        background: true
+    - docker run -d -p 4444:8000 -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY ustwo/docker-sauce-connect:4.3
+    - docker run -d -p 8000:8000 accounts-cbd-int
     - docker run --net host accounts-cbd-int protractor spec/conf.js
