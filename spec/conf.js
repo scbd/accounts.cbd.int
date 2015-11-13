@@ -18,6 +18,6 @@ exports.config = {
     }, {
         browserName: 'safari',
         platform: 'OS X 10.10',
-        version: '8.0';
+        version: '8.0'
     }]
 }
