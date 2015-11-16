@@ -5,15 +5,29 @@ define(['app'], function(app) { //jshint ignore:line
 		$scope.scope			= $location.search().scope||'';
     $scope.scopeArray	= ['First Name', 'Last Name','Email','Account ID'];
 		var redirect_uri = $location.search().redirect_uri||'';
+		var client_id =$scope.client_id= $location.search().client_id||'';
+		setClientInfo();
+
+		//============================================================
+    //
+    //
+    //============================================================
+		function setClientInfo () {
+				$http.post('/api/v2015/user-agent-oa2/authorizations/'+client_id+'/client-info').then(function onsuccess(success) {// jshint ignore:line
+console.log('success.data.',success.data);
+							if(success.data.clientName)
+									$scope.clientName=success.data.clientName;
+				}, function onerror(error) {
+							console.log(error.stack);
+				});
+		};// setClientInfo
+
 
     //============================================================
     //
     //
     //============================================================
 		this.authorizeClient= function () {
-
-				var client_id =$scope.client_id= $location.search().client_id||'';
-
 				if($('#myModal').hasClass('in')) // if modal is popped
 					var credentials = { 'client_id': client_id , 'redirect_uri': redirect_uri , request_type:'code', 'scope':$scope.scope };
 				else
@@ -51,7 +65,7 @@ define(['app'], function(app) { //jshint ignore:line
 											alert('bad client id or redirect url');
 											$window.location.href = redirect_uri + '?error=unauthorized_client';//as per RFC
 
-									}else { console.log('should be opening modal');
+									}else {
 										$( document ).ready( function() {
 												$( '#myModal' ).modal( 'toggle' );
 										});
