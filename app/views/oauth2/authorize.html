@@ -8,7 +8,7 @@
 				<!-- Modal content-->
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<button type="button" class="close" data-dismiss="modal" ng-click="resOwnerDeniesAccess();" >&times;</button>
 						<div style="text-align: center; width: 100%;">
 							<img src="/app/img/cbd-spine.png" class=" img-circle" alt="SCBD" style="width:75px; height:75px; border:5px solid pink; float:left;">
 							<img src="/app/img/logo1.png" class="img-circle" alt="UNSSC" style="width:75px; height:75px; border:5px solid pink; float:left;">
@@ -23,14 +23,12 @@
 					<div class="modal-body">
 						<p>
 							<ul>
-								<li>Full Name</li>
-								<li>Email Address</li>
-								<li>Account ID</li>
+								<li ng-repeat="scopeName in scopeArray track by $index">{{scopeName.substring(0,1).toUpperCase()+scopeName.substring(1)}}</li>
 							</ul>
 						</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Deny</button>
+						<button type="button" class="btn btn-default" ng-click="resOwnerDeniesAccess();">Deny</button>
 						<button type="submit" class="btn  btn-primary" ng-click="authorize();">Allow</button>
 					</div>
 				</div>
