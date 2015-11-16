@@ -7,7 +7,7 @@ define(['app', 'lodash', 'authentication', 'ngRoute', 'providers/extended-route'
 
         $routeProvider.
             when('/',                     { templateUrl: '/app/views/index.html'                , resolveUser : true, resolveController : true }).
-            when('/oauth2/authorize',     { templateUrl: '/app/views/signin.html'               , resolveUser : true, resolveController : true }).
+            when('/oauth2/authorize',     { templateUrl: '/app/views/oauth2/authorize.html'     , resolveUser : true, resolveController : true , resolve : { securized : securize()} }).
             when('/activate',             { templateUrl: '/app/views/activate.html'             , resolveUser : true, resolveController : true }).
             when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolveUser : true, }).
             when('/password',             { templateUrl: '/app/views/password.html'             , resolveUser : true, resolveController : true, resolve : { securized : securize() } }).
@@ -40,7 +40,6 @@ define(['app', 'lodash', 'authentication', 'ngRoute', 'providers/extended-route'
         return ["$location", "$q", "authentication", function ($location, $q, authentication) {
 
             return $q.when(authentication.getUser()).then(function (user) {
-
                 if (!user.isAuthenticated) {
 
                     $location.search({ returnUrl: $location.search().returnUrl || $location.url() });

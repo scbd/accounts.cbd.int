@@ -72,8 +72,7 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 			request: function(config) {
 
 				var trusted = /^https:\/\/api.cbd.int\//i .test(config.url) ||
-						      /^https:\/\/localhost[:\/]/i.test(config.url) ||
-							  /^\/\w+/i                   .test(config.url);
+							        /^\/api\//i                 .test(config.url);
 
 				var hasAuthorization = (config.headers||{}).hasOwnProperty('Authorization') ||
 							  		   (config.headers||{}).hasOwnProperty('authorization');
