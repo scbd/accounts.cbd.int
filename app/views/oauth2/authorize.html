@@ -1,67 +1,43 @@
-<h1 style="margin-top:20px">Sign-In</h1>
-
-<div class="row" data-ng-init="modal" >
-
-	<div class="col-sm-8">
-		<div class="alert alert-danger" ng-show="errorInvalid">
-			<strong>Login Failed!</strong>
-			The username or password you entered is incorrect.
-		</div>
-
-		<div class="alert alert-danger" ng-show="errorTimeout">
-			<strong>Login Failed!</strong>
-			The service is not available. Please try again later.
-		</div>
-	</div>
-
-	<script type="text/javascript">
-	$( document ).ready( function() {
-	    $( '#myModal' ).modal( 'toggle' );
-	});
-	</script>
-
-
+<div class="row"  ng-init="authorize();">
 	<div class="container">
-	  <h2>Modal Example</h2>
-	  <!-- Trigger the modal with a button -->
 
-	  <!-- Modal -->
-	  <div class="modal fade" id="myModal" role="dialog">
-	    <div class="modal-dialog">
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+			<div class="modal-dialog">
 
-	      <!-- Modal content-->
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <button type="button" class="close" data-dismiss="modal">&times;</button>
-						<div style="text-align: center;">
-						<img src="/app/img/cbd-spine.png" class=" img-circle" alt="SCBD" style="width:75px; height:75px; border:5px solid pink; float:left;" >
-						<img src="/app/img/logo1.png" class="img-circle" alt="UNSSC" style="width:75px; height:75px; border:5px solid pink; float:left;" >
-</div>
-					<br> <br> <br> <br><br> <h4 class="modal-title">{{client_id}} would like to access the following information on your SCBD account:</h4>
-	        </div>
-	        <div class="modal-body">
-			          <p><ul>
-								  <li>Full Name</li>
-								  <li>Email Address</li>
-								  <li>Account ID</li>
-									</ul>
-							</p>
-	        </div>
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal">Deny</button>
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<div style="text-align: center; width: 100%;">
+							<img src="/app/img/cbd-spine.png" class=" img-circle" alt="SCBD" style="width:75px; height:75px; border:5px solid pink; float:left;">
+							<img src="/app/img/logo1.png" class="img-circle" alt="UNSSC" style="width:75px; height:75px; border:5px solid pink; float:left;">
+						</div>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<h4 class="modal-title">{{client_id}} would like to access the following information on your SCBD account:</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							<ul>
+								<li>Full Name</li>
+								<li>Email Address</li>
+								<li>Account ID</li>
+							</ul>
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Deny</button>
 						<button type="submit" class="btn  btn-primary" ng-click="authorize();">Allow</button>
-	        </div>
-	      </div>
-	      <!-- Modal content-->
-	    </div>
-	  </div>
+					</div>
+				</div>
+				<!-- Modal content-->
+			</div>
+		</div>
 
 	</div>
 
 	<div class="clearfix"></div>
-
-	<div class="col-sm-4">
-
-		auth page
-	</div>
-</div>
