@@ -12,58 +12,46 @@ define(['app'], function(app) { //jshint ignore:line
     //============================================================
 		this.authorizeClient= function () {
 
-				var client_id    = $location.search().client_id||'';
-        var redirect_uri = $location.search().redirect_uri||'';
+				var client_id =$scope.client_id= $location.search().client_id||'';
 
-        var credentials = { 'client_id': client_id , 'redirect_uri': redirect_uri , request_type:'code' };
+				if($('#myModal').hasClass('in')) // if modal is popped
+					var credentials = { 'client_id': client_id , 'redirect_uri': redirect_uri , request_type:'code', 'scope':$scope.scope };
+				else
+        	var credentials = { 'client_id': client_id , 'redirect_uri': redirect_uri , request_type:'client_auth_exists', 'scope':$scope.scope };//jshint ignore:line
 
-        return $http.post('/api/v2015/user/authorizations/'+client_id+'/code', credentials);
-    };
-
-	//============================================================
-    //
-    //
-    //============================================================
-    this.clearErrors = function () {
-
-        $scope.isError = false;
-        $scope.error = null;
+        return $http.post('/api/v2015/user-agent-oa2/authorizations/'+client_id+'/code', credentials); //jshint ignore:line
     };
 
 
+
     //============================================================
-    //
+    //$('#myModal').hasClass('in');
     //
     //============================================================
     $scope.authorize = function () {
-        var client_id    = $location.search().client_id||'';
-        var redirect_uri = $location.search().redirect_uri||'';
-        var state        = $location.search().state||'';
-				//var scope        = $location.search().scope||'';
+
+				var state        = $location.search().state||'';
 				var rOwnerAuthenticated   = user.isAuthenticated;
 
 				if(rOwnerAuthenticated) {
-							self.authorizeClient.then(function onsuccess(success) {// jshint ignore:line
+							self.authorizeClient().then(function onsuccess(success) {// jshint ignore:line
+									$window.location.href = redirect_uri + '?code=' + success.data.code+ '&state=' + encodeURIComponent(state);
+							}, function onerror(error) { //jshint ignore:line
+//need to send
+									if($('#myModal').hasClass('in')){//if modal is poped and client not authorized even after resource owner grants auth ie. bad redirect url or client id
+											alert('bad client id or redirect url');
+											$window.location.href = redirect_uri + '?error=unauthorized_client';//as per RFC
 
-					        $window.location.href = redirect_uri + '?code=' + success.data.code+ '&state=' + encodeURIComponent(state);
+									}else { console.log('should be opening modal');
+										$( document ).ready( function() {
+												$( '#myModal' ).modal( 'toggle' );
+										});
+									}
 
-							}, function onerror(error) {
-									$scope.errorInvalid = error.status == 403;
-									$scope.errorTimeout = error.status != 403;
 							});
-					} else {
-							alert('unauthorized redirect_uri');
-					}
+			 }// if(rOwnerAuthenticated)
+    };// scope.authorize
 
-        authorized = authorized || (client_id=='12345' && redirect_uri=='http://192.168.1.68/moodle/auth/googleoauth2/scbd_redirect.php');
+	}];//return
 
-
-
-        //$window.location.href = 'http://localhost:3010/oauth2/authorize/?client_id='+client_id+'&redirect_uri='+redirect_uri+'&scope=all';
-    };
-
-    if(user.isAuthenticated)
-        this.authorize();
-}];
-
-});
+});// define
