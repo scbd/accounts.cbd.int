@@ -2,7 +2,9 @@ define(['app'], function(app) { //jshint ignore:line
 
 	return ['$scope', '$http', '$browser', '$window', '$location', 'user', function ($scope, $http, $browser, $window, $location, user) {
 
+		$scope.scope= $location.search().scope||'';
 
+		var redirect_uri = $location.search().redirect_uri||'';
 
     //============================================================
     //
