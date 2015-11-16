@@ -22,6 +22,16 @@ define(['app'], function(app) { //jshint ignore:line
         return $http.post('/api/v2015/user-agent-oa2/authorizations/'+client_id+'/code', credentials); //jshint ignore:line
     };
 
+		//============================================================
+		//
+		//
+		//============================================================
+		$scope.resOwnerDeniesAccess= function () {
+			alert('You will now be redirected back to the orgin site and may be shown an error as a reult of your refusal to share information');
+				var state        = $location.search().state||'';
+				$window.location.href = redirect_uri + '?error=access_denied'+'&state=' + encodeURIComponent(state);
+		};
+
 
 
     //============================================================
