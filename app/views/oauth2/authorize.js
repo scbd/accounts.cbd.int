@@ -47,7 +47,6 @@ define(['app'], function(app) { //jshint ignore:line
 							self.authorizeClient().then(function onsuccess(success) {// jshint ignore:line
 									$window.location.href = redirect_uri + '?code=' + success.data.code+ '&state=' + encodeURIComponent(state);
 							}, function onerror(error) { //jshint ignore:line
-//need to send
 									if($('#myModal').hasClass('in')){//if modal is poped and client not authorized even after resource owner grants auth ie. bad redirect url or client id
 											alert('bad client id or redirect url');
 											$window.location.href = redirect_uri + '?error=unauthorized_client';//as per RFC
@@ -57,8 +56,7 @@ define(['app'], function(app) { //jshint ignore:line
 												$( '#myModal' ).modal( 'toggle' );
 										});
 									}
-
-							});
+							});///self.authorizeClient()
 			 }// if(rOwnerAuthenticated)
     };// scope.authorize
 
