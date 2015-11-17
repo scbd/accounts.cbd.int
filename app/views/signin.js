@@ -82,40 +82,12 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
         document.cookie = cookieString;
     };
 
-    //============================================================
-    //
-    //
-    //============================================================
-    this.authorize = function () {
-
-        var client_id    = $location.search().client_id||'';
-        var redirect_uri = $location.search().redirect_uri||'';
-        var state        = $location.search().state||'';
-        var authorized   = false;
-
-        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='https://absch.cbd.int:443/oauth2/callback');
-        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://absch.infra.cbd.int:80/oauth2/callback');
-        authorized = authorized || (client_id=='fbbb279e53ff814f4c23878e712dfe23ee66bd73a1cfc42b1842e2ab58c440fe' && redirect_uri=='http://localhost:2010/oauth2/callback');
-
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='https://lifeweb.cbd.int:443/oauth2/callback');
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='http://lifeweb.infra.cbd.int:80/oauth2/callback');
-        authorized = authorized || (client_id=='55asz2laxbosdto6dfci0f37vbvdu43yljf8fkjacbq34ln9b09xgpy1ngo8pohd' && redirect_uri=='http://localhost:2020/oauth2/callback');
-
-        if(authorized) {
-            $window.location.href = redirect_uri + '?code=' + $browser.cookies().authenticationToken + '&state=' + encodeURIComponent(state);
-        } else {
-            console.log('invalid client_id');
-        }
-    };
 
     //============================================================
-    //
-    //
-    //============================================================
-    this.redirect = function () {
-        if($location.search().client_id) {
-			self.authorize();
-        } else {
+		//
+		//
+		//============================================================
+		this.redirect = function () {
 
 			var returnUrl = $location.search().returnurl || $location.search().returnUrl;
 
@@ -127,6 +99,7 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
 					"chm.cbd.int", 'dev-chm.cbd.int',
 					'lifeweb.cbd.int',
 					"www.cbd.int",
+					'192.168.1.68',
 					"localhost"
 				];
 
@@ -143,9 +116,8 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
 				}
 			}
 
-            $location.path('/');
-        }
-    };
+			$location.path('/');
+		};
 
     if(user.isAuthenticated) {
 		self.redirect();
