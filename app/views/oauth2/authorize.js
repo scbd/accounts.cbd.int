@@ -14,7 +14,6 @@ define(['app'], function(app) { //jshint ignore:line
     //============================================================
 		function setClientInfo () {
 				$http.post('/api/v2015/user-agent-oa2/authorizations/'+client_id+'/client-info').then(function onsuccess(success) {// jshint ignore:line
-console.log('success.data.',success.data);
 							if(success.data.clientName)
 									$scope.clientName=success.data.clientName;
 				}, function onerror(error) {
