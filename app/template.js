@@ -2,6 +2,7 @@ define(['app','lodash'], function (app, _) { 'use strict';
 
 	app.controller('TemplateController', ['$scope', '$window', 'authentication', '$q', function ($scope, $window, authentication, $q) {
 
+		$scope.$on("$routeChangeSuccess", function() { $scope.viewLoaded = true; });
 		$scope.$on('$routeChangeStart', loadCurrentUser);
 
         $scope.actionSignOut = function () {
