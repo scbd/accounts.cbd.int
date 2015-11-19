@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'authentication', 'ngRoute', 'providers/extended-route'], function (app, _) { 'use strict';
+define(['app', 'lodash', 'authentication', 'providers/extended-route'], function (app, _) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
@@ -29,7 +29,6 @@ define(['app', 'lodash', 'authentication', 'ngRoute', 'providers/extended-route'
             when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
             otherwise({redirectTo:'/help/404'});
     }]);
-
 
     //============================================================
     //

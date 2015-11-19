@@ -1,7 +1,6 @@
-define(['require', 'app', 'angular', 'ngRoute', 'authentication'], function(require, app, angular) { 'use strict';
+define(['require', 'app', 'angular', 'authentication'], function(require, app, angular) { 'use strict';
 
     var baseUrl = require.toUrl('');
-
 
     app.provider('extendedRoute', ["$routeProvider", function($routeProvider) {
 
