@@ -1,24 +1,45 @@
-describe('Sign-In Page', function() {
+//To get sjhint to ignore protrator calls ad this to .jshint "browser","element","by","expect","protractor","beforeEach"
+describe('Sign-In Page', function() { //jshint ignore:line
 
-    var EC = protractor.ExpectedConditions;
+  var EC = protractor.ExpectedConditions;
 
-    it('should have a title', function () {
+  beforeEach(function() {
+    browser.get('/signin');
+    //browser.driver.sleep(1);
+    browser.waitForAngular();
+    //       spyOn(console, 'error');
+  }); // it
 
-        browser.get('/signin/');
 
-        expect(browser.getTitle()).toEqual('Accounts: Convention on Biological Diversity');
+
+  it('should have a title', function() { //jshint ignore:line
+    expect(browser.getTitle()).toEqual('Accounts: Convention on Biological Diversity');
+  }); // it
+
+  it('should show alert message when invalid email/password is submitted', function() { //jshint ignore:line
+
+    element(by.model('email')).sendKeys(1);
+    element(by.model('password')).sendKeys(2);
+    $('.btn-primary').click().then(function() {
+      EC.visibilityOf($('#failedLoginAlert'));
     });
+    //  browser.debugger();
+  }); // it
 
-    it('should show alert message when invalid email/password is submitted', function () {
 
-        browser.get('/signin/');
-        browser.waitForAngular();
 
-        element(by.model('email')).sendKeys(1);
-        element(by.model('password')).sendKeys(2);
-        $('.btn-primary').click();
+  it('Should contain no JavaScript coding errors!', function() {
+    var count = 0;
 
-        browser.wait(EC.visibilityOf($('#failedLoginAlert')), 5000);
+    browser.manage().logs().get('browser').then(function(browserLog) {
+      for (var i = 0; i < browserLog.length; i++) {
+        if (browserLog[i].level.name === 'SEVERE')//firefox cannot find severe
+          count++;
+      }
+      expect(count).toEqual(0);
+
     });
+  });
 
 });
+
