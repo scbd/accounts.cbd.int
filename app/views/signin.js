@@ -1,11 +1,11 @@
 define(['urijs/URI', 'app', 'authentication'], function(URI) {
 
 
-	return ['$scope', '$http', '$browser', '$location', 'authentication', '$window', 'user', function ($scope, $http, $browser, $location, authentication, $window, user) {
+	return ['$scope', '$http', '$cookies', '$location', 'authentication', '$window', 'user', function ($scope, $http, $cookies, $location, authentication, $window, user) {
 
 	$scope.password   = "";
-    $scope.email      = $browser.cookies().email || "";
-    $scope.rememberMe = !!$browser.cookies().email;
+    $scope.email      = $cookies.get("email") || "";
+    $scope.rememberMe = !!$cookies.get("email");
 
     $scope.isForbidden = false;
 	$scope.isAuthenticated = user.isAuthenticated;

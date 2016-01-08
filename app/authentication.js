@@ -1,6 +1,6 @@
 define(['app', 'angular'], function (app, ng) { 'use strict';
 
-	app.factory('authentication', ["$http", "$browser", "$q", function($http, $browser, $q) {
+	app.factory('authentication', ["$http", "$q", function($http, $q) {
 
 		var currentUser = null;
 
@@ -57,11 +57,11 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 	}]);
 
-	app.factory('apiToken', ["$browser", function($browser) {
+	app.factory('apiToken', ["$cookies", function($cookies) {
 
 		return {
 			get : function() {
-				return $browser.cookies().authenticationToken;
+				return $cookies.get("authenticationToken");
 			}
 		};
 	}]);
