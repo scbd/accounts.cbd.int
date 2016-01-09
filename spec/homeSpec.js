@@ -30,7 +30,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
   it('should not report errors when the page is loaded', function() {
 
-      //  if (browser.browserName !== 'internet explorer') {
+        if (browser.browserName !== 'internet explorer') {
           var count = 0;
           browser.manage().logs().get('browser').then(function(browserLog) {
 
@@ -43,7 +43,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
             }
             expect(count).toEqual(0);
           });
-      //  }
+        }
     });
 
 });
