@@ -5,7 +5,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
   beforeEach(function() {
     browser.get('/signin');
-    //browser.driver.sleep(1);
+    browser.driver.sleep(1);
     browser.waitForAngular();
     //       spyOn(console, 'error');
   }); // it
@@ -28,18 +28,23 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
 
 
-  it('Should contain no JavaScript coding errors!', function() {
-    var count = 0;
+  it('should not report errors when the page is loaded', function() {
 
-    browser.manage().logs().get('browser').then(function(browserLog) {
-      for (var i = 0; i < browserLog.length; i++) {
-        if (browserLog[i].level.name === 'SEVERE')//firefox cannot find severe
-          count++;
-      }
-      expect(count).toEqual(0);
+        if (browser.browserName !== 'internet explorer') {
+          var count = 0;
+          browser.manage().logs().get('browser').then(function(browserLog) {
 
+            for (var i = 0; i < browserLog.length; i++) {
+              if (browserLog[i].level.name === 'SEVERE'){
+                    count++;
+                    console.log('-----------------------',browserLog[i]);
+              }
+
+            }
+            expect(count).toEqual(0);
+          });
+        }
     });
-  });
 
 });
 
