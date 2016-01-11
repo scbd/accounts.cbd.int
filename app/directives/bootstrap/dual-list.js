@@ -14,7 +14,7 @@ define(['app', 'angular', 'libs/bootstrap-duallistbox/bootstrap-duallistbox/jque
                 });
 
                 var syncing;
-                $element.bind("DOMSubtreeModified", function () { console.log('syncing');
+                $element.bind("DOMSubtreeModified", function () {
                     if(!syncing) {
                         syncing = true;
                         $timeout(function () {
