@@ -1,7 +1,6 @@
 define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'directives/forms-input-list'], function(app, _) { 'use strict';
 
-
-    return ["$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
+    return ["$http", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authentication, $scope, $filter, $location, $route, $q) {
 
     $http.get("/api/v2013/countries").then(function(result) {
 
@@ -19,7 +18,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
     //==================================
     //
     //==================================
-    $scope.init = function() {
+    function load() {
 
         if($route.current.params.id=='new') {
             $scope.initialRoles = [];
@@ -62,7 +61,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
 
         if($route.current.params.id=='new') {
 
-            authHttp.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data) {
+            $http.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data) {
                 $scope.document = data;
                 $scope.actionUpdateRoles();
 
@@ -72,7 +71,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
 
         } else {
 
-            authHttp.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function () {
+            $http.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function () {
                 $scope.actionUpdateRoles();
             }).error(function (data) {
                 $scope.error = data.message;
@@ -91,11 +90,11 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
         var tasks = [];
 
         rolesToGrant.forEach(function grantRole (role) {
-            tasks.push(authHttp.put('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
+            tasks.push($http.put('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
         });
 
         rolesToRevoke.forEach(function grantRole (role) {
-            tasks.push(authHttp.delete('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
+            tasks.push($http.delete('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
         });
 
         $q.all(tasks).then(function done () {
@@ -103,7 +102,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
         });
     };
 
-    $scope.init();
+    load();
 
 }];
 
