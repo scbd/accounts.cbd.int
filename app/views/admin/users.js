@@ -40,6 +40,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
   });//$http.get("/api/v2013/roles", {
 
   var cancelPopulate;
+  var debouncedPopulate = _.debounce(populate, 250);
 
 	function populate () {
 
@@ -127,11 +128,10 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 	};//$scope.actionDelete = function actionDelete (userID)
 
   $scope.actionSetPage = setPage;
-  $scope.$watch('government',  populate);
-  $scope.$watch('roleFilter',  populate);
-	$scope.$watch('currentPage', populate);
-
-	$scope.$watch('freetext',  _.debounce(function(){
+  $scope.$watch('government',  debouncedPopulate);
+  $scope.$watch('roleFilter',  debouncedPopulate);
+  $scope.$watch('currentPage', debouncedPopulate);
+  $scope.$watch('freetext',  _.debounce(function(){
         setPage(0);
         populate();
     }, 250));
