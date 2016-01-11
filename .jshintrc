@@ -9,5 +9,5 @@
     "devel"    : true,
     "smarttabs": true,
     "trailing" : true,
-    "predef"   : [ "angular", "define", "require", "curl","browser","element","by","expect","protractor","beforeEach"]
+    "predef"   : [ "angular", "define", "require", "browser", "element", "by", "expect", "protractor", "beforeEach"]
 }
