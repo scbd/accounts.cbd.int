@@ -13,7 +13,7 @@
     "jquery": "2.1.4",
     "outdated-browser": "1.1.2",
     "bootstrap-duallistbox": "https://github.com/istvan-ujjmeszaros/bootstrap-duallistbox.git#2.1.1",
-    "angular-flex": "git://github.com/scbd/angular-flex.git",
+    "angular-flex": "git://github.com/scbd/angular-flex.git#1.0.3",
     "lodash": "~3.9.3",
     "urijs": "~1.16.1"
   }
