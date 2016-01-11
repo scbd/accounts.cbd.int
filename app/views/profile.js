@@ -1,6 +1,6 @@
 define(['app', 'angular', 'directives/forms-input-list'], function(app, angular){
 
-return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function ($scope, authHttp, $location, $filter, $timeout, user) {
+return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
 
     $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || '/';
 
