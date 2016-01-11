@@ -1,4 +1,4 @@
-define(['app', 'angular', 'jquery', '/app/views/forms-input-list.partial.html.js'], function(app, angular, $){
+define(['app', 'angular', 'directives/forms-input-list'], function(app, angular){
 
 return ['$scope', '$http', '$location', '$filter', '$timeout', 'user', function ($scope, authHttp, $location, $filter, $timeout, user) {
 
