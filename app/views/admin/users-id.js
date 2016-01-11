@@ -2,6 +2,9 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
 
     return ["$http", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authentication, $scope, $filter, $location, $route, $q) {
 
+    //==================================
+    //
+    //==================================
     $http.get("/api/v2013/countries").then(function(result) {
 
         var sortedData = $filter('orderBy')(result.data, 'name.en');
@@ -11,9 +14,23 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
         });
     });
 
+    //==================================
+    //
+    //==================================
     $http.get("/api/v2013/roles", { cache: true }).then(function(response) {
-        $scope.roleList = $filter('orderBy')(response.data, 'name');
+        $scope.roleList = excludeAutomaticRoles($filter('orderBy')(response.data, 'name'));
     });
+
+    //==================================
+    //
+    //==================================
+    function excludeAutomaticRoles(roles) {
+        return _.filter(roles, function(r){
+            return r !==  9 && r.roleId !==  9 && // User
+                   r !== 17 && r.roleId !== 17 && // Everyone
+                   r !== 18 && r.roleId !== 18;   // Anonymous
+        });
+    }
 
     //==================================
     //
@@ -28,7 +45,7 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
                 if(data.Government=="eur")
                     data.Government = "eu"; // BCH country patch
 
-                $scope.document = data;                
+                $scope.document = data;
                 $scope.phones = ($scope.document.Phone||'').split(';');
                 $scope.faxes  = ($scope.document.Fax  ||'').split(';');
                 $scope.emailsCc  = ($scope.document.EmailsCc  ||'').split(';');
@@ -37,15 +54,14 @@ define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'di
             });
 
             $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data) {
-                $scope.roles = data;
-                $scope.initialRoles = data.slice(0); // clone array
+                $scope.roles        = excludeAutomaticRoles(data);
+                $scope.initialRoles = excludeAutomaticRoles(data);
             }).error(function (data) {
                 alert('ERROR\r\n----------------\r\n'+data.message);
             });
         }
-    };
+    }
 
-    
     $scope.$watch('phones+faxes+emailsCc', function () {
         if($scope.document) {
             $scope.document.Phone = ($scope.phones||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
