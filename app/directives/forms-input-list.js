@@ -1,10 +1,9 @@
-define(['app', 'angular', 'jquery'], function(app, angular, $){
-
+define(['app', 'angular', 'jquery', 'text!./forms-input-list.html'], function(app, angular, $, templateHTML){
 
     app.directive('formsInputList', [function() {
         return {
             restrict: 'EAC',
-            templateUrl: '/app/views/forms-input-list.partial.html',
+            template: templateHTML,
             replace: true,
             transclude: false,
             require : "ngModel",
@@ -20,7 +19,7 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
                 $scope.texts    = [];
                 if(!$scope.icon)
                     $scope.icon = 'fa-phone';
-                    
+
                 if(ngModelController) {
                     $scope.$watch('binding',function(oldVal,newval){
                         $scope.load();
@@ -110,5 +109,5 @@ define(['app', 'angular', 'jquery'], function(app, angular, $){
             }
         }
     }]);
-	
+
 });

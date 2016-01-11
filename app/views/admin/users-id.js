@@ -1,5 +1,5 @@
+define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'directives/forms-input-list'], function(app, _) { 'use strict';
 
-define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', '/app/views/forms-input-list.partial.html.js'], function(app, _) { 'use strict';
 
     return ["$http", "$http", "$browser", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authHttp, $browser, authentication, $scope, $filter, $location, $route, $q) {
 
