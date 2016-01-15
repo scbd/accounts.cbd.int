@@ -1,5 +1,5 @@
 require('app').controller('SignupController', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
-
+    $scope.passwordType = 'password';
     $scope.options = { countries: [] };
 
     $http.get("/api/v2013/thesaurus/domains/countries/terms", { cache: true }).then(function(o) {
@@ -237,14 +237,24 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
     $scope.onPostSave = function(data) {
 
         console.log($scope.document);
-
+        $scope.isLoading = true;
         $http.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
 
             $location.path('/signup/done');
 
         }).error(function (data, status, headers, config) {
             $scope.error = data;
+        })
+        .finally(function(){
+            $scope.isLoading = false;
         });
     };
+
+    $scope.togglePassword = function(){
+        if($scope.passwordType == 'password')
+            $scope.passwordType = 'text';
+        else
+            $scope.passwordType = 'password';
+    }
 
 }]);

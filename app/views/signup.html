@@ -1,5 +1,16 @@
 <script src="/app/views/signup.html.js"></script>
 <div ng-controller="SignupController">
+	<style>
+	.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5); /*dim the background*/
+}
+</style>
 	<div class="row">
 		<div class="col-sm-12">
 
@@ -10,37 +21,37 @@
 			</p>
 
 			<p>
-				After you create your CBD Account, we'll send you an email with a link to choose a password and activate your account. Then, you can start using any CBD-maintained services right away.
+				After you create your CBD Account, we'll send you an email to activate your account. Then, you can start using any CBD-maintained services right away.
 			</p>
-
-			<div class="alert alert-danger" ng-cloak ng-show="error">
-				<strong>Error as occured...</strong>
-				<div>{{error}}</div>
-			</div>
 
 			<div ng-show="status=='loading'"><em>Loading...</em></div>
 
 			<div ng-hide="status=='hidden'||status=='loading'" style="margin-top:30px">
 				<form name="form" role="form" ng-submit="onPostSave()">
 
-					<div class="panel panel-default panel-identity">
-						<div class="panel-body">
+					<div class="panel panel-default panel-identity" style="max-width: 350px;margin-left: 30%;margin-right: 20%;">
+						<div class="panel-body" >
+							 <div class="overlay" ng-show="isLoading">
+								 <i class="fa fa-spin fa-spinner fa-5x" style="margin:40%" />
+							 </div>
 							<div class="row">
-								<div class="col-sm-2 col-xs-4">
-									<div class="form-group">
-										<label for="title">Salutation</label>
-										<input type="text" class="form-control" id="title" ng-model="document.Title">
+								<div class="col-xs-12">
+									<div class="alert alert-danger" ng-cloak ng-show="error">
+										<strong>Error!</strong>
+										<div>{{error.message}}</div>
 									</div>
 								</div>
+							</div>
+							<div class="row">
 								<div class="clearfix visible-xs"></div>
-								<div class="col-sm-5 col-xs-12">
+								<div class="col-sm-6 col-xs-12">
 									<div class="form-group" ng-class="{ 'has-warning': form.firstName.$invalid }">
 										<label for="firstName">First name</label>
 										<input type="text" class="form-control" name="firstName" ng-model="document.FirstName" required>
 										<p class="help-block error" ng-show="form.firstName.$invalid">This field is mandatory</p>
 									</div>
 								</div>
-								<div class="col-sm-5 col-xs-12">
+								<div class="col-sm-6 col-xs-12">
 									<div class="form-group" ng-class="{ 'has-warning': form.lastName.$invalid }">
 										<label for="lastName">Last name</label>
 										<input type="text" class="form-control" name="lastName" ng-model="document.LastName" required>
@@ -48,109 +59,17 @@
 									</div>
 								</div>
 							</div>
-
-							<div class="form-group">
-								<label for="designation">Job title</label>
-								<input type="text" class="form-control" id="designation" ng-model="document.Designation">
-							</div>
-
-							<div class="form-group">
-								<label for="department">Department</label>
-								<input type="text" class="form-control" id="department" ng-model="document.Department">
-							</div>
-							<div class="form-group" ng-class="{ 'has-warning': form.organization.$invalid }">
-								<label for="organization">Organization</label>
-								<input type="text" class="form-control" name="organization" ng-model="document.Organization" required>
-								<p class="help-block error" ng-show="form.organization.$invalid">This field is mandatory</p>
-							</div>
-							<!-- <div class="row">
-								<div class="col-sm-2 col-xs-6">
-									<div class="form-group">
-										<label for="gender">Gender</label>
-										<select class="form-control" id="gender" ng-model="document.Gender">
-											<option></option>
-											<option>Female</option>
-											<option>Male</option>
-											<option>Other</option>
-										</select>
-									</div>
-								</div>
-							</div> -->
-						</div>
-					</div>
-
-					<div class="panel panel-default panel-address">
-						<div class="panel-body">
 							<div class="row">
-								<div class="col-sm-6">
-									<div class="form-group">
-										<label for="address">Address</label>
-										<textarea rows="3" class="form-control" id="address" ng-model="document.Address"></textarea>
-									</div>
-								</div>
-								<div class="col-sm-6">
-									<div class="form-group">
-										<label for="city">City</label>
-										<input type="text" class="form-control" id="city" ng-model="document.City">
+								<div class="col-xs-12">
+									<div class="form-group" ng-class="{ 'has-warning': form.organization.$invalid }">
+										<label for="organization">Organization</label>
+										<input type="text" class="form-control" name="organization" ng-model="document.Organization" required>
+										<p class="help-block error" ng-show="form.organization.$invalid">This field is mandatory</p>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-sm-6">
-									<div class="form-group">
-										<label for="state">State / Province / Region</label>
-										<input type="text" class="form-control" id="state" ng-model="document.State">
-									</div>
-								</div>
-								<div class="col-sm-3">
-									<div class="form-group">
-										<label for="zip">Postal / Zip code</label>
-										<input type="text" class="form-control" id="zip" ng-model="document.Zip">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-6">
-									<div class="form-group">
-										<label>Country</label>
-										<div><select name="Country" class="form-control" ng-model="document.Country" ng-options="c.identifier as c.name for c in options.countries"></select></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="panel panel-default panel-coordinates">
-						<div class="panel-body">
-							<div class="help-block">Please use the following format: +[country code] [city code] [telephone number] [extension, if necessary].</div>
-							<div class="row">
-								<div class="col-sm-6 col-xs-12">
-									<div class="form-group">
-										<label>Phone numbers</label>
-										<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="phone in getPhones()">
-											<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-											<input type="phone" class="form-control" ng-model="phone.value" ng-change="savePhones()" placeholder="+1 555 666 7777" ng-pattern=/[\u0030-\u0039]+/g />
-											<span class="input-group-btn" ng-if="!$last">
-										    	<button class="btn btn-default" ng-click="removePhone($index)" style="height:36px"><i class="icon-trash icon"></i></button>
-										    </span>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-6 col-xs-12">
-									<div class="form-group">
-										<label>Fax numbers</label>
-										<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getFaxes()">
-											<span class="input-group-addon"><i class="fa fa-phone"></i></span>
-											<input type="fax" class="form-control" ng-model="fax.value" ng-change="saveFaxes()" placeholder="+1 555 666 7777" ng-pattern=/[\u0030-\u0039]+/g />
-											<span class="input-group-btn" ng-if="!$last">
-										    	<button class="btn btn-default" ng-click="removeFax($index)" style="height:36px"><i class="icon-trash icon"></i></button>
-										    </span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-6 col-xs-12">
+								<div class="col-xs-12">
 									<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
 										<label>Email</label>
 										<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
@@ -161,25 +80,33 @@
 										<p class="help-block error" ng-show="form.email.$error.email">Email is invalid or incomplete</p>
 									</div>
 								</div>
-								<div class="col-sm-6 col-xs-12">
-									<div class="form-group">
-										<label>Alternate email addresses</label>
-										<div class="input-group" style="margin-bottom:2px; padding-left: 0px" ng-repeat="fax in getEmails()">
-											<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-											<input type="email" class="form-control" ng-model="email.value" ng-change="saveEmails()" placeholder="alternate-email@domain.xyz"/>
-											<span class="input-group-btn" ng-if="!$last">
-										    	<button class="btn btn-default" ng-click="removeEmail($index)" style="height:36px"><i class="icon-trash icon"></i></button>
-										    </span>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
+										<label>Password</label>
+										<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
+											<span class="input-group-addon"><i class="fa fa-key"></i></span>
+											<input type="{{passwordType}}" name="password" class="form-control" ng-model="document.Password" required >
+											<span class="input-group-addon"  style="cursor:pointer"
+												ng-click="togglePassword()">
+												<i class="fa" ng-class="{'fa-eye': passwordType=='password','fa-eye-slash' : passwordType=='text'}"></i>
+											</span>
 										</div>
+										<p class="help-block error" ng-show="form.password.$invalid && !form.password.$error.password">This field is mandatory</p>
 									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
+									<p>By signing up, you agree to our <a href="http://www.cbd.int/terms" target="_blank">Terms of Use</a> and confirm that you have read our <a href="http://www.cbd.int/privacy" target="_blank">Privacy Policy</a>.</p>
+
+									<button type="submit" class="btn btn-primary">Submit</button>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<p>By signing up, you agree to our <a href="http://www.cbd.int/terms" target="_blank">Terms of Use</a> and confirm that you have read our <a href="http://www.cbd.int/privacy" target="_blank">Privacy Policy</a>.</p>
-
-					<button type="submit" class="btn btn-primary">Submit</button>
 
 				</form>
 			</div>
