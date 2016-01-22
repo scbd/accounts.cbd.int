@@ -39,6 +39,11 @@
 									<div class="alert alert-danger" ng-cloak ng-show="error">
 										<strong>Error!</strong>
 										<div>{{error.message}}</div>
+										<div ng-if="error.fields && error.fields.length>0">Fields :
+											<ul >
+												<li ng-repeat="field in error.fields">{{field}}</li>
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
