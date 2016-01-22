@@ -1,6 +1,6 @@
 define(['app', 'angular'], function (app, ng) { 'use strict';
 
-	app.factory('authentication', ["$http", "$q", function($http, $q) {
+	app.factory('authentication', ["$http", "$q", '$rootScope', function($http, $q, $rootScope) {
 
 		var currentUser = null;
 
@@ -17,6 +17,11 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 			currentUser = $http.get('/api/v2013/authentication/user').then(function onsuccess (response) {
 
 				currentUser = response.data;
+				if (currentUser && currentUser.isAuthenticated && !currentUser.isEmailVerified) {
+	                $rootScope.$broadcast('event:auth-emailVerification', {
+	                    message: 'Email verification pending. Please verify you email before submitting any data.'
+	                });
+	            }
 
 				return currentUser;
 
