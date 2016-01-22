@@ -1,4 +1,5 @@
-require('app').controller('SignupController', ['$scope', '$http', '$filter', function ($scope, $http, $filter) {
+require('app').controller('SignupController', ['$scope','referrer', function ($scope,referrer) {
 
+  $scope.referrer = referrer.get();
 
 }]);

@@ -8,17 +8,18 @@ require.config({
         'async'           : 'libs/requirejs-plugins/src/async',
         'lodash'          : 'libs/lodash/lodash.min',
         'text'            : 'libs/text/text',
-        'urijs'           : 'libs/urijs/src'
+        'urijs'           : 'libs/urijs/src',
+
     }
 });
 
 if (!require.defined('angular')) {
-    define('angular', [], function() { 
+    define('angular', [], function() {
         return window.angular;
     });
 }
 
-require(['angular', 'app', 'routes', 'template', 'authentication', 'providers/extended-route'], function (ng, app) {
+require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
 
     ng.element(document).ready(function () {
          ng.bootstrap(document, [app.name]);

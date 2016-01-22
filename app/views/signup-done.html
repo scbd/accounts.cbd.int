@@ -18,6 +18,13 @@
 				<p>Please note, it can take up to an hour upon signing up for you to receive your welcome email. If you are unable to locate the welcome email in your inbox, check your spam/junk folder. If you still can’t locate the welcome email in your inbox or spam/junk folders, click on the button below for us to resend the welcome email.</p>
 
 				<a href="/activate/resend" class="btn btn-warning">Resend the welcome email</a>
+				<script>
+					function referrer(){
+							location.href=document.referrer
+					}
+				</script>
+
+				<a onclick="location.href=document.referrer;" class="btn btn-success">Proceed</a>
 			</div>
 
 		</div>
