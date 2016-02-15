@@ -18,6 +18,14 @@
 				  return unescape(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
 				}
 
+				function validateSignupType(){
+					var signupType = getQueryStringValue("signupType")
+					if(signupType == 'NOMINATION'){
+						window.location.href = '/password/reset/set?key=' + getQueryStringValue("key")
+						 						+ '&signupType=' + getQueryStringValue("signupType");
+					}
+				}
+
 				var headers = { Authorization: "Ticket " + getQueryStringValue("key") };
 		        $.ajax({
 					url:'https://km-api.cbd.int/api/v2013/activate/email',
@@ -26,13 +34,18 @@
 					success : function onsuccess (response) {
 		                $('#success').css('display','block');
 						$('#validatingLink').css('display','none');
+						validateSignupType();
 		            },
 					error : function onerror (error, status, data) {
 		                $('#error').text(error.responseJSON.message);
 						$('#error').css('display','block');
 						$('#validatingLink').css('display','none');
+						if(error.responseJSON.message == 'The email was already verified')
+							validateSignupType();
 		            }
 				});
+
+
 			});
 	</script>
 

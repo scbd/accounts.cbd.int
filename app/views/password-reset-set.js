@@ -75,6 +75,8 @@ define(['app', 'directives/security/password-rules'], function() {
     });
 
     init();
-
+    if($location.search().signupType == 'NOMINATION'){
+        $scope.initialized = true;
+    }
 }];
 });
