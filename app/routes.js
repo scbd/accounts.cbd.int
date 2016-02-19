@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'authentication', 'providers/extended-route'], function (app, _) { 'use strict';
+define(['app', 'lodash', 'authentication', 'providers/extended-route', 'providers/realm'], function (app, _) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
