@@ -19,6 +19,9 @@ if (!require.defined('angular')) {
     });
 }
 
+if (!require.defined('_slaask'))
+    define("_slaask", window._slaask);
+
 require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
 
     ng.element(document).ready(function () {

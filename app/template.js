@@ -1,4 +1,4 @@
-define(['app','lodash'], function (app, _) { 'use strict';
+define(['app','lodash', '_slaask'], function (app, _, _slaask) { 'use strict';
 
 	app.controller('TemplateController', ['$scope', '$window', 'authentication', '$q', function ($scope, $window, authentication, $q) {
 
@@ -21,6 +21,31 @@ define(['app','lodash'], function (app, _) { 'use strict';
 				$scope.user = user;
 			});
 		}
+
+        $scope.$watch('user', _.debounce(function(user) {
+
+            if (!user)
+                return;
+
+            if (user.isAuthenticated) {
+                _slaask.identify(user.name, {
+                    'user-id' : user.userID,
+                    'name' : user.name,
+                    'email' : user.email,
+                });
+
+                if(_slaask.initialized) {
+                    _slaask.slaaskSendUserInfos();
+                }
+            }
+
+            if(!_slaask.initialized) {
+                _slaask.init('2aa724f97b4c0b41a2752528214cccb2');
+                _slaask.initialized = true;
+            }
+
+        }, 1000));
+
 	}]);
 
 });
