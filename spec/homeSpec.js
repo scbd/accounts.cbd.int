@@ -4,7 +4,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
   var EC = protractor.ExpectedConditions;
 
   beforeEach(function() {
-    browser.get('/signin');
+    browser.get('/');
     browser.driver.sleep(1);
     browser.waitForAngular();
     //       spyOn(console, 'error');
@@ -13,6 +13,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
 
   it('should have a title', function() { //jshint ignore:line
+    if(browser)
     expect(browser.getTitle()).toEqual('Accounts: Convention on Biological Diversity');
   }); // it
 
@@ -30,7 +31,7 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
   it('should not report errors when the page is loaded', function() {
 
-        if (browser.browserName !== 'internet explorer') {
+        if (browser && browser.browserName !== 'internet explorer') {
           var count = 0;
           browser.manage().logs().get('browser').then(function(browserLog) {
 
