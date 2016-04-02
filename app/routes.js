@@ -16,7 +16,7 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
             when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolveUser : true, resolveController : true }).
             when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , resolveUser : true, }).
             when('/profile',              { templateUrl: '/app/views/profile.html'              , resolveUser : true, resolveController : true, resolve : { securized : securize() } }).
-            when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolveUser : true, resolve : { securized : securize() } }).
+            when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolveUser : true, resolveController : true,resolve : { securized : securize() } }).
             when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
             when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
             when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser : true, resolveController : true }).
