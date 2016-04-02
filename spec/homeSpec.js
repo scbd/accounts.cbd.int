@@ -7,6 +7,9 @@ describe('Sign-In Page', function() { //jshint ignore:line
     browser.get('/');
     browser.driver.sleep(1);
     browser.waitForAngular();
+    browser.getCapabilities().then(function(cap) {
+      browser.browserName = cap.caps_.browserName;
+    });
     //       spyOn(console, 'error');
   }); // it
 
