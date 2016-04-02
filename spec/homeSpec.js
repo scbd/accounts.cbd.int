@@ -30,21 +30,21 @@ describe('Sign-In Page', function() { //jshint ignore:line
 
 
   it('should not report errors when the page is loaded', function() {
+        if (browser)
+          if ((browser.browserName !== 'internet explorer')) {
+            var count = 0;
+            browser.manage().logs().get('browser').then(function(browserLog) {
 
-        if (browser && browser.browserName !== 'internet explorer') {
-          var count = 0;
-          browser.manage().logs().get('browser').then(function(browserLog) {
+              for (var i = 0; i < browserLog.length; i++) {
+                if (browserLog[i].level.name === 'SEVERE') {
+                  count++;
+                  console.log('-----------------------', browserLog[i]);
+                }
 
-            for (var i = 0; i < browserLog.length; i++) {
-              if (browserLog[i].level.name === 'SEVERE'){
-                    count++;
-                    console.log('-----------------------',browserLog[i]);
               }
-
-            }
-            expect(count).toEqual(0);
-          });
-        }
+              expect(count).toEqual(0);
+            });
+          }
     });
 
 });
