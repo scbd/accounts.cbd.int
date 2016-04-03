@@ -5,7 +5,7 @@
 			<button type="button" class="close" style="position:relative;top:5px;padding:0;margin:0;" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			<h1 style="margin:0;padding:0;">Done. Your profile has been successfully updated.</h1>
 		</div>
-		<div class="alert alert-info alert-dismissible" role="alert">
+		<div class="alert alert-info alert-dismissible" role="alert" ng-if="returnUrl!=='/'">
 			<span>You will be redirected in: <h3>{{redirectTime}}</h3></span>
 			<span>Or click this link: <a href="{{returnUrl}}">{{returnUrl}}</a></span>
 		</div>
