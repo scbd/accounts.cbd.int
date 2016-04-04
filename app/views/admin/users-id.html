@@ -1,20 +1,41 @@
-<div class="row">
+<div class="row" id="users-id">
 	<div class="col-md-10 col-sm-12">
 		<h1 ng-hide="document.UserID">Create a new user profile</h1>
 		<h1 ng-show="document.UserID">Update a user profile</h1>
 
+        <div ng-switch="error.code" ng-cloak ng-show="error">
 
+    		<div ng-switch-when="mandatory" class="alert alert-warning">
+    			<strong>Mandatory!</strong>
+    			<div>One or more mandatory fields not set.</div>
+    		</div>
 
+    		<div ng-switch-when="email" class="alert alert-warning">
+    			<strong>Email address!</strong>
+    			<div>Email format is invalid.</div>
+    		</div>
 
-		<div class="alert alert-danger" ng-cloak ng-show="error">
-			<strong>Error as occured...</strong>
-			<div>{{error}}</div>
-		</div>
+    		<div ng-switch-when="emailExists" class="alert alert-warning">
+    			<strong>Email address!</strong>
+    			<div>Email address already in use.</div>
+    		</div>
+
+    		<div ng-switch-when="forbidden" class="alert alert-warning">
+    			<strong>Authorization error!</strong>
+    			<div>Your are not authorized to perform this action.</div>
+    		</div>
+
+    		<div ng-switch-default class="alert alert-danger">
+    			<strong>Unmagaed error as occured...</strong>
+    			<div>{{error.message||error}}</div>
+    		</div>
+
+        </div>
 
 		<div ng-show="status=='loading'"><em>Loading...</em></div>
 
 		<div ng-hide="status=='hidden'||status=='loading'">
-			<form name="form" role="form" ng-submit="onPostSave()">
+			<form name="form" role="form" ng-submit="save()" novalidate>
 
 				<div class="panel panel-default panel-identity">
 					<div class="panel-body">
@@ -27,15 +48,17 @@
 							</div>
 							<div class="clearfix visible-xs"></div>
 							<div class="col-sm-5 col-xs-12">
-								<div class="form-group">
-									<label for="firstName">First name</label>
-									<input type="text" class="form-control" id="firstName" ng-model="document.FirstName">
+								<div class="form-group" ng-class="{ 'has-warning': form.firstName.$invalid }">
+									<label for="firstName" required>First name</label>
+									<input type="text" class="form-control" name="firstName" id="firstName" ng-model="document.FirstName" required>
+							        <p class="help-block error" ng-show="form.firstName.$invalid && !form.firstName.$error.email">This field is mandatory</p>
 								</div>
 							</div>
 							<div class="col-sm-5 col-xs-12">
-								<div class="form-group">
-									<label for="lastName">Last name *</label>
-									<input type="text" class="form-control" id="lastName" ng-model="document.LastName" required>
+								<div class="form-group" ng-class="{ 'has-warning': form.lastName.$invalid }">
+									<label for="lastName" required>Last name</label>
+									<input type="text" class="form-control" name="lastName" id="lastName" ng-model="document.LastName" required>
+				                    <p class="help-block error" ng-show="form.lastName.$invalid && !form.lastName.$error.email">This field is mandatory</p>
 								</div>
 							</div>
 						</div>
@@ -49,23 +72,12 @@
 							<label for="department">Department</label>
 							<input type="text" class="form-control" id="department" ng-model="document.Department">
 						</div>
-						<div class="form-group">
-							<label for="organization">Organization</label>
-							<input type="text" class="form-control" id="organization" ng-model="document.Organization">
+						<div class="form-group" ng-class="{ 'has-warning': form.organization.$invalid }">
+							<label for="organization" required>Organization</label>
+							<input type="text" class="form-control" name="organization" id="organization" ng-model="document.Organization" required>
+							<p class="help-block error" ng-show="form.organization.$invalid && !form.organization.$error.email">This field is mandatory</p>
 						</div>
-						<!-- <div class="row">
-							<div class="col-sm-2 col-xs-6">
-								<div class="form-group">
-									<label for="gender">Gender</label>
-									<select class="form-control" id="gender" ng-model="document.Gender">
-										<option></option>
-										<option>Female</option>
-										<option>Male</option>
-										<option>Other</option>
-									</select>
-								</div>
-							</div>
-						</div> -->
+
 					</div>
 				</div>
 
@@ -128,15 +140,18 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-6 col-xs-12">
-								<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
-									<label>Email</label>
+								<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid || error.code =='email' || error.code == 'emailExists' }">
+									<label required>Email</label>
 									<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
 										<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
 										<input type="email" name="email" class="form-control" ng-model="document.Email" placeholder="email@domain.xyz" required>
 									</div>
-									<p class="help-block error" ng-show="form.email.$invalid && !form.email.$error.email">This field is mandatory</p>
+									<p class="help-block error" ng-show=" form.email.$error.required">This field is mandatory</p>
+									<p class="help-block error" ng-show="!form.email.$error.required && (form.email.$error.email || error.code =='email')">Email address format is invalid</p>
+									<p class="help-block error" ng-show="error.code =='emailExists'">Email address already in use</p>
 								</div>
 							</div>
+
 							<div class="col-sm-6 col-xs-12">
 								<div class="form-group">
 									<label>Alternate email addresses</label>

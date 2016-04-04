@@ -1,125 +1,191 @@
-define(['app', 'lodash', 'authentication', 'directives/bootstrap/dual-list', 'directives/forms-input-list'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 'directives/forms-input-list'], function(app, _, ng, $) { 'use strict';
 
-    return ["$http", "authentication", '$scope' , '$filter', '$location', '$route', '$q', function ($http, authentication, $scope, $filter, $location, $route, $q) {
+    return ["$http", '$scope' , '$filter', '$location', '$route', '$q', function ($http, $scope, $filter, $location, $route, $q) {
 
-    //==================================
-    //
-    //==================================
-    $http.get("/api/v2013/countries").then(function(result) {
+        var initialUser  = {};
+        var initialRoles = [];
 
-        var sortedData = $filter('orderBy')(result.data, 'name.en');
+        //==================================
+        //
+        //==================================
+        $scope.save = save;
 
-        $scope.countries = _.map(sortedData, function(o) {
-            return { code : o.code.toLowerCase(), name: o.name.en };
+        $scope.$watch('phones+faxes+emailsCc', function () {
+            if($scope.document) {
+                $scope.document.Phone    = ($scope.phones  ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+                $scope.document.Fax      = ($scope.faxes   ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+                $scope.document.EmailsCc = ($scope.emailsCc||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+            }
         });
-    });
 
-    //==================================
-    //
-    //==================================
-    $http.get("/api/v2013/roles", { cache: true }).then(function(response) {
-        $scope.roleList = excludeAutomaticRoles($filter('orderBy')(response.data, 'name'));
-    });
+        load();
 
-    //==================================
-    //
-    //==================================
-    function excludeAutomaticRoles(roles) {
-        return _.filter(roles, function(r){
-            return r !==  9 && r.roleId !==  9 && // User
-                   r !== 17 && r.roleId !== 17 && // Everyone
-                   r !== 18 && r.roleId !== 18;   // Anonymous
-        });
-    }
+        return this;
 
-    //==================================
-    //
-    //==================================
-    function load() {
+        //==================================
+        //
+        //==================================
+        function loadList() {
 
-        if($route.current.params.id=='new') {
-            $scope.initialRoles = [];
-        } else {
-            $http.get('/api/v2013/users/'+$route.current.params.id).success(function (data) {
+            var q1 = $http.get("/api/v2013/countries", { cache: true }).then(function(result) {
 
-                if(data.Government=="eur")
-                    data.Government = "eu"; // BCH country patch
+                var sortedData = $filter('orderBy')(result.data, 'name.en');
 
-                $scope.document = data;
-                $scope.phones = ($scope.document.Phone||'').split(';');
-                $scope.faxes  = ($scope.document.Fax  ||'').split(';');
-                $scope.emailsCc  = ($scope.document.EmailsCc  ||'').split(';');
-            }).error(function (data) {
-                alert('ERROR\r\n----------------\r\n'+data.message);
+                $scope.countries = _.map(sortedData, function(o) {
+                    return { code : o.code.toLowerCase(), name: o.name.en };
+                });
             });
 
-            $http.get('/api/v2013/users/'+$route.current.params.id+'/roles').success(function (data) {
-                $scope.roles        = excludeAutomaticRoles(data);
-                $scope.initialRoles = excludeAutomaticRoles(data);
-            }).error(function (data) {
-                alert('ERROR\r\n----------------\r\n'+data.message);
+            var q2 = $http.get("/api/v2013/roles", { cache: true }).then(function(response) {
+                $scope.roleList = excludeAutomaticRoles($filter('orderBy')(response.data, 'name'));
+            });
+
+            return $q.all([q1, q2]);
+        }
+
+        //==================================
+        //
+        //==================================
+        function load() {
+
+            var userId = $route.current.params.id;
+
+            loadList().then(function() {
+
+                if(userId=='new') {
+                    applyUser ({});
+                    applyRoles([]);
+                    return;
+                }
+
+                var qUser = $http.get('/api/v2013/users/'+userId).then(function (res) {
+                    return applyUser(res.data);
+                });
+
+                var qRoles = $http.get('/api/v2013/users/'+userId+'/roles').then(function (res) {
+                    return applyRoles(res.data);
+                });
+
+                return $q.all([qUser, qRoles]);
+
+            }).catch(handleError);
+        }
+
+        //==================================
+        //
+        //==================================
+        function applyUser(user) {
+
+            if(user.Government=="eur")
+                user.Government = "eu"; // BCH country patch
+
+            initialUser  = _.clone(user, true);
+
+            $scope.document = user;
+            $scope.phones   = (user.Phone   ||'').split(';');
+            $scope.faxes    = (user.Fax     ||'').split(';');
+            $scope.emailsCc = (user.EmailsCc||'').split(';');
+
+            return user;
+        }
+
+        //==================================
+        //
+        //==================================
+        function applyRoles(roles) {
+
+            roles = excludeAutomaticRoles(roles);
+
+            initialRoles = _.clone(roles, true);
+
+            $scope.roles = roles;
+
+            return roles;
+        }
+
+        //==================================
+        //
+        //==================================
+        function save() {
+
+            if($scope.form.$error.required) {
+                handleError({ code : 'mandatory' });
+                return;
+            }
+
+            $q.when($scope.document).then(function(user) {
+
+                var oldUserJson = ng.toJson(initialUser);
+                var newUserJson = ng.toJson(user);
+
+                if(oldUserJson==newUserJson)
+                    return user;
+
+                return updateUser(user);
+
+            }).then(function(user) {
+
+                return updateRoles(user.UserID, $scope.roles);
+
+            }).then(function(){
+
+                $location.path('/admin/users');
+
+            }).catch(handleError);
+        }
+
+        //==================================
+        //
+        //==================================
+        function excludeAutomaticRoles(roles) {
+            return _.filter(roles, function(r){
+                return r !==  9 && r.roleId !==  9 && // User
+                       r !== 17 && r.roleId !== 17 && // Everyone
+                       r !== 18 && r.roleId !== 18;   // Anonymous
             });
         }
-    }
 
-    $scope.$watch('phones+faxes+emailsCc', function () {
-        if($scope.document) {
-            $scope.document.Phone = ($scope.phones||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
-            $scope.document.Fax   = ($scope.faxes ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
-            $scope.document.EmailsCc   = ($scope.emailsCc ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
+        //==================================
+        //
+        //==================================
+        function updateUser(user) {
+
+            if(!user.UserID) return $http.post('/api/v2013/users/',             user).then(function(res) { return applyUser(res.data); } );
+            else             return $http.put ('/api/v2013/users/'+user.UserID, user).then(function()    { return user; } );  // uodate does not return the user;
         }
-    });
 
-    //==================================
-    //
-    //==================================
-    $scope.onPostSave = function() {
+        //==================================
+        //
+        //==================================
+        function updateRoles(userId, roles) {
 
-        if($route.current.params.id=='new') {
+            var rolesToGrant  = _.difference(roles, initialRoles);
+            var rolesToRevoke = _.difference(initialRoles, roles);
 
-            $http.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data) {
-                $scope.document = data;
-                $scope.actionUpdateRoles();
+            var tasks = [];
 
-            }).error(function (data) {
-                $scope.error = data.message;
+            rolesToGrant.forEach(function grantRole (role) {
+                tasks.push($http.put('/api/v2013/users/'+userId+'/roles/'+role));
             });
 
-        } else {
+            rolesToRevoke.forEach(function grantRole (role) {
+                tasks.push($http.delete('/api/v2013/users/'+userId+'/roles/'+role));
+            });
 
-            $http.put('/api/v2013/users/'+$scope.document.UserID, angular.toJson($scope.document)).success(function () {
-                $scope.actionUpdateRoles();
-            }).error(function (data) {
-                $scope.error = data.message;
+            return $q.all(tasks).then(function(){
+                return applyRoles(roles);
             });
         }
-    };
 
-    //==================================
-    //
-    //==================================
-    $scope.actionUpdateRoles = function() {
+        //==================================
+        //
+        //==================================
+        function handleError (err) {
+            err = (err||{}).data || err || {};
+            $scope.error = err;
 
-        var rolesToGrant  = _.difference($scope.roles, $scope.initialRoles);
-        var rolesToRevoke = _.difference($scope.initialRoles, $scope.roles);
-
-        var tasks = [];
-
-        rolesToGrant.forEach(function grantRole (role) {
-            tasks.push($http.put('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
-        });
-
-        rolesToRevoke.forEach(function grantRole (role) {
-            tasks.push($http.delete('/api/v2013/users/'+$scope.document.UserID+'/roles/'+role));
-        });
-
-        $q.all(tasks).then(function done () {
-            $location.path('/admin/users');
-        });
-    };
-
-    load();
-
-}];
+            $('html, body').animate({ scrollTop: $("#users-id").offset().top }, 250);
+        }
+    }];
 
 });
