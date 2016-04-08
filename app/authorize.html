@@ -36,12 +36,14 @@ function setCookie(cname, cvalue, exdays)
     document.cookie =  parts.join("; ");
 }
 
-var allowedHosts = [ 'absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'training-absch', 'dev-absch', 'dev-chm' ];
+var allowedHosts = [ 'absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'localhost', 'training-absch', 'dev-absch', 'dev-chm' ];
 
 function receiveMessage(event) {
 
     var origin = event.origin;
     
+    if(origin.startsWith('http://localhost')) origin = 'https://localhost.cbddev.xyz';
+
     var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
     var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
     var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
