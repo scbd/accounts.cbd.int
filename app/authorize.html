@@ -36,41 +36,17 @@ function setCookie(cname, cvalue, exdays)
     document.cookie =  parts.join("; ");
 }
 
-function contains(values, value)
-{
-    if(!values)        return false;
-    if(values.indexOf) return values.indexOf(value)>=0;
-
-    for(var i=0;i<values.length; ++i)
-        if(values[i]===value)
-            return true;
-
-    return false;
-}
-
-function fixOrigin(origin)
-{
-    if(origin && origin.indexOf("http://localhost:")===0)
-        return 'http://localhost';
-
-    return origin;
-}
-
-var origins = [
-    'https://absch.cbd.int', 'https://training-absch.cbd.int', 'http://absch.infra.cbd.int', 'https://dev-absch.cbd.int', // ABSCH
-    'https://lifeweb.cbd.int', 'http://lifeweb.infra.cbd.int',  // LIFEWEB
-    'https://chm.cbd.int', 'https://dev-chm.cbd.int', // CHM
-    'https://www.cbd.int', // WWW
-    'https://bch.cbd.int', // BCH
-    'https://inde.cbd.int', //inde
-    'https://eunomia.cbd.int', //inde    
-    'http://localhost',     // DEVELOPMENT on localhost,
-    'https://absch.cbddev.xyz', 
-    'https://chm.cbddev.xyz'
-];
+var allowedHosts = [ 'absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'training-absch', 'dev-absch', 'dev-chm' ];
 
 function receiveMessage(event) {
-    if(contains(origins, fixOrigin(event.origin))) {
+
+    var origin = event.origin;
+    
+    var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
+    var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
+    var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
+
+    if(originDomain==secureDomain && allowedHosts.includes(originHost)) {
 
         var message = JSON.parse(event.data);
 
