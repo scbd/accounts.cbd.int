@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<body>
 <script>
 
 function getCookie(cname) {
+    
     var name = cname + "=";
     var ca = document.cookie.split(';');
 
@@ -74,9 +75,12 @@ function receiveMessage(event) {
         var message = JSON.parse(event.data);
 
         if(message.type=='getAuthenticationToken') {
+            
             var response = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken'), authenticationEmail: getCookie('email') };
+            
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
+        
         if(message.type=='setAuthenticationToken') {
 
             if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken);
@@ -91,6 +95,5 @@ function receiveMessage(event) {
 window.addEventListener('message', receiveMessage, false);
 
 </script>
-<body>
 </body>
 </html>
