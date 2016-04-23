@@ -95,6 +95,7 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
 			{
 				var trustedHosts = [
 					"absch.cbd.int", 'training-absch.cbd.int', 'dev-absch.cbd.int',
+					"eunomia.cbd.int",
 					"bch.cbd.int",
 					"chm.cbd.int", 'dev-chm.cbd.int',
 					'lifeweb.cbd.int',
