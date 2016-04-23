@@ -40,11 +40,11 @@ var allowedHosts = [ 'absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'local
 
 function receiveMessage(event) {
 
-    var origin = event.origin;
-    
-    if(origin.startsWith('http://localhost')) origin = 'https://localhost.cbddev.xyz';
-
     var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
+    var origin = event.origin;
+
+    if(origin=='http://localhost' || origin.startsWith('http://localhost:')) origin = 'https://localhost.'+secureDomain;
+
     var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
     var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
 
