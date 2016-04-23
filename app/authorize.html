@@ -4,7 +4,7 @@
 <script>
 
 function getCookie(cname) {
-    
+
     var name = cname + "=";
     var ca = document.cookie.split(';');
 
@@ -36,7 +36,7 @@ function setCookie(cname, cvalue, exdays)
     document.cookie =  parts.join("; ");
 }
 
-var allowedHosts = [ 'absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'localhost', 'training-absch', 'dev-absch', 'dev-chm' ];
+var allowedHosts = [ 'www','absch', 'bch', 'chm', 'eunomia', 'inde', 'lifeweb', 'localhost', 'training-absch', 'dev-absch', 'dev-chm' ];
 
 function receiveMessage(event) {
 
@@ -53,12 +53,12 @@ function receiveMessage(event) {
         var message = JSON.parse(event.data);
 
         if(message.type=='getAuthenticationToken') {
-            
+
             var response = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken'), authenticationEmail: getCookie('email') };
-            
+
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
-        
+
         if(message.type=='setAuthenticationToken') {
 
             if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken);
