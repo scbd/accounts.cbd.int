@@ -43,7 +43,7 @@ function receiveMessage(event) {
     var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
     var origin = event.origin;
 
-    if(origin=='http://localhost' || origin.startsWith('http://localhost:')) origin = 'https://localhost.'+secureDomain;
+    if(origin=='http://localhost' || /^http:\/\/localhost:/.test(origin)) origin = 'https://localhost.'+secureDomain;
 
     var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
     var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
