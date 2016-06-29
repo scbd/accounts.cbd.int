@@ -21,7 +21,10 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 // SET TEMPLATE
 
-app.get('/*', (req, res) => res.sendFile(__dirname + '/app/template.html'));
+app.get('/*', (req, res) => {
+	res.cookie('VERSION', process.env.VERSION);
+	res.sendFile(__dirname + '/app/template.html');
+});
 
 // START HTTP SERVER
 

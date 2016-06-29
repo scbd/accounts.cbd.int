@@ -8,10 +8,13 @@ COPY package.json bower.json .bowerrc .npmrc ./
 
 RUN npm install -q
 
+COPY . ./
+
 ENV PORT 8000
 
 EXPOSE 8000
 
-COPY . ./
+ARG VERSION
+ENV VERSION $VERSION
 
 CMD [ "node", "server" ]
