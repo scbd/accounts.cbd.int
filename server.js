@@ -4,7 +4,7 @@ var express = require('express');
 var proxy   = require('http-proxy').createProxyServer({});
 var app     = express();
 
-var version = (process.env.VERSION || String(new Date().getTime()));
+var version = (process.env.VERSION || String(new Date().getTime()/10000-145430280|0)).substr(0, 7); // 1234567
 
 proxy.on('error', function () { }); // ignore proxy errors
 
