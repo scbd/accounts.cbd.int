@@ -10,7 +10,8 @@ require.config({
         'text'            : 'libs/text/text',
         'urijs'           : 'libs/urijs/src',
 
-    }
+    },
+    urlArgs: cookie.replace(/(?:(?:^|.*;\s*)VERSION\s*\=\s*([^;]*).*$)|^.*$/, 'v=$1');
 });
 
 if (!require.defined('angular')) {

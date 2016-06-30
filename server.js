@@ -13,6 +13,8 @@ app.use(require('morgan')('dev'));
 
 app.use('/app/libs', express.static(__dirname + '/app/libs'));
 app.use('/app',      express.static(__dirname + '/app'));
+app.use('/app/libs', express.static(__dirname + '/app/libs', { setHeaders: setCustomCacheControl }));
+app.use('/app',      express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
 app.get('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 
 app.all('/api/*', (req, res) => proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true }));
@@ -33,3 +35,9 @@ app.listen(process.env.PORT || 8000, function () {
 });
 
 process.on('SIGTERM', ()=>process.exit());
+
+function setCustomCacheControl(res, path) {
+	if(res.req.query.v == process.env.VERSION) {
+     	res.setHeader('Cache-Control', 'public, max-age=86400000')
+   	}
+}
