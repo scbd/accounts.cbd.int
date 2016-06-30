@@ -72,7 +72,7 @@ function receiveMessage(event) {
             if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
 
             if(message.expiration)        setCookie('expiration', message.expiration, 365);
-            if(message.expiration===null) setCookie('expiration', null); //Delete the cookie
+            else                          setCookie('expiration', null); //Delete the cookie
         }
     }
 }
