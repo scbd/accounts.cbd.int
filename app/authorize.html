@@ -73,10 +73,14 @@ function receiveMessage(event) {
 
             if(message.expiration)        setCookie('expiration', message.expiration, 365);
 <<<<<<< HEAD
+<<<<<<< HEAD
             else                          setCookie('expiration', null); //Delete the cookie
 =======
             if(message.expiration===null) setCookie('expiration', null); //Delete the cookie
 >>>>>>> add token expiry to cookie
+=======
+            else                          setCookie('expiration', null); //Delete the cookie
+>>>>>>> set expiration to null when use signs out
         }
     }
 }
