@@ -4,6 +4,8 @@ var express = require('express');
 var proxy   = require('http-proxy').createProxyServer({});
 var app     = express();
 
+var version = (process.env.VERSION || String(new Date().getTime()));
+
 proxy.on('error', function () { }); // ignore proxy errors
 
 // Http calls debug
@@ -11,8 +13,6 @@ app.use(require('morgan')('dev'));
 
 // SET ROUTES
 
-app.use('/app/libs', express.static(__dirname + '/app/libs'));
-app.use('/app',      express.static(__dirname + '/app'));
 app.use('/app/libs', express.static(__dirname + '/app/libs', { setHeaders: setCustomCacheControl }));
 app.use('/app',      express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
 app.get('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
@@ -24,7 +24,7 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 // SET TEMPLATE
 
 app.get('/*', (req, res) => {
-	res.cookie('VERSION', process.env.VERSION);
+	res.cookie('VERSION', version);
 	res.sendFile(__dirname + '/app/template.html');
 });
 
@@ -37,7 +37,7 @@ app.listen(process.env.PORT || 8000, function () {
 process.on('SIGTERM', ()=>process.exit());
 
 function setCustomCacheControl(res, path) {
-	if(res.req.query.v == process.env.VERSION) {
+	if(res.req.query.v == version) {
      	res.setHeader('Cache-Control', 'public, max-age=86400000')
    	}
 }
