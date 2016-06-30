@@ -11,7 +11,7 @@ require.config({
         'urijs'           : 'libs/urijs/src',
 
     },
-    urlArgs: cookie.replace(/(?:(?:^|.*;\s*)VERSION\s*\=\s*([^;]*).*$)|^.*$/, 'v=$1');
+    urlArgs: document.cookie.replace(/(?:(?:^|.*;\s*)VERSION\s*\=\s*([^;]*).*$)|^.*$/, 'v=$1')
 });
 
 if (!require.defined('angular')) {
