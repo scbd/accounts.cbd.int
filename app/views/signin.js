@@ -1,7 +1,8 @@
-define(['urijs/URI', 'app', 'authentication'], function(URI) {
+define(['urijs/URI', 'app', 'scbd-angularjs-services/authentication'], function(URI) {
 
 
-	return ['$scope', '$http', '$cookies', '$location', 'authentication', '$window', 'user', function ($scope, $http, $cookies, $location, authentication, $window, user) {
+	return ['$scope', '$http', '$cookies', '$location', 'authentication', '$window', 'user', '$rootScope', 
+    function ($scope, $http, $cookies, $location, authentication, $window, user, $rootScope) {
 
 	$scope.password   = "";
     $scope.email      = $cookies.get("email") || "";
@@ -10,10 +11,15 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
     $scope.isForbidden = false;
 	$scope.isAuthenticated = user.isAuthenticated;
 
-	// init sevice location
-    // $scope.clearErrors();
-
     var self = this;
+    ///////////////
+    // Incase if the user clicks header signIn which shows login 
+    // popup redirect to home after successful login
+    ///////////////
+    $rootScope.$on('signIn', function(){
+        console.log('test')
+        self.redirect();
+    });
 
     //============================================================
     //
@@ -25,23 +31,16 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
         $scope.errorTimeout = false;
         $scope.waiting      = true;
 
-        //$scope.isLoading = true;
-
-        var credentials = { 'email': $scope.email, 'password': $scope.password };
-
-        $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
-
-        	self.setCookie("authenticationToken", success.data.authenticationToken, 0, '/');
-        	self.setCookie("email", $scope.rememberMe ? $scope.email : "", 365, '/');
-
-            authentication.reset();
-
+        authentication.signIn($scope.email, $scope.password)
+        .then(function(user){ 
             self.redirect();
-        }, function onerror(error) {
-
-        	$scope.password     = "";
-            $scope.errorInvalid = error.status == 403;
-            $scope.errorTimeout = error.status != 403;
+        })
+        .catch(function onerror(error) {
+            $scope.password     = "";
+            $scope.errorInvalid = error.errorCode == 403;
+            $scope.errorTimeout = error.errorCode != 403;
+        })
+        .finally(function(){
             $scope.waiting      = false;
         });
     };
@@ -56,69 +55,43 @@ define(['urijs/URI', 'app', 'authentication'], function(URI) {
         $scope.error = null;
     };
 
+
     //============================================================
-    // TODO: USE ANGULARJS EQUIVALENT
+    //
     //
     //============================================================
-    this.setCookie = function (name, value, days, path) {
+    this.redirect = function () {
 
-        var cookieString = escape(name) + "=";
+        var returnUrl = $location.search().returnurl || $location.search().returnUrl;
 
-        if(value) cookieString += escape(value);
-        else      days = -1;
+        if(returnUrl)
+        {
+            var trustedHosts = [
+                "absch.cbd.int", 'training-absch.cbd.int', 'dev-absch.cbd.int',
+                "eunomia.cbd.int",
+                "bch.cbd.int",
+                "chm.cbd.int", 'dev-chm.cbd.int',
+                'lifeweb.cbd.int',
+                "www.cbd.int",
+                '192.168.1.68',
+                "localhost"
+            ];
 
-        if(path)
-            cookieString += "; path=" + path;
+            var url = URI.parse(returnUrl);
 
-        if(days) {
+            if(!url.hostname) {
+                $location.url(returnUrl);
+                return;
+            }
 
-            var expirationDate = new Date();
-
-            expirationDate.setDate(expirationDate.getDate() + days);
-
-            cookieString += "; expires=" + expirationDate.toUTCString();
+            if(trustedHosts.indexOf(url.hostname)>=0)  {
+                $window.location = returnUrl;
+                return;
+            }
         }
 
-        document.cookie = cookieString;
+        $location.path('/');
     };
-
-
-    //============================================================
-		//
-		//
-		//============================================================
-		this.redirect = function () {
-
-			var returnUrl = $location.search().returnurl || $location.search().returnUrl;
-
-			if(returnUrl)
-			{
-				var trustedHosts = [
-					"absch.cbd.int", 'training-absch.cbd.int', 'dev-absch.cbd.int',
-					"eunomia.cbd.int",
-					"bch.cbd.int",
-					"chm.cbd.int", 'dev-chm.cbd.int',
-					'lifeweb.cbd.int',
-					"www.cbd.int",
-					'192.168.1.68',
-					"localhost"
-				];
-
-				var url = URI.parse(returnUrl);
-
-				if(!url.hostname) {
-					$location.url(returnUrl);
-					return;
-				}
-
-				if(trustedHosts.indexOf(url.hostname)>=0)  {
-					$window.location = returnUrl;
-					return;
-				}
-			}
-
-			$location.path('/');
-		};
 
     if(user.isAuthenticated) {
 		self.redirect();

@@ -9,8 +9,16 @@ require.config({
         'lodash'          : 'libs/lodash/lodash.min',
         'text'            : 'libs/text/text',
         'urijs'           : 'libs/urijs/src',
-
-    }
+        'socket.io'                 : 'libs/socket.io-1.4.5/index',
+        'ionsound'                  : 'libs/ion-sound/js/ion.sound.min',
+        'moment'                    : 'libs/moment/min/moment.min',
+        'css'                       : 'libs/require-css/css.min',
+    },
+    packages: [
+        { name: 'scbd-branding'          , location : 'libs/scbd-branding' },
+        { name: 'scbd-angularjs-services', location : 'libs/scbd-angularjs-services/services' },
+        { name: 'scbd-angularjs-filters',  location : 'libs/scbd-angularjs-services/filters' },
+    ]
 });
 
 if (!require.defined('angular')) {
@@ -22,7 +30,7 @@ if (!require.defined('angular')) {
 if (!require.defined('_slaask'))
     define("_slaask", window._slaask);
 
-require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
+require(['angular', 'app', 'routes', 'template', 'scbd-angularjs-services/authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
 
     ng.element(document).ready(function () {
          ng.bootstrap(document, [app.name]);

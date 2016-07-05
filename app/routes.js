@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'authentication', 'providers/extended-route', 'providers/realm'], function (app, _) { 'use strict';
+define(['app', 'lodash', 'scbd-angularjs-services/authentication', 'providers/extended-route', 'providers/realm'], function (app, _) { 'use strict';
 
     app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
@@ -27,6 +27,7 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
             when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser : true, }).
             when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
             when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
+            when('/register/requests',    { templateUrl: '/app/views/notifications.html'        , resolveUser : true, resolveController : true  }).
             otherwise({redirectTo:'/help/404'});
     }]);
 
