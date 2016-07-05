@@ -1,10 +1,14 @@
-define(['app','lodash'], function (app, _) { 'use strict';
+define(['app','lodash', 'scbd-angularjs-services/authentication', 'scbd-branding/directives/header/header'], function (app, _) { 'use strict';
 
 	app.controller('TemplateController', ['$scope', '$window', 'authentication', '$q', function ($scope, $window, authentication, $q) {
 
 		$scope.$on("$routeChangeSuccess", function() { $scope.viewLoaded = true; });
 		$scope.$on('$routeChangeStart', loadCurrentUser);
 
+        $scope.$on('signOut', function(evt, data) {
+            $window.location.reload();
+        });
+        
         $scope.actionSignOut = function () {
         	authentication.signOut().finally(function () {
 				$window.location.href = $window.location.href; // force page reload to clear everyting from memory
@@ -47,7 +51,7 @@ define(['app','lodash'], function (app, _) { 'use strict';
                 }
             });
         }, 1000));
-
+        
 	}]);
 
 });

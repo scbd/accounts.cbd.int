@@ -1,4 +1,4 @@
-define(['require', 'app', 'angular', 'authentication'], function(require, app, angular) { 'use strict';
+define(['require', 'app', 'angular', 'scbd-angularjs-services/authentication'], function(require, app, angular) { 'use strict';
 
     var baseUrl = require.toUrl('');
 
