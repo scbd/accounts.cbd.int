@@ -1,4 +1,4 @@
-define(['app', 'authentication'], function(){
+define(['app', 'scbd-angularjs-services/authentication'], function(){
 
 	return ['$scope', '$location', '$window', 'authentication', 'user', function ($scope, $location, $window, authentication, user) {
 

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <base href="/">
     <meta charset="utf-8">
     <title>Accounts: Convention on Biological Diversity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Accounts: Convention on Biological Diversity">
-        <!-- Slaask. need to be placed just before require.JS script tag -->
+    <!-- Slaask. need to be placed just before require.JS script tag -->
     <script src="https://cdn.slaask.com/chat.js"></script>
     <script>
         //patch slaask to works with requireJS
-        window._slaask.createScriptTag = function (url) {
+        window._slaask.createScriptTag = function(url) {
             var t = {};
-            require([url], function() { t.onload(); });
+            require([url], function() {
+                t.onload();
+            });
             return t;
         };
     </script>
@@ -26,174 +29,137 @@
     <script src="/app/boot.js"></script>
     <link rel="shortcut icon" href="/app/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/app/css/main.css">
-    <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
+    <style>
+        [ng\:cloak],
+        [ng-cloak],
+        .ng-cloak {
+            display: none !important;
+        }
+    </style>
 </head>
+
 <body ng-controller="TemplateController" ng-class="{'home-page':xhomePage}">
+    <iframe   id="authenticationFrame" style="display:none"></iframe>
+    <script>
 
-    <nav class="navbar navbar-cbd navbar-default bg-cbdgreen navbar-static-top" id="anchorTop">
-      <div class="container container-cbd">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <a href="http://www.cbd.int"><img src="/app/img/cbd-logo-spine-white-24.png" style="height:24px;position:relative;top:-2px;padding:0;margin:0 5px;"></a>
-          <a class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1"><i class="fa fa-bars"></i></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-collapse-1" >
-          <ul class="nav navbar-nav">
-            <li><a href="http://www.cbd.int/convention/">The Convention</a></li>
-            <li><a href="http://bch.cbd.int/protocol">Cartagena Protocol</a></li>
-            <li><a href="http://www.cbd.int/abs/">Nagoya Protocol<a></li>
-            <li><a href="http://www.cbd.int/programmes/">Programmes</a></li>
-            <li><a href="http://www.cbd.int/information/">Information</a></li>
-            <li><a href="http://www.cbd.int/secretariat/">Secretariat</a></li>
+        var domain = document.location.hostname.replace(/[^\.]+\./, '');
 
-            <!--languages-->
-            <li class="navbar-right">
-                    <a class="pull-right set-languages" data-toggle="dropdown" href="#">
-                        &nbsp;&nbsp;&nbsp; <span class="badge badge-default bg-white">en</span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="disabled"><a>لعربية</a></li>
-                        <li class="disabled"><a>中文</a></li>
-                        <li><a href="#"><strong>English</strong></a></li>
-                        <li class="disabled"><a>Español</a></li>
-                        <li class="disabled"><a>Français</a></li>
-                        <li class="disabled"><a>Русский</a></li>
-                    </ul>
-            </li>
+         if(domain=='localhost') domain = 'cbddev.xyz';
 
-                <!--signin-->
-                <li ng-cloak ng-show="user && !user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
-                    <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
-                </li>
-                <li ng-cloak class="dropdown navbar-right" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
-                    <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size:15px"></i>&nbsp; {{user.name}}</a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="/profile"><i class="fa fa-user" style="font-size:15px"></i>&nbsp; Profile</a></li>
-                        <!-- <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; My Roles</a>
-                            <ul class="dropdown-menu bg-darkgrey" role="menu" style="min-width:200px">
-                              <li ng-repeat="role in user.roles|orderBy:'toString()'"><a tabindex="-1" href="#">{{role}}</a></li>
-                            </ul>
-                        </li> -->
-                        <li><a href="/password"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; Password</a></li>
-                        <li><a href="#" ng-click="actionSignOut()"><i class="fa fa-sign-out" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
-                    </ul>
-                </li>
-          </ul>
+        document.getElementById('authenticationFrame').src = 'https://accounts.'+domain+'/app/authorize.html';
 
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-
+    </script>
+    <scbd-header></scbd-header>
     <!-- PORTAL BRANDING -->
-        <nav class="navbar navbar-portal navbar-default navbar-static-top bg-white header-banner">
-            <div class="container container-portal">
-                <div class="row">
-                    <div class="col-xs-9">
-                        <a href="/" class="color-cbdgreen">
-                            <h1 style="font-size:40px;position:relative;top:26px;">
+    <nav class="navbar navbar-portal navbar-default navbar-static-top bg-white header-banner">
+        <div class="container container-portal">
+            <div class="row">
+                <div class="col-xs-9">
+                    <a href="/" class="color-cbdgreen">
+                        <h1 style="font-size:40px;position:relative;top:26px;">
                                 <span class="hidden-xs color-white">accounts.cbd.int</span>
                                 <span class="visible-xs color-white" style="font-size:18px;">accounts.cbd.int</span>
                             </h1>
-                        </a>
-                    </div>
-                    <div class="col-xs-3" style="vertical-align:middle;">
-                        <img src="/app/img/cbd-logo-white-en.svg" class="pull-right img-responsive" style="padding: 0; margin:5px 0 0 0;height:80px;" /><br>
-                    </div>
+                    </a>
+                </div>
+                <div class="col-xs-3" style="vertical-align:middle;">
+                    <img src="/app/img/cbd-logo-white-en.svg" class="pull-right img-responsive" style="padding: 0; margin:5px 0 0 0;height:80px;" /><br>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
 
-        <!-- PORTAL LINKS-->
-        <nav class="navbar navbar-links navbar-default navbar-static-top">
-            <div class="container container-links">
+    <!-- PORTAL LINKS-->
+    <nav class="navbar navbar-links navbar-default navbar-static-top">
+        <div class="container container-links">
 
-                     <div ng-cloak style="display:inline" >
-                        <a href="/"><i class="fa fa-home" ></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                        <a href="/signin" ng-hide="user.isAuthenticated"><i class="fa fa-power-off"></i> Sign In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a href="/profile" ng-show="user.isAuthenticated"><i class="fa fa-user"></i> Update My Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a href="/password" ng-show="user.isAuthenticated"><i class="fa fa-lock"></i> Change My Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a href="#"  ng-show="user.isAuthenticated" ng-click="actionSignOut()"><i class="fa fa-sign-out"></i> Sign Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                    </div>
-
-                    <div class="pull-right"  ng-cloak ng-show="user.isAuthenticated">
-                        <span ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></span>
-                    </div>
+            <div ng-cloak style="display:inline">
+                <a href="/"><i class="fa fa-home" ></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                <a href="/signin" ng-hide="user.isAuthenticated"><i class="fa fa-power-off"></i> Sign In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                <a href="/profile" ng-show="user.isAuthenticated"><i class="fa fa-user"></i> Update My Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                <a href="/password" ng-show="user.isAuthenticated"><i class="fa fa-lock"></i> Change My Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                <a href="#" ng-show="user.isAuthenticated" ng-click="actionSignOut()"><i class="fa fa-sign-out"></i> Sign Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
             </div>
-        </nav>
+
+            <div class="pull-right" ng-cloak ng-show="user.isAuthenticated">
+                <span ng-show="isAdmin()"><a ng-class="{active: portal=='home'}" href="/admin/users">User management</a></span>
+            </div>
+        </div>
+    </nav>
 
 
-    <div class="container page-content" >
-        <div><ng-view></ng-view></div>
+    <div class="container page-content">
+        <div>
+            <ng-view></ng-view>
+        </div>
     </div>
 
     <!-- FOOTER -->
     <div ng-cloak class="footer" ng-show="viewLoaded">
 
-        <div class="footer-page" >
+        <div class="footer-page">
             <div class="container footer-page-container  text-right ">
                 <a href="#top" ng-click="gotoAnchor('Top')" class="color-darkgrey"><i class="fa fa-arrow-circle-up"></i> back to top</a>
             </div>
         </div>
 
-        <div class="footer-portal" >
+        <div class="footer-portal">
             <div class="container footer-portal-container color-white">
                 <div class="row" style="padding-bottom: 20px; ">
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>The Convention</h4>
-                            <ul>
-                                <li><a href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
-                                <li><a href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
-                                <li><a href="https://www.cbd.int/sp/">Strategic Plan</a></li>
-                                <li><a href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
-                                <li><a href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>Cartagena Protocol</h4>
-                            <ul>
-                                <li><a href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
-                                <li><a href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
-                                <li><a href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
-                                <li><a href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>Nagoya Protocol</h4>
-                            <ul>
-                                <li><a href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
-                                <li><a href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
-                                <li><a href="https://absch.cbd.int/">ABS Clearing-House</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>Programmes</h4>
-                            <ul>
-                                <li><a href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
-                                <li><a href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
-                                <li><a href="https://www.cbd.int/programmes/">Major Groups</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>Information</h4>
-                            <ul>
-                                <li><a href="https://www.cbd.int/meetings/">Meetings</a></li>
-                                <li><a href="https://www.cbd.int/notifications/">Notifications</a></li>
-                                <li><a href="https://www.cbd.int/countries/">National Information</a></li>
-                                <li><a href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2">
-                            <h4>Secretariat</h4>
-                            <ul>
-                                <li><a href="https://www.cbd.int/secretariat/">Overview</a></li>
-                                <li><a href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
-                                <li><a href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
-                                <li><a href="https://www.cbd.int/contact/">Contact Us</a></li>
-                            </ul>
-                        </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>The Convention</h4>
+                        <ul>
+                            <li><a href="https://www.cbd.int/convention/text/">Text of the Convention</a></li>
+                            <li><a href="https://www.cbd.int/convention/parties/list/">List of Parties</a></li>
+                            <li><a href="https://www.cbd.int/sp/">Strategic Plan</a></li>
+                            <li><a href="https://www.cbd.int/programmes/">Programmes and Issues</a></li>
+                            <li><a href="https://www.cbd.int/cooperation/">Cooperation &amp; Partnerships</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>Cartagena Protocol</h4>
+                        <ul>
+                            <li><a href="https://bch.cbd.int/protocol/text/">Text of the Protocol</a></li>
+                            <li><a href="https://bch.cbd.int/protocol/parties/">List of Parties</a></li>
+                            <li><a href="https://bch.cbd.int/protocol/issues/cpb_stplan.shtml">Strategic Plan</a></li>
+                            <li><a href="https://bch.cbd.int/">Biosafety Clearing-House</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>Nagoya Protocol</h4>
+                        <ul>
+                            <li><a href="https://www.cbd.int/abs/text/">Text of the Protocol</a></li>
+                            <li><a href="https://www.cbd.int/abs/nagoya-protocol/signatories/">List of Parties</a></li>
+                            <li><a href="https://absch.cbd.int/">ABS Clearing-House</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>Programmes</h4>
+                        <ul>
+                            <li><a href="https://www.cbd.int/programmes/">Thematic Programmes</a></li>
+                            <li><a href="https://www.cbd.int/programmes/">Cross-Cutting Issues</a></li>
+                            <li><a href="https://www.cbd.int/programmes/">Major Groups</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>Information</h4>
+                        <ul>
+                            <li><a href="https://www.cbd.int/meetings/">Meetings</a></li>
+                            <li><a href="https://www.cbd.int/notifications/">Notifications</a></li>
+                            <li><a href="https://www.cbd.int/countries/">National Information</a></li>
+                            <li><a href="https://www.cbd.int/information/publications.shtml">Publications</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2">
+                        <h4>Secretariat</h4>
+                        <ul>
+                            <li><a href="https://www.cbd.int/secretariat/">Overview</a></li>
+                            <li><a href="https://www.cbd.int/secretariat/staff/">Staff</a></li>
+                            <li><a href="https://www.cbd.int/secretariat/vacancies/">Opportunities</a></li>
+                            <li><a href="https://www.cbd.int/contact/">Contact Us</a></li>
+                        </ul>
+                    </div>
 
                 </div>
             </div>
@@ -214,9 +180,28 @@
 
     <script>
         function addLoadEvent(func) {
-        var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func; } else { window.onload = function() { if (oldonload) { oldonload(); } func(); } } }
-        addLoadEvent(function() { outdatedBrowser( { bgColor: '#f25648', color: '#ffffff', lowerThan: 'boxShadow', languagePath: 'app/libs/outdated-browser/outdatedbrowser/lang/en.html' }) });
+            var oldonload = window.onload;
+            if (typeof window.onload != 'function') {
+                window.onload = func;
+            } else {
+                window.onload = function() {
+                    if (oldonload) {
+                        oldonload();
+                    }
+                    func();
+                }
+            }
+        }
+        addLoadEvent(function() {
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'boxShadow',
+                languagePath: 'app/libs/outdated-browser/outdatedbrowser/lang/en.html'
+            })
+        });
     </script>
 
 </body>
+
 </html>

@@ -1,4 +1,4 @@
-define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
+define(['app', 'lodash', 'scbd-angularjs-services/authentication'], function(app, _) { 'use strict';
 
     return ['$scope', '$http', '$route', '$location', '$filter', '$q', function($scope, $http, $route, $location, $filter, $q) {
 
