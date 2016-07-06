@@ -27,6 +27,7 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 // SET TEMPLATE
 
 app.get('/*', (req, res) => {
+	res.setHeader('Cache-Control', 'public, max-age=0');
 	res.cookie('VERSION', version);
 	res.sendFile(__dirname + '/app/template.html');
 });
