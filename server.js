@@ -17,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/app/libs', express.static(__dirname + '/app/libs', { setHeaders: setCustomCacheControl }));
 app.use('/app',      express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
+app.use('/',         express.static(__dirname + '/public'  , { setHeaders: setCustomCacheControl }));
 app.get('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 
 app.all('/api/*', (req, res) => proxy.web(req, res, { target: 'https://api.cbddev.xyz', changeOrigin: true }));
