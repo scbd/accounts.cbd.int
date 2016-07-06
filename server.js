@@ -1,17 +1,19 @@
 'use strict'; // jshint node: true, browser: false, esnext:true
 
-var express = require('express');
-var proxy   = require('http-proxy').createProxyServer({});
-var app     = express();
-
-var version = (process.env.VERSION || String(new Date().getTime()/10000-145430280|0)).substr(0, 7); // 1234567
+var express      = require('express');
 var cookieParser = require('cookie-parser')
+var morgan       = require('morgan');
+var proxy        = require('http-proxy').createProxyServer({});
 
 proxy.on('error', function () { }); // ignore proxy errors
 
-// Http calls debug
-app.use(require('morgan')('dev'));
+// CREATER ADD & ADD MIDDLEWARES
+
+var app = express();
 app.use(cookieParser());
+app.use(morgan('dev'));
+
+var version = (process.env.VERSION || String(new Date().getTime()/10000-145430280|0)).substr(0, 7); // 1234567
 
 // SET ROUTES
 
