@@ -3,10 +3,11 @@
   "description": "accounts.cbd.int",
   "dependencies": {
     "bower": "1.6.5",
+    "colors": "1.1.2",
+    "cookie-parser": "1.4.3",
     "express": "4.13.3",
     "http-proxy": "1.12.0",
-    "morgan": "1.6.1",
-    "colors": "1.1.2"
+    "morgan": "1.6.1"
   },
   "engine": "node >= 4.2",
   "private": true,

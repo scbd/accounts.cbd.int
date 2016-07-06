@@ -5,11 +5,13 @@ var proxy   = require('http-proxy').createProxyServer({});
 var app     = express();
 
 var version = (process.env.VERSION || String(new Date().getTime()/10000-145430280|0)).substr(0, 7); // 1234567
+var cookieParser = require('cookie-parser')
 
 proxy.on('error', function () { }); // ignore proxy errors
 
 // Http calls debug
 app.use(require('morgan')('dev'));
+app.use(cookieParser());
 
 // SET ROUTES
 
@@ -36,8 +38,22 @@ app.listen(process.env.PORT || 8000, function () {
 
 process.on('SIGTERM', ()=>process.exit());
 
+//============================================================
+//
+//
+//============================================================
 function setCustomCacheControl(res, path) {
-	if(res.req.query.v == version) {
-     	res.setHeader('Cache-Control', 'public, max-age=86400000')
-   	}
+
+	var versionWrong = false;
+	var versionMatch = false;
+
+	versionWrong |= res.req.query.v && res.req.query.v!=version;
+	versionWrong |= res.req.cookies.VERSION && res.req.cookies.VERSION!=version;
+	versionMatch |= res.req.query.v && res.req.query.v==version;
+	versionMatch |= res.req.cookies.VERSION && res.req.cookies.VERSION==version;
+
+	if(versionWrong || !versionMatch)
+		return res.setHeader('Cache-Control', 'public, max-age=0');
+
+	res.setHeader('Cache-Control', 'public, max-age=86400000');
 }
