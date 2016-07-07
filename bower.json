@@ -14,8 +14,8 @@
     "lodash": "3.10.1",
     "outdated-browser": "1.1.2",
     "requirejs": "2.1.22",
-    "scbd-angularjs-services": "1.1.28",  
-    "scbd-branding": "1.5.9",  
+    "scbd-angularjs-services": "1.1.29",
+    "scbd-branding": "1.5.10",
     "text": "requirejs-text#2.0.14",
     "urijs": "1.16.1"
   }
