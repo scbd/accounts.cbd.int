@@ -20,6 +20,12 @@ test:
   #  - docker run --net host -e SAUCE_USERNAME=$SAUCE_USERNAME -e SAUCE_ACCESS_KEY=$SAUCE_ACCESS_KEY accounts-cbd-int protractor spec/conf.js
 
 deployment:
+  staging:
+    branch: staging
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker tag accounts-cbd-int scbd/accounts-cbd-int:staging
+      - docker push scbd/accounts-cbd-int:staging
   hub:
     tag: /^v[0-9]+(\.[0-9]+)*$/
     owner: scbd
