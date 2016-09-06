@@ -1,10 +1,6 @@
-define(['angular'], function (ng) { 'use strict';
-console.log(ng)
-	//var deps = ['ngRoute', 'ngCookies'];
+define(['angular', 'ngRoute', 'ngCookies'], function (ng) { 'use strict';
 
-    //angular.defineModules(deps);
-
-    var app = ng.module('app', deps);
+	var app = ng.module('app', ['ngRoute', 'ngCookies']);
 
 	app.config(['$httpProvider', function($httpProvider){
 
