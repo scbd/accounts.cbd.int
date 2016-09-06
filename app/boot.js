@@ -5,28 +5,31 @@ require.config({
     baseUrl : '/app',
     pluginPath: 'libs/curl/src/curl/plugin',
     paths: {
+        'bootstrap'       : 'libs/bootstrap/dist/js/bootstrap.min',
+        'jquery'          : 'libs/jquery/dist/jquery.min',
+        'angular'         : 'libs/angular/angular.min',
+        'ngRoute'         : 'libs/angular-route/angular-route.min',
+        'ngCookies'       : 'libs/angular-cookies/angular-cookies.min',
         'async'           : 'libs/requirejs-plugins/src/async',
         'lodash'          : 'libs/lodash/lodash.min',
         'text'            : 'libs/text/text',
-        'urijs'           : 'libs/urijs/src',
-
+        'urijs'           : 'libs/urijs/src'
+    },
+    shim: {
+        'angular'         : { deps : ['jquery'], exports : 'window.angular' },
+        'ngRoute'         : { deps : ['angular'] },
+        'ngCookies'       : { deps : ['angular'] },
+        'bootstrap'       : { deps : ['jquery' ] }
     },
     urlArgs: document.cookie.replace(/(?:(?:^|.*;\s*)VERSION\s*\=\s*([^;]*).*$)|^.*$/, 'v=$1')
 });
 
-if (!require.defined('angular')) {
-    define('angular', [], function() {
-        return window.angular;
-    });
-}
+require(['angular', 'app', 'routes', 'template', 'authentication', 'factories/referrer', 'providers/extended-route'], function (ng, app) {
 
-if (!require.defined('_slaask'))
-    define("_slaask", window._slaask);
+    ng.element(document.documentElement).ready(function () {
 
-require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
+        ng.bootstrap(document.documentElement, [app.name]);
 
-    ng.element(document).ready(function () {
-         ng.bootstrap(document, [app.name]);
     });
 });
 

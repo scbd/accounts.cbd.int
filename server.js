@@ -56,8 +56,8 @@ function setCustomCacheControl(res, path) {
 	versionMatch |= res.req.query.v && res.req.query.v==version;
 	versionMatch |= res.req.cookies.VERSION && res.req.cookies.VERSION==version;
 
-	if(versionWrong || !versionMatch)
+//	if(versionWrong || !versionMatch)
 		return res.setHeader('Cache-Control', 'public, max-age=0');
 
-	res.setHeader('Cache-Control', 'public, max-age=86400000');
+//	res.setHeader('Cache-Control', 'public, max-age=86400000');
 }

@@ -3,20 +3,21 @@ var EC = protractor.ExpectedConditions;
 
 describe('Sign-In Page', function() {
 
-    //============================================================
+    // //============================================================
+    // //
+    // //
+    // //============================================================
+    // beforeEach(function() {
     //
-    //
-    //============================================================
-    beforeEach(function() {
-        browser.get('/signin');
-        browser.waitForAngular();
-    });
+    //     browser.waitForAngular();
+    // });
 
     //============================================================
     //
     //
     //============================================================
     it('should have a title', function() {
+        browser.get('/signin?123');
         expect(browser.getTitle()).toEqual('Accounts: Convention on Biological Diversity');
     });
 
@@ -25,6 +26,8 @@ describe('Sign-In Page', function() {
     //
     //============================================================
     it('should show alert message when invalid email/password is submitted', function() {
+
+        browser.get('/signin?123');
 
         element(by.model('email')).sendKeys('invalid_email');
         element(by.model('password')).sendKeys('invalid_password');
