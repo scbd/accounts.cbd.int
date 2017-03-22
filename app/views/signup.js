@@ -1,4 +1,6 @@
-require('app').controller('SignupController', ['$scope', '$http', '$location', '$filter', function ($scope, $http, $location, $filter) {
+define(['app', 'directives/input-email', 'directives/security/password-rules'], function(){
+
+return ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.passwordType = 'password';
     //============================================================
     //
@@ -24,5 +26,5 @@ require('app').controller('SignupController', ['$scope', '$http', '$location', '
         else
             $scope.passwordType = 'password';
     }
-
-}]);
+}];
+});
