@@ -4,15 +4,15 @@ machine:
 
 dependencies:
   post:
-    - wget https://saucelabs.com/downloads/sc-4.3-linux.tar.gz
-    - tar -xzf sc-4.3-linux.tar.gz
+    - wget https://saucelabs.com/downloads/sc-4.4.5-linux.tar.gz
+    - tar -xzf sc-4.4.5-linux.tar.gz
   override:
     - docker info
     - docker build -t output --build-arg VERSION=$CIRCLE_SHA1 .
 
 test:
   override:
-    - sc-4.3-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
+    - sc-4.4.5-linux/bin/sc -P 4444 -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY --readyfile ~/sauce_is_ready:
         background: true
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done
     - docker run -d -p 8000:8000 output

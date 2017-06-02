@@ -1,4 +1,4 @@
-define(['app', 'angular', 'directives/forms-input-list'], function(app, angular){
+define(['app', 'angular', 'directives/forms-input-list', 'directives/input-email'], function(app, angular){
 
 return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
 

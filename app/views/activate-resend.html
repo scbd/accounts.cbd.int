@@ -1,5 +1,4 @@
-<script src="/app/views/activate-resend.html.js"></script>
-<div ng-controller="ActivateResendController">
+<div>
 	<div class="row">
 		<div class="col-sm-8">
 			<h1>Activating your CBD account.</h1>
@@ -21,9 +20,12 @@
 					<div class="col-sm-8 col-xs-10">
 
 						<form name="form" role="form" ng-submit="actionSubmit()">
-							<div class="form-group" ng-class="{ 'has-error': form.email.$invalid, 'has-success': !form.email.$invalid }">
+							<div class="form-group" ng-class="{ 'has-error': form.$error.required &&form.$dirty, 'has-warning': form.email.$invalid }">
 								<label class="control-label" for="password">Email</label>
-								<input type="text" class="form-control" name="email" ng-model="email" placeholder="email@domain.xyz" required validate-email>
+                                <div class="input-group">
+                					<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                				    <input type="email" class="form-control" name="email" ng-model="email" placeholder="email@domain.xyz" required>
+                                </div>
 								<p class="help-block error" ng-show="form.email.$error.required">This field is required</p>
 								<p class="help-block error" ng-show="form.email.$error.email">Email is not valid / complete</p>
 							</div>
