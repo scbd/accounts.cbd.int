@@ -22,14 +22,16 @@ function setCookie(cname, cvalue, exdays)
 
     var parts = [cname + "=" + (cvalue||"")];
 
-    var d = new Date();
-    if(exdays && typeof exdays == 'string') {
-        d = new Date(exdays);
-    }
-    else if(exdays)
-        d.setDate(d.getDate()+exdays);
+    if(exdays) {
+        var d = new Date();
+        if(typeof exdays == 'string')
+            d = new Date(exdays)
+        else      
+            d.setDate(d.getDate()+exdays);
 
-    parts.push("expires="+d.toGMTString())
+        parts.push("expires="+d.toGMTString())
+    }    
+
     parts.push("path=/");
 
     document.cookie =  parts.join("; ");
