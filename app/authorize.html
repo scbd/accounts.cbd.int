@@ -53,9 +53,21 @@ function receiveMessage(event) {
         var message = JSON.parse(event.data);
 
         if(message.type=='getAuthenticationToken') {
-
-            var response = { type: 'authenticationToken', authenticationToken: getCookie('authenticationToken'), authenticationEmail: getCookie('email') };
-
+            
+            var response = { 
+                type                : 'authenticationToken', 
+                authenticationToken : getCookie('authenticationToken'), 
+                authenticationEmail : getCookie('email'), 
+                expiration         : getCookie('expiration') 
+            };
+            if(response && response.expiration){
+                if(new Date(response.expiration).getTime() <= new Date().getTime()){
+                    response.authenticationToken = undefined;
+                    response.authenticationEmail = undefined;
+                    response.expiration = undefined;
+                    response.sessionexpired = true;
+                }
+            }
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
 
@@ -66,6 +78,9 @@ function receiveMessage(event) {
 
             if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
             if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
+
+            if(message.expiration)        setCookie('expiration', message.expiration, 365);
+            else                          setCookie('expiration', null); //Delete the cookie
         }
     }
 }
