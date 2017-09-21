@@ -24,7 +24,7 @@ function setCookie(cname, cvalue, exdays)
 
     if(exdays) {
         var d = new Date();
-        if(typeof exdays == 'string')
+        if(typeof exdays == 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,8}Z/.test(exdays))
             d = new Date(exdays)
         else      
             d.setDate(d.getDate()+exdays);
