@@ -23,13 +23,14 @@ function setCookie(cname, cvalue, exdays)
     var parts = [cname + "=" + (cvalue||"")];
 
     if(exdays) {
-
         var d = new Date();
-
-        d.setDate(d.getDate()+exdays);
+        if(typeof exdays == 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,8}Z/.test(exdays))
+            d = new Date(exdays)
+        else      
+            d.setDate(d.getDate()+exdays);
 
         parts.push("expires="+d.toGMTString())
-    }
+    }    
 
     parts.push("path=/");
 
@@ -62,9 +63,6 @@ function receiveMessage(event) {
             };
             if(response && response.expiration){
                 if(new Date(response.expiration).getTime() <= new Date().getTime()){
-                    response.authenticationToken = undefined;
-                    response.authenticationEmail = undefined;
-                    response.expiration = undefined;
                     response.sessionexpired = true;
                 }
             }
@@ -73,7 +71,7 @@ function receiveMessage(event) {
 
         if(message.type=='setAuthenticationToken') {
 
-            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken);
+            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, message.expiration);
             else                            setCookie('authenticationToken', null); //Delete the cookie
 
             if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
