@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" git-version="<%=gitVersion%>">
 <head>
     <base href="/">
     <meta charset="utf-8">
@@ -16,16 +16,16 @@
             return t;
         };
     </script>
-    <script src="/app/libs/requirejs/require.js"></script>
-    <script src="/app/libs/jquery/dist/jquery.min.js"></script>
-    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/app/libs/angular/angular.min.js"></script>
-    <script src="/app/libs/angular-flex/angular-flex.js"></script>
-    <script src="/app/libs/angular-route/angular-route.min.js"></script>
-    <script src="/app/libs/angular-cookies/angular-cookies.min.js"></script>
-    <script src="/app/boot.js"></script>
-    <link rel="shortcut icon" href="/app/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/app/css/main.css">
+    <script src="/app/libs/requirejs/require.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/jquery/dist/jquery.min.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/angular/angular.min.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/angular-flex/angular-flex.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/angular-route/angular-route.min.js?v=<%=gitVersion%>"></script>
+    <script src="/app/libs/angular-cookies/angular-cookies.min.js?v=<%=gitVersion%>"></script>
+    <script src="/app/boot.js?v=<%=gitVersion%>"></script>
+    <link rel="shortcut icon" href="/app/favicon.ico?v=<%=gitVersion%>">
+    <link rel="stylesheet" type="text/css" href="/app/css/main.css?v=<%=gitVersion%>">
     <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
 </head>
 <body ng-controller="TemplateController" ng-class="{'home-page':xhomePage}">
@@ -203,7 +203,7 @@
             <div class="container footer-cbd-container">
                 <div class="row copyright">
                     <div class="col-xs-12">
-                        <p style="margin:-10px" class="pull-left">© 2018 SCBD | <a href="http://www.cbd.int/privacy" class="color-white">Privacy Policy</a> | <a href="http://www.cbd.int/terms" class="color-white">Terms of Use</a></p>
+                        <p style="margin:-10px" class="pull-left">© <%=year%> SCBD | <a href="http://www.cbd.int/privacy" class="color-white">Privacy Policy</a> | <a href="http://www.cbd.int/terms" class="color-white">Terms of Use</a></p>
                     </div>
                 </div>
             </div>
