@@ -1,5 +1,5 @@
 (function(window){ 'use strict';
-
+var gitVersion = document.documentElement.attributes['git-version'].value;
 require.config({
     waitSeconds: 60,
     baseUrl : '/app',
@@ -11,7 +11,7 @@ require.config({
         'urijs'           : 'libs/urijs/src',
 
     },
-    urlArgs: document.cookie.replace(/(?:(?:^|.*;\s*)VERSION\s*\=\s*([^;]*).*$)|^.*$/, 'v=$1')
+    urlArgs: gitVersion
 });
 
 if (!require.defined('angular')) {
