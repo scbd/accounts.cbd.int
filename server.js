@@ -12,8 +12,8 @@ app.set('view engine', 'ejs');
 
 let apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
 let gitVersion  = (process.env.COMMIT || 'UNKNOWN').substr(0, 7);
-let date = new Date();
-let year = date.getFullYear();
+let date        = new Date();
+let year        = date.getFullYear();
 
 console.info(`info: accounts.cbd.int`);
 console.info(`info: Git version: ${gitVersion}`);
@@ -39,7 +39,7 @@ app.get('/*', (req, res) => {
 app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER
 
-app.listen(process.env.PORT || 2222, function () {
+app.listen(process.env.PORT || 8000, function () {
 	console.info(`Server listening on ${this.address().port}`);
 });
 // Handle proxy errors ignore
