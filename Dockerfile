@@ -1,4 +1,4 @@
-FROM node:4.2
+FROM node:8.10.0-alpine
 
 RUN npm install -g -q protractor
 
