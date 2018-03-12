@@ -1,12 +1,10 @@
-FROM node:4.2
-
-RUN npm install -g -q protractor
-
+FROM mhart/alpine-node:8
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git
 WORKDIR /usr/src/app
-
-COPY package.json bower.json .bowerrc .npmrc ./
-
-RUN npm install -q
+COPY package.json package-lock.* yarn.* .npmrc ./
+RUN yarn install --production
+RUN yarn global add protractor --silent
 
 COPY . ./
 
@@ -15,6 +13,6 @@ ENV PORT 8000
 EXPOSE 8000
 
 ARG VERSION
-ENV VERSION $VERSION
+ENV COMMIT $VERSION
 
 CMD [ "node", "server" ]
