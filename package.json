@@ -3,8 +3,8 @@
   "description": "accounts.cbd.int",
   "dependencies": {
     "colors": "1.1.2",
-    "cookie-parser": "1.4.3",
-    "express": "4.13.3",
+    "ejs": "^2.5.7",
+    "express": "4.13.4",
     "http-proxy": "1.12.0",
     "morgan": "1.6.1",
     "@bower_components/angular": "git://github.com/angular/bower-angular.git#1.4.7",
