@@ -1,8 +1,9 @@
+'use strict';
 // CREATER ADD & ADD MIDDLEWARES
-const express      = require('express');
-const morgan       = require('morgan');
-const proxy        = require('http-proxy').createProxyServer({});
-const app          = express();
+var express      = require('express');
+var morgan       = require('morgan');
+var proxy        = require('http-proxy').createProxyServer({});
+var app          = express();
 
 
 // Configure options
@@ -10,10 +11,10 @@ app.use(morgan('dev'));
 app.set('views', `${__dirname}/app`);
 app.set('view engine', 'ejs');
 
-let apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
-let gitVersion  = (process.env.COMMIT || 'UNKNOWN').substr(0, 7);
-let date        = new Date();
-let year        = date.getFullYear();
+var apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
+var gitVersion  = (process.env.COMMIT || 'UNKNOWN').substr(0, 7);
+var date        = new Date();
+var year        = date.getFullYear();
 
 console.info(`info: accounts.cbd.int`);
 console.info(`info: Git version: ${gitVersion}`);
