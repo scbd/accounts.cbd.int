@@ -28,7 +28,7 @@ app.all('/app/*',         function(req, res) { res.status(404).send(); } );
 
 app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, secure: false, changeOrigin:true } ); } );
 ///non angularjs file for activating email
-app.get('/activate', (req, res) => res.sendFile('views/activate.html'));
+app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate.html'));
 
 // SET TEMPLATE
 
