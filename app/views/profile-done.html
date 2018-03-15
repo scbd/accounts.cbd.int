@@ -1,15 +1,45 @@
-
 <div>
 
-		<div class="alert alert-success alert-dismissible" role="alert">
-			<button type="button" class="close" style="position:relative;top:5px;padding:0;margin:0;" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h1 style="margin:0;padding:0;">Done. Your profile has been successfully updated.</h1>
-		</div>
-		<div class="alert alert-info alert-dismissible" role="alert" ng-if="returnUrl!=='/'">
-			<span>You will be redirected in: <h3>{{redirectTime}}</h3></span>
-			<span>Or click this link: <a href="{{returnUrl}}">{{returnUrl}}</a></span>
-		</div>
+	<div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" style="position:relative;top:5px;padding:0;margin:0;" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h1 style="margin:0;padding:0;">Done. Your profile has been successfully updated.</h1>
+	</div>
+	<div class="alert alert-info alert-dismissible" role="alert" ng-if="returnUrl!=='/'">
+		<span>You will be redirected in: <h3>{{redirectTime}}</h3></span>
+		<span>Or click this link: <a href="{{returnUrl}}">{{returnUrl}}</a></span>
+	</div>
+  <div>
+  	<div  class="row">
+  		<div class="col-md-6 col-md-push-6 col-lg-5 col-lg-push-7">
+  			<div class="panel panel-default">
+    				<div class="panel-body">
+  					<h1>You are signed in as:</h1>
+  					<dl class="dl-horizontal">
+  					  	<dt style="text-align:left">Name</dt><dd>{{user.name}}</dd>
+  					  	<dt style="text-align:left">Primary email</dt><dd>{{user.email}}</dd>
 
-	<ng-include src="'/app/views/index.html'">
+  						<!-- <dt style="text-align:left">Roles</dt>
+  							<dd ng-show="user.roles">{{user.roles}}</dd> -->
+
+  							<!-- <dt style="text-align:left">Groups</dt>
+  							<dd ng-show="user.roles">{{user.roles}}</dd> -->
+
+  					</dl>
+  					<a class="btn btn-warning btn-md" href="/profile">View/Update profile</a>
+  					<button class="btn btn-info btn-md" ng-click="actionSignOut()">Sign out</button>
+  				</div>
+  			</div>
+  		</div>
+  		<div class="col-md-6 col-md-pull-6 col-lg-7 col-lg-pull-5 ">
+  			<h1>CBD website and Clearing-Houses</h1>
+  			<div><a href="https://www.cbd.int/"><h3>Convention on Biological Diversity<br /><small>www.cbd.int</small></h3></a></div>
+  			<div><a href="https://bch.cbd.int/"><h3>The Biosafety Clearing-House <span style="color:#999;">(BCH)</span><br /><small>bch.cbd.int</small></h3></a></div>
+  			<div><a href="https://absch.cbd.int/"><h3>The Access and Benefit Sharing Clearing-House <span style="color:#999;">(ABSCH)</span><br /><small>absch.cbd.int</small</h3></a></div>
+  			<div><a href="https://chm.cbd.int/"><h3>The Clearing-House Mechanism <span style="color:#999;">(CHM)</span><br /><small>chm.cbd.int</small></h3></a></div>
+        <div><a href="https://scbd.unssc.org/"><h3> Biodiversity E-Learning Platform <br /><small>scbd.unssc.org</small></h3></a></div>
+  	</div>
+
+  	</div>
+  </div>
 
 </div>
