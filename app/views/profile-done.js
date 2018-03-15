@@ -1,9 +1,17 @@
-define(['app', 'angular'], function(app, angular) {
+define(['app', 'angular','authentication'], function(app, angular) {
 
-  return ['$scope', '$location', '$window', '$timeout', function($scope,  $location, $window, $timeout) {
+  return ['$scope', '$location', '$window', '$timeout','authentication', function($scope,  $location, $window, $timeout,authentication) {
 
     $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || $location.search().redirect_uri || '/';
     $scope.redirectTime = 5;
+
+
+		$scope.actionSignOut = function () {
+
+			authentication.signOut().finally(function () {
+				$window.location.href = '/signin'; // force page reload to clear everyting from memory
+        	});
+	   };
 
     if($scope.returnUrl !== '/')
       var cancel = setInterval(function() {
