@@ -1,19 +1,41 @@
-define(['app', 'directives/input-email', 'directives/security/password-rules'], function(){
+define(['grecaptcha', 'app', 'directives/input-email', 'directives/security/password-rules'], function(grecaptcha){
 
-return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scope, $http, authentication, apiToken, user) {
+return ['$scope', '$http', 'authentication', 'apiToken', 'user', '$q', function ($scope, $http, authentication, apiToken, user, $q) {
     $scope.passwordType = 'password';
 
     if(user.isAuthenticated)
         $scope.$root.returnUrl.navigate('/');
 
+    $scope.$watch('document.Password', updatePasswordValidity);
+    $scope.$watch('passwordValid',     updatePasswordValidity);
+
     //============================================================
     //
     //
     //============================================================
-    $scope.onPostSave = function(data) {
+    $scope.onPostSave = createUser;
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function createUser() {
+
         $scope.isLoading = true;
 
-        $http.post('/api/v2013/users/', angular.toJson($scope.document)).then(function () {
+        var data = {
+            FirstName    : $scope.document.FirstName,
+            LastName     : $scope.document.LastName,
+            Organization : $scope.document.Organization,
+            Email        : $scope.document.Email,
+            Password     : $scope.document.Password,
+        };
+
+        return $q.resolve(grecaptcha.executeEx({action:"signup"})).then(function(token){
+
+            return $http.post('/api/v2013/users', data, { headers : { 'X-Captcha-Token' : token } });
+
+        }).then(function(res) {
 
             var credentials = {  // auto signin
                 'email':    $scope.document.Email, 
@@ -35,13 +57,23 @@ return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scop
         .finally(function(){
             $scope.isLoading = false;
         });
-    };
-
-    $scope.togglePassword = function(){
-        if($scope.passwordType == 'password')
-            $scope.passwordType = 'text';
-        else
-            $scope.passwordType = 'password';
     }
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function updatePasswordValidity() {
+        $scope.form.password.$setValidity("rules", $scope.passwordValid||false);
+    }
+    
+
+    //============================================================
+    //
+    //
+    //============================================================
+    $scope.togglePassword = function(){
+        $scope.passwordType = $scope.passwordType != 'password' ? 'password' : 'text';
+    };
 }];
 });
