@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 COPY package.json .npmrc ./
 
-RUN yarn --flat --production
+RUN yarn --production
 
 COPY . ./
 
