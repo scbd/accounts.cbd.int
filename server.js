@@ -1,13 +1,11 @@
 'use strict';
 // CREATER ADD & ADD MIDDLEWARES
 var express      = require('express');
-var morgan       = require('morgan');
 var proxy        = require('http-proxy').createProxyServer({});
 var app          = express();
 
 
 // Configure options
-app.use(morgan('dev'));
 app.set('views', `${__dirname}/app`);
 app.set('view engine', 'ejs');
 
