@@ -1,17 +1,21 @@
-FROM node:4.2
+FROM mhart/alpine-node:10.6
 
-RUN npm install -g -q protractor
+RUN apk update && apk upgrade && \
+    apk add --no-cache bash git curl
+
+RUN yarn global add protractor
 
 WORKDIR /usr/src/app
 
-COPY package.json bower.json .bowerrc .npmrc ./
+COPY package.json .npmrc ./
 
-RUN npm install -q
+RUN yarn
 
 COPY . ./
 
-ENV PORT 8000
+RUN ln -s /usr/src/app/node_modules/@bower_components /usr/src/app/app/libs
 
+ENV PORT 8000
 EXPOSE 8000
 
 ARG VERSION
