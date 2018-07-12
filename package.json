@@ -2,9 +2,6 @@
   "name": "accounts-cbd-int",
   "description": "accounts.cbd.int",
   "dependencies": {
-    "ejs": "^2.5.8",
-    "express": "4.16.3",
-    "http-proxy": "1.17",
     "@bower_components/angular": "angular/bower-angular#1.4.7",
     "@bower_components/angular-animate": "angular/bower-angular-animate#1.4.7",
     "@bower_components/angular-cookies": "angular/bower-angular-cookies#1.4.7",
@@ -19,7 +16,10 @@
     "@bower_components/outdated-browser": "burocratik/outdated-browser#1.1.2",
     "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
     "@bower_components/text": "requirejs/text#2.0.14",
-    "@bower_components/urijs": "medialize/URI.js#1.16.1"
+    "@bower_components/urijs": "medialize/URI.js#1.16.1",
+    "ejs": "^2.5.8",
+    "express": "4.16.3",
+    "http-proxy": "1.17"
   },
   "engine": "node >= 8",
   "private": true,
@@ -28,5 +28,12 @@
   },
   "engines": {
     "yarn": ">= 1.6.0"
+  },
+  "resolutions": {
+    "debug": "3.1.0",
+    "depd": "1.1.2",
+    "setprototypeof": "1.1.0",
+    "statuses": "1.5.0",
+    "http-errors": "1.6.3"
   }
 }
