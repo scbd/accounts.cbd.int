@@ -13,18 +13,17 @@
     "@bower_components/angular-sanitize": "angular/bower-angular-sanitize#1.4.7",
     "@bower_components/bootstrap": "twbs/bootstrap#3.3.5",
     "@bower_components/bootstrap-duallistbox": "istvan-ujjmeszaros/bootstrap-duallistbox#2.1.1",
-    "@bower_components/font-awesome": "FortAwesome/Font-Awesome#~4.3.0",
+    "@bower_components/font-awesome": "FortAwesome/Font-Awesome#4.3.0",
     "@bower_components/jquery": "jquery/jquery-dist#2.1.4",
-    "@bower_components/lodash": "lodash/lodash#~3.9.3",
+    "@bower_components/lodash": "lodash/lodash#3.9.3",
     "@bower_components/outdated-browser": "burocratik/outdated-browser#1.1.2",
-    "@bower_components/requirejs": "jrburke/requirejs-bower#~2.1.22",
-    "@bower_components/text": "requirejs/text#~2.0.14",
-    "@bower_components/urijs": "medialize/URI.js#~1.16.1"
+    "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
+    "@bower_components/text": "requirejs/text#2.0.14",
+    "@bower_components/urijs": "medialize/URI.js#1.16.1"
   },
   "engine": "node >= 8",
   "private": true,
   "scripts": {
-    "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'app/libs', 'junction') } catch (e) { }\"",
     "start": "node server"
   },
   "engines": {
