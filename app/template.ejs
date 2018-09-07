@@ -6,16 +6,6 @@
     <title>Accounts: Convention on Biological Diversity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Accounts: Convention on Biological Diversity">
-        <!-- Slaask. need to be placed just before require.JS script tag -->
-    <script src="https://cdn.slaask.com/chat.js?v=<%=gitVersion%>"></script>
-    <script>
-        //patch slaask to works with requireJS
-        window._slaask.createScriptTag = function (url) {
-            var t = {};
-            require([url], function() { t.onload(); });
-            return t;
-        };
-    </script>
     <script src="/app/libs/requirejs/require.js?v=<%=gitVersion%>"></script>
     <script src="/app/libs/jquery/dist/jquery.min.js?v=<%=gitVersion%>"></script>
     <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js?v=<%=gitVersion%>"></script>
