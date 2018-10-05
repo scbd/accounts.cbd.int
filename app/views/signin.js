@@ -1,4 +1,4 @@
-define(['urijs/URI', 'app', 'authentication'], function(URI) {
+define(['urijs', 'app', 'authentication'], function(URI) {
 
 
 	return ['$scope', '$http', '$cookies', '$location', 'authentication', '$window', 'user', function ($scope, $http, $cookies, $location, authentication, $window, user) {
