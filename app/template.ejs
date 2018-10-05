@@ -6,13 +6,14 @@
     <title>Accounts: Convention on Biological Diversity</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Accounts: Convention on Biological Diversity">
-    <script src="/app/libs/requirejs/require.js?v=<%=gitVersion%>"></script>
-    <script src="/app/libs/jquery/dist/jquery.min.js?v=<%=gitVersion%>"></script>
-    <script src="/app/libs/bootstrap/dist/js/bootstrap.min.js?v=<%=gitVersion%>"></script>
-    <script src="/app/libs/angular/angular.min.js?v=<%=gitVersion%>"></script>
+
+    <script src="https://cdn.cbd.int/requirejs@2.2.0/require.js"></script>    
+    <script src="https://cdn.cbd.int/jquery@2.1.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.cbd.int/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.cbd.int/angular@1.7.4/angular.min.js"></script>
     <script src="/app/libs/angular-flex/angular-flex.js?v=<%=gitVersion%>"></script>
-    <script src="/app/libs/angular-route/angular-route.min.js?v=<%=gitVersion%>"></script>
-    <script src="/app/libs/angular-cookies/angular-cookies.min.js?v=<%=gitVersion%>"></script>
+    <script src="https://cdn.cbd.int/angular-route@1.7.4/angular-route.min.js"></script>
+    <script src="https://cdn.cbd.int/angular-cookies@1.7.4/angular-cookies.min.js"></script>
     <script src="/app/boot.js?v=<%=gitVersion%>"></script>
     <link rel="shortcut icon" href="/app/favicon.ico?v=<%=gitVersion%>">
     <link rel="stylesheet" type="text/css" href="/app/css/main.css?v=<%=gitVersion%>">
@@ -200,12 +201,14 @@
         </div>
     </div>
 
-    <script src="/app/libs/outdated-browser/outdatedbrowser/outdatedbrowser.min.js?v=<%=gitVersion%>"></script>
+    <script src="https://cdn.cbd.int/outdated-browser@1.0.2/outdatedbrowser/outdatedbrowser.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.cbd.int/outdated-browser@1.0.2/outdatedbrowser/outdatedbrowser.min.css">
+    <div id="outdated"></div>
 
     <script>
         function addLoadEvent(func) {
         var oldonload = window.onload; if (typeof window.onload != 'function') { window.onload = func; } else { window.onload = function() { if (oldonload) { oldonload(); } func(); } } }
-        addLoadEvent(function() { outdatedBrowser( { bgColor: '#f25648', color: '#ffffff', lowerThan: 'boxShadow', languagePath: 'app/libs/outdated-browser/outdatedbrowser/lang/en.html' }) });
+        addLoadEvent(function() { outdatedBrowser( { bgColor: '#f25648', color: '#ffffff', lowerThan: 'boxShadow', languagePath: 'https://cdn.cbd.int/outdated-browser@1.0.2/outdatedbrowser/lang/en.html' }) });
     </script>
 
 </body>

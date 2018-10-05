@@ -1,14 +1,15 @@
 (function(window){ 'use strict';
 var gitVersion = document.documentElement.attributes['git-version'].value;
+var cdnHost = 'https://cdn.cbd.int/';
+
 require.config({
     waitSeconds: 60,
     baseUrl : '/app',
     pluginPath: 'libs/curl/src/curl/plugin',
     paths: {
-        'async'           : 'libs/requirejs-plugins/src/async',
-        'lodash'          : 'libs/lodash/lodash.min',
-        'text'            : 'libs/text/text',
-        'urijs'           : 'libs/urijs/src',
+        'lodash':   cdnHost + 'lodash@3.10.1/index',
+        'text':     cdnHost + 'requirejs-text@2.0.15/text',
+        'urijs':    cdnHost + 'uri.js@0.1.3/src/uri',
 
     },
     urlArgs: gitVersion
