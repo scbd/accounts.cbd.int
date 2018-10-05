@@ -101,6 +101,8 @@
 									<p>By signing up, you agree to our <a href="http://www.cbd.int/terms" target="_blank">Terms of Use</a> and confirm that you have read our <a href="http://www.cbd.int/privacy" target="_blank">Privacy Policy</a>.</p>
 
 									<button type="submit" class="btn btn-primary">Submit</button>
+									<button type="button" class="btn btn-default" ng-click="$root.returnUrl.navigate('/signin')">Cancel</button>
+
 								</div>
 							</div>
 						</div>
@@ -128,7 +130,7 @@
 
             <password-rules ng-if="document.Password" password="document.Password" is-valid="passwordValid"></password-rules>
 
-            <p> Already have an account? <a href="/signin">Sing In</a></p>
+            <p> Already have an account? <a ng-click="$root.returnUrl.navigate('/signin')" href="#">Sing In</a></p>
 
         </div>
 	</div>

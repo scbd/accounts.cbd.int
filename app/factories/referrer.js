@@ -1,8 +1,8 @@
 /* jshint sub:true */
 
-define(['app'], function (app) { 'use strict';
+define(['app', 'services/return-url'], function (app) { 'use strict';
 
-	app.factory('referrer', [function() {
+	app.factory('referrer', ['$location', 'returnUrl', function($location, returnUrl) {
 
 			var referrer = document.referrer;
 			//============================================================
@@ -10,6 +10,9 @@ define(['app'], function (app) { 'use strict';
 			//
 			//============================================================
 			function getReferrer() {
+
+				if(returnUrl.has())                return returnUrl.get();
+				if(referrer == $location.absUrl()) return;
 
 				return referrer;
 

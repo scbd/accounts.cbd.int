@@ -2,8 +2,6 @@ define(['app', 'angular', 'directives/forms-input-list', 'directives/input-email
 
 return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
 
-    $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || '/';
-
     //============================================================
     //
     //

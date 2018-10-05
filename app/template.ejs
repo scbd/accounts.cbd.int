@@ -55,7 +55,7 @@
 
                 <!--signin-->
                 <li ng-cloak ng-show="user && !user.isAuthenticated" style="border-right:none;padding-right:0"  class="navbar-right">
-                    <a class="signin" href="/signin" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
+                    <a class="signin" ng-click="$root.returnUrl.navigate('/signin')" href="#" data-slug="signin"><i class="fa fa-power-off" style="font-size:15px"></i>&nbsp; Sign In</a>
                 </li>
                 <li ng-cloak class="dropdown navbar-right" ng-show="user.isAuthenticated" style="border-right:none;padding-right:0">
                     <a data-toggle="dropdown" href="#"><i class="fa fa-chevron-down" style="font-size:15px"></i>&nbsp; {{user.name}}</a>
@@ -67,8 +67,8 @@
                               <li ng-repeat="role in user.roles|orderBy:'toString()'"><a tabindex="-1" href="#">{{role}}</a></li>
                             </ul>
                         </li> -->
-                        <li><a href="/password"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; Password</a></li>
-                        <li><a href="#" ng-click="actionSignOut()"><i class="fa fa-sign-out" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
+                        <li><a ng-click="$root.returnUrl.navigate('/password')" href="#" href="/password"><i class="fa fa-lock" style="font-size:15px"></i>&nbsp; Password</a></li>
+                        <li><a ng-click="actionSignOut()" href="#"><i class="fa fa-sign-out" style="font-size:15px"></i>&nbsp; Sign-out</a></li>
                     </ul>
                 </li>
           </ul>
@@ -103,9 +103,9 @@
 
                      <div ng-cloak style="display:inline" >
                         <a href="/"><i class="fa fa-home" ></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                        <a href="/signin" ng-hide="user.isAuthenticated"><i class="fa fa-power-off"></i> Sign In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a href="/profile" ng-show="user.isAuthenticated"><i class="fa fa-user"></i> Update My Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
-                        <a href="/password" ng-show="user.isAuthenticated"><i class="fa fa-lock"></i> Change My Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a ng-click="$root.returnUrl.navigate('/signin')"   href="#" href="/signin" ng-hide="user.isAuthenticated"><i class="fa fa-power-off"></i> Sign In &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a ng-click="$root.returnUrl.navigate('/profile')"  href="#" href="/profile" ng-show="user.isAuthenticated"><i class="fa fa-user"></i> Update My Profile &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+                        <a ng-click="$root.returnUrl.navigate('/password')" href="#" href="/password" ng-show="user.isAuthenticated"><i class="fa fa-lock"></i> Change My Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
                         <a href="#"  ng-show="user.isAuthenticated" ng-click="actionSignOut()"><i class="fa fa-sign-out"></i> Sign Out &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
                     </div>
 

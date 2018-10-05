@@ -20,8 +20,7 @@
     "@bower_components/lodash": "lodash/lodash#3.10.1",
     "@bower_components/outdated-browser": "burocratik/outdated-browser#1.1.2",
     "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
-    "@bower_components/text": "requirejs/text#2.0.15",
-    "@bower_components/urijs": "medialize/URI.js#1.16.1"
+    "@bower_components/text": "requirejs/text#2.0.15"
   },
   "engine": "node >= 8",
   "private": true,

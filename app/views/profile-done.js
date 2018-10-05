@@ -2,7 +2,6 @@ define(['app', 'angular','authentication'], function(app, angular) {
 
   return ['$scope', '$location', '$window', '$timeout','authentication', function($scope,  $location, $window, $timeout,authentication) {
 
-    $scope.returnUrl = $location.search().returnurl || $location.search().returnUrl || $location.search().redirect_uri || '/';
     $scope.redirectTime = 5;
 
 
@@ -13,13 +12,13 @@ define(['app', 'angular','authentication'], function(app, angular) {
         	});
 	   };
 
-    if($scope.returnUrl !== '/')
+    if($scope.$root.returnUrl.has())
       var cancel = setInterval(function() {
 
         if ($scope.redirectTime === 0) {
           console.log($scope.redirectTime);
           clearInterval(cancel);
-          $window.location.href = $scope.returnUrl;
+          $scope.$root.returnUrl.goBack();
         }
         $timeout(function() {
           if ($scope.redirectTime) $scope.redirectTime--;

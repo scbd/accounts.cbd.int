@@ -3,6 +3,7 @@ define(['app', 'authentication'], function(){
 	return ['$scope', '$location', '$window', 'authentication', 'user', function ($scope, $location, $window, authentication, user) {
 
 		if(!user.isAuthenticated) {
+			$location.replace();
 			$location.path('/signin');
 			return;
 		}
