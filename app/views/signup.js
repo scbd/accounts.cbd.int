@@ -1,19 +1,36 @@
 define(['app', 'directives/input-email', 'directives/security/password-rules'], function(){
 
-return ['$scope', '$http', '$location', function ($scope, $http, $location) {
+return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scope, $http, authentication, apiToken, user) {
     $scope.passwordType = 'password';
+
+    if(user.isAuthenticated)
+        $scope.$root.returnUrl.navigate('/');
+
     //============================================================
     //
     //
     //============================================================
     $scope.onPostSave = function(data) {
         $scope.isLoading = true;
-        $http.post('/api/v2013/users/', angular.toJson($scope.document)).success(function (data, status, headers, config) {
 
-            $location.path('/signup/done');
+        $http.post('/api/v2013/users/', angular.toJson($scope.document)).then(function () {
 
-        }).error(function (data, status, headers, config) {
-            $scope.error = data;
+            var credentials = {  // auto signin
+                'email':    $scope.document.Email, 
+                'password': $scope.document.Password 
+            };
+
+            return $http.post('/api/v2013/authentication/token', credentials);
+
+        }).then(function (res) {
+    
+            apiToken.set(res.data.authenticationToken);
+            authentication.reset();
+
+            $scope.$root.returnUrl.navigate('/signup/done');
+
+        }).catch(function (res) {
+            $scope.error = res.data || res;
         })
         .finally(function(){
             $scope.isLoading = false;

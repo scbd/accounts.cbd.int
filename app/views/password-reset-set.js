@@ -55,6 +55,8 @@ define(['app', 'directives/security/password-rules'], function() {
                     }, 800);
                 } else {
                     $timeout(function ontimeout() {
+                        $location.replace();
+                        $location.search('key', null);
                         $location.path('/activate/resend');
                     }, 3000);
                 }

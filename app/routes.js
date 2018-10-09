@@ -20,9 +20,9 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
             when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
             when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
             when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser : true, resolveController : true }).
-            when('/signout',              { templateUrl: '/app/views/signout.html'              , resolveUser : true, }).
-            when('/signup',               { templateUrl: '/app/views/signup.html'               , resolveUser : true, resolveController : true }).
-            when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser : true, }).
+            when('/signout',              { templateUrl: '/app/views/signout.html'              , resolveUser : true, resolveController : true }).
+            when('/signup',               { templateUrl: '/app/views/signup.html'               , resolveUser : true, resolveController : true, resolve : { user: currentUser() } }).
+            when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser : true, resolveController : true, resolve : { user: currentUser() } }).
             when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolveUser : true, }).
             when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser : true, }).
             when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
@@ -36,12 +36,12 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
     //============================================================
     function securize(roles)
     {
-        return ["$location", "$q", "authentication", function ($location, $q, authentication) {
+        return ["$location", "$q", "authentication", "returnUrl", function ($location, $q, authentication, returnUrl) {
 
             return $q.when(authentication.getUser()).then(function (user) {
                 if (!user.isAuthenticated) {
 
-                    $location.search({ returnUrl: $location.search().returnUrl || $location.url() });
+                    $location.search({ returnurl: returnUrl.get() || $location.url() });
                     $location.path('/signin');
                 }
                 else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
@@ -55,4 +55,17 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
                 return user;
             });
         }];
-    }});
+    }
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function currentUser()
+    {
+        return ["authentication", function (authentication) {
+
+            return authentication.getUser();
+        }];
+    }
+});

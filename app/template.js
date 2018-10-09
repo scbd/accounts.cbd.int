@@ -1,6 +1,8 @@
-define(['app','lodash'], function (app, _) { 'use strict';
+define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict';
 
-	app.controller('TemplateController', ['$scope', '$window', 'authentication', '$q', function ($scope, $window, authentication, $q) {
+	app.controller('TemplateController', ['$scope', '$rootScope', '$window', 'authentication', '$q', 'returnUrl', function ($scope, $rootScope, $window, authentication, $q, returnUrl) {
+
+        $rootScope.returnUrl = returnUrl; // I know it's a bad idea
 
 		$scope.$on("$routeChangeSuccess", function() { $scope.viewLoaded = true; });
 		$scope.$on('$routeChangeStart', loadCurrentUser);
