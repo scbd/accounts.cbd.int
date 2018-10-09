@@ -10,7 +10,7 @@ app.set('views', `${__dirname}/app`);
 app.set('view engine', 'ejs');
 
 var apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
-var gitVersion  = (process.env.COMMIT || 'UNKNOWN').substr(0, 7);
+var gitVersion  = (process.env.VERSION || process.env.COMMIT || `UNKNOWN-${Math.random()*1985|0}`);
 var date        = new Date();
 var year        = date.getFullYear();
 
@@ -56,7 +56,7 @@ process.on('SIGTERM', ()=>process.exit());
 //============================================================
 function setCustomCacheControl(res, path) {
 
-	if(res.req.query && res.req.query.v && res.req.query.v==gitVersion && gitVersion!='UNKNOWN')
+	if(res.req.query && res.req.query.v && res.req.query.v==gitVersion && gitVersion.startsWith('UNKNOWN'))
         return res.setHeader('Cache-Control', 'public, max-age=86400000'); // one day
 
     res.setHeader('Cache-Control', 'public, max-age=0');
