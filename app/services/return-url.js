@@ -1,8 +1,6 @@
-define(['app'], function (app) { 'use strict';
+define(['app', 'lodash'], function (app, _) { 'use strict';
 
     return app.factory('returnUrl', ['$location', '$document', '$window', function($location, $document, $window) {
-
-        var baseURI = parseUrl('/').baseURI;
 
         return  { 
             navigate: navigate,
@@ -68,20 +66,14 @@ define(['app'], function (app) { 'use strict';
         function isTrusted(unsafeUrl) {
 
             var trustedHosts = [
-                "absch.cbd.int", 'training-absch.cbd.int', 'dev-absch.cbd.int',
-                "eunomia.cbd.int",
-                "bch.cbd.int",
-                "chm.cbd.int", 'dev-chm.cbd.int',
-                'lifeweb.cbd.int',
-                "www.cbd.int",
-                '192.168.1.68',
-                "localhost"
+                   /^cbd.int$/i,
+                /.*\.cbd.int$/i,
+                 /^localhost$/i
             ];
 
             var url = parseUrl(unsafeUrl);
 
-            if(url.hostname && ~trustedHosts.indexOf(url.hostname))
-                return true;
+            return !!(url.hostname && _.some(trustedHosts, function(h) { return h.test(url.hostname); }));
         }
 
         //============================================================
