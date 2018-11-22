@@ -68,7 +68,8 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
             var trustedHosts = [
                    /^cbd.int$/i,
                 /.*\.cbd.int$/i,
-                 /^\.cbddev.xyz$/i
+                /^cbddev.xyz$/i,
+             /.*\.cbddev.xyz$/i,
                  /^localhost$/i
             ];
 
