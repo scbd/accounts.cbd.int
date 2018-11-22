@@ -38,11 +38,11 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope,
 
         $scope.waiting = true;
 
-        authHttp.put('/api/v2013/users/' + $scope.user.userID, angular.toJson($scope.document)).success(function () {
+        authHttp.put('/api/v2013/users/' + $scope.user.userID, angular.toJson($scope.document)).then(function () {
 
             $location.path('/profile/done');
 
-        }).error(function (data) {
+        }).catch(function (data) {
             $scope.waiting = false;
             $scope.error = data;
         });

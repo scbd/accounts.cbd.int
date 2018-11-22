@@ -8,7 +8,7 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
         $routeProvider.
             when('/',                     { templateUrl: '/app/views/index.html'                , resolveUser : true, resolveController : true }).
             when('/oauth2/authorize',     { templateUrl: '/app/views/oauth2/authorize.html'     , resolveUser : true, resolveController : true , resolve : { securized : securize()} }).
-            //when('/activate',             { templateUrl: '/app/views/activate.html'             , resolveUser : true, resolveController : true }).
+            //when('/activate', mrendered from server.js
             when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolveUser : true, resolveController : true }).
             when('/password',             { templateUrl: '/app/views/password.html'             , resolveUser : true, resolveController : true, resolve : { securized : securize() } }).
             when('/password/reset',       { templateUrl: '/app/views/password-reset.html'       , resolveUser : true, resolveController : true, }).

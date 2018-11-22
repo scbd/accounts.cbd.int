@@ -118,10 +118,10 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
     		if (confirm('Are you sure you want to delete this user account?')) {
 
-                $http.delete('/api/v2013/users/' + userID).success(function () {
+                $http.delete('/api/v2013/users/' + userID).then(function () {
     				populate();
     				alert('The user account has been deleted.');
-    	        }).error(function (data) {
+          }).catch(function (data) {
         	    	alert(data);
             	});
     	  }
