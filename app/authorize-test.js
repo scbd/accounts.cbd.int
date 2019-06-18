@@ -1,47 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<script>
+var document = { location : { hostname: '' }  };
 
-function getCookie(cname) {
-
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-    }
-    return "";
-}
-
-function setCookie(cname, cvalue, exdays)
-{
-    if(cvalue===null || cvalue === undefined)
-        exdays = -365;
-
-    var parts = [cname + "=" + (cvalue||"")];
-
-    if(exdays) {
-        var d = new Date();
-        if(typeof exdays == 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,8}Z/.test(exdays))
-            d = new Date(exdays)
-        else      
-            d.setDate(d.getDate()+exdays);
-
-        parts.push("expires="+d.toGMTString())
-    }    
-
-    parts.push("path=/");
-
-    document.cookie =  parts.join("; ");
-}
+var DOMAINS = ["cbd.int", "staging.cbd.int", "cbddev.xyz"];
+var HOSTS   = ["www", "absch", "chm", "bch", "beta.bch"];
 
 var trustedHosts = [
     [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
     [/^cbddev\.xyz$/i, /.*\.cbddev\.xyz$/i],
     [/^cbd\.int$/i, /.*\.cbd\.int$/i]
 ];
+
+for(domain of DOMAINS) {
+
+    document.location.hostname = `accounts.${domain}`;
+
+    for(otherDomain of DOMAINS) {
+
+        receiveMessage({origin: `http://localhost`});
+        receiveMessage({origin: `http://localhost:1234`});
+    
+        for(host        of HOSTS) {
+    //   receiveMessage({origin:  `http://${host}.${otherDomain}`});
+            receiveMessage({origin: `https://${host}.${otherDomain}`});
+        }
+    }
+}
 
 function receiveMessage(event) {
 
@@ -51,9 +33,8 @@ function receiveMessage(event) {
     if(origin=='http://localhost' || /^http:\/\/localhost:/.test(origin)) origin = 'https://localhost.'+secureDomain;
 
     var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
-    var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
+    var isTrustedDomain = false;
 
-    
     for (var j = 0; j < trustedHosts.length; j++) {
         let exitFor = false;
         let domainMatched = false;
@@ -77,6 +58,10 @@ function receiveMessage(event) {
         if(exitFor)
             break;
     }
+    if(!isTrustedDomain){
+        console.log(`isTrusted: ${isTrustedDomain?'Yes':'No '} - Accessing ${document.location.hostname} from ${event.origin}`);
+    }
+    return console.log(`isTrusted: ${isTrustedDomain?'Yes':'No '} - Accessing ${document.location.hostname} from ${event.origin}`);
 
     if(isTrustedDomain){
 
@@ -111,9 +96,3 @@ function receiveMessage(event) {
         }
     }
 }
-
-window.addEventListener('message', receiveMessage, false);
-
-</script>
-</body>
-</html>

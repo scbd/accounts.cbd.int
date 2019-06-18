@@ -22,3 +22,5 @@ app_build
 .sass-cache
 .bower-storage
 bower_components
+.vscode
+yarn.lock
