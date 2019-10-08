@@ -55,7 +55,7 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
                 window.location.href = url;
             }
             else {
-                $location.path(url);
+                $location.location(url);
             }                  
         }
 
