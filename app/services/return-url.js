@@ -50,12 +50,18 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
         function navigate(url) {
 
             var parsedUrl = parseUrl(url);
+            var returnUrl = getReturnUrl();
 
             if(parsedUrl.hostname!=$location.host()) { 
                 window.location.href = url;
             }
             else {
-                $location.location(url);
+
+                $location.url(url);
+                
+                if(returnUrl)
+                    $location.search('returnUrl',  returnUrl); 
+
             }                  
         }
 
