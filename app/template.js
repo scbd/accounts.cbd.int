@@ -1,8 +1,9 @@
 define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict';
 
 	app.controller('TemplateController', ['$scope', '$rootScope', '$window', 'authentication', '$q', 'returnUrl', function ($scope, $rootScope, $window, authentication, $q, returnUrl) {
+        var slaaskInitialized = false;
 
-        $rootScope.returnUrl = returnUrl; // I know it's a bad idea
+        $rootScope.returnUrl  = returnUrl; // I know it's a bad idea
 
 		$scope.$on("$routeChangeSuccess", function() { $scope.viewLoaded = true; });
 		$scope.$on('$routeChangeStart', loadCurrentUser);
@@ -38,14 +39,14 @@ define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict'
                         'email' : user.email,
                     });
 
-                    if(_slaask.initialized) {
+                    if(slaaskInitialized) {
                         _slaask.slaaskSendUserInfos();
                     }
                 }
 
-                if(!_slaask.initialized) {
+                if(!slaaskInitialized) {
                     _slaask.init('ae83e21f01860758210a799872e12ac4');
-                    _slaask.initialized = true;
+                    slaaskInitialized = true;
                 }
             });
         }, 1000));
