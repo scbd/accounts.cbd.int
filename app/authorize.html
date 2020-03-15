@@ -25,6 +25,9 @@ function setCookie(cname, cvalue, exdays)
         parts.push("expires="+d.toGMTString())
     }    
     parts.push("path=/");
+    parts.push("SameSite=None");
+    parts.push("HttpOnly");
+    parts.push("Secure");
     document.cookie =  parts.join("; ");
 }
 var trustedHosts = [
