@@ -5,6 +5,15 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
     $scope.pageSize = 25;
     $scope.tabSetSize = 10;
     $scope.set = 0;
+
+    var qs = $location.search();
+    if(qs.government)
+      $scope.government = qs.government
+    if(qs.role)
+      $scope.roleFilter = Number(qs.role);
+    if(qs.freetext)
+      $scope.freetext = qs.freetext
+      
     updatePager(0);
 
   $http.get('/api/v2013/roles', { cache: true }).then(function (response) {
