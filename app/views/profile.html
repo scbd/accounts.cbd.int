@@ -157,6 +157,22 @@
 						</div>
 					</div>
 
+					<div class="panel panel-default panel-security">
+						<div class="panel-body">							
+							<div class="row">
+								<div class="col-sm-12 col-xs-12">
+									<div class="form-group">
+										<label for="zip">My Roles</label>
+										<hr />
+										<span class="badge badge-important" ng-repeat="role in userRoles track by $index" style="font-size:10px;margin-right:4px">
+											{{roles[role].name}}
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary" ng-disabled="waiting">Update</button>
 						<div class="spinner" ng-show="waiting">

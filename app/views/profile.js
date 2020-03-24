@@ -25,8 +25,19 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', func
             $scope.countries = $filter('orderBy')(response.data, 'name');
 
         }).catch(function onerror (response) {
-
             $scope.error = response.data;
+        });
+
+        authHttp.get('/api/v2013/roles', { cache: true }).then(function (response) {
+    		var map = {};
+    		response.data.forEach(function (role) {
+    			map[role.roleId] = role;
+    		});
+    		$scope.roles = map;
+	    });
+
+        authHttp.get('/api/v2013/users/'+$scope.user.userID+'/roles').then(function (res) {
+            $scope.userRoles = res.data;
         });
     }
 
