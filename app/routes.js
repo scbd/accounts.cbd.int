@@ -25,7 +25,7 @@ define(['app', 'lodash', 'authentication', 'providers/extended-route', 'provider
             when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser : true, resolveController : true, resolve : { user: currentUser() } }).
             when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolveUser : true, }).
             when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser : true, }).
-            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
+            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) }, reloadOnSearch:false }).
             when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator']) } }).
             otherwise({redirectTo:'/help/404'});
     }]);
