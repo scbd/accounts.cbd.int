@@ -69,7 +69,7 @@
 				</span>
 			</td>
 			<td nowrap>
-				<a ng-href="/admin/users/{{user.userID}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
+				<a ng-href="/admin/users/{{user.userID}}?{{returnUrl}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
 				<button class="btn btn-warning" ng-click="actionDelete(user.userID)" ng-disabled="user.userID<=1"><i class="fa fa-trash-o"></i></button>
 			</td>
 		</tr>

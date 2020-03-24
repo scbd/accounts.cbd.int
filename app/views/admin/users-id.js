@@ -1,6 +1,6 @@
 define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 'directives/forms-input-list'], function(app, _, ng, $) { 'use strict';
 
-    return ["$http", '$scope' , '$filter', '$location', '$route', '$q', function ($http, $scope, $filter, $location, $route, $q) {
+    return ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'returnUrl', function ($http, $scope, $filter, $location, $route, $q, returnUrl) {
 
         var initialUser  = {};
         var initialRoles = [];
@@ -9,7 +9,12 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
         //
         //==================================
         $scope.save = save;
-
+        $scope.cancel = function(){
+            if($location.search().returnUrl)
+                returnUrl.navigate($location.search().returnUrl)
+            else
+                $location.path('/admin/users');
+        }
         $scope.$watch('phones+faxes+emailsCc', function () {
             if($scope.document) {
                 $scope.document.Phone    = ($scope.phones  ||[]).join(';').replace(/^\s+|;$|\s+$/gm,'');
@@ -129,7 +134,10 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
 
             }).then(function(){
 
-                $location.path('/admin/users');
+                if($location.search().returnUrl)
+                    returnUrl.navigate($location.search().returnUrl)
+                else
+                    $location.path('/admin/users');
 
             }).catch(handleError);
         }
