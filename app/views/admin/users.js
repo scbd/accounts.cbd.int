@@ -1,7 +1,8 @@
 define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
     return ['$scope', '$http', '$route', '$location', '$filter', '$q', function($scope, $http, $route, $location, $filter, $q) {
-
+    
+    
     $scope.pageSize = 25;
     $scope.tabSetSize = 10;
     $scope.set = 0;
@@ -50,18 +51,25 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
   var cancelPopulate;
   var debouncedPopulate = _.debounce(populate, 250);
-
+  var prevRequestCancelled = false;
 	function populate () {
 
         if(cancelPopulate) {
             cancelPopulate.resolve();
             cancelPopulate = undefined;
+            prevRequestCancelled = true;
         }
 
+        $location.search({government:$scope.government})
+        $location.search({role:$scope.roleFilter})
+        $location.search({freetext:$scope.freetext})
+
+        $scope.returnUrl = 'returnUrl=' + encodeURIComponent($location.$$url);
         cancelPopulate = $q.defer();
         $scope.loading = true;
-        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise }).then(function (response) {
-
+        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
+        .then(function (response) {
+            prevRequestCancelled=false;
             $scope.userCount =  parseInt(response.headers("record-count"));
 
             var users = _.map(response.data, function (user) {
@@ -82,8 +90,13 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
             return users;
         })
+        .catch(function(e){
+          if(e.xhrStatus != 'abort')
+            prevRequestCancelled=false;
+        })
         .finally(function(){
-          $scope.loading = false;
+          if(!prevRequestCancelled)
+            $scope.loading = false;
         });
 	}
 
