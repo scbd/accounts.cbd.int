@@ -24,6 +24,9 @@
 					</div>
 				</div>
 			</div>
+			<div class="row" ng-if="loading">
+				<i class="fa fa-spin fa-spinner"></i> Searching...
+			</div>
 		</form>
 	</div>
 
@@ -61,7 +64,9 @@
 			</td>
 			<td style="width:40%">
 				<div>{{user.email}}</div>
-				<span class="badge badge-important" ng-repeat="role in user.roles" style="font-size:10px;margin-right:4px">{{roles[role].name}}</span>
+				<span class="badge badge-important" ng-repeat="role in user.roles track by $index" style="font-size:10px;margin-right:4px">
+					{{roles[role].name}}
+				</span>
 			</td>
 			<td nowrap>
 				<a ng-href="/admin/users/{{user.userID}}" class="btn btn-info"><i class="fa fa-edit"></i></a>

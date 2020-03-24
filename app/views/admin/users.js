@@ -50,7 +50,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
         }
 
         cancelPopulate = $q.defer();
-
+        $scope.loading = true;
         return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise }).then(function (response) {
 
             $scope.userCount =  parseInt(response.headers("record-count"));
@@ -61,7 +61,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
                     user.government = user.government.toUpperCase();
 
                 return user;
-    		});
+    		    });
 
             $scope.users = users;
 
@@ -72,6 +72,9 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
             updatePager();
 
             return users;
+        })
+        .finally(function(){
+          $scope.loading = false;
         });
 	}
 
