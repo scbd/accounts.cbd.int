@@ -1,7 +1,9 @@
 define(['app', 'directives/security/password-rules'], function() {
 
-    return ['$scope', '$location', '$http', function ($scope, $location, $http) {
+    return ['$scope', '$location', '$http', 'returnUrl', function ($scope, $location, $http, returnUrl) {
 
+
+    $scope.returnUrl = returnUrl.get() || '/';
     //============================================================
     //
     //

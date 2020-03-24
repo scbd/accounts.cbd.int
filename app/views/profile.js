@@ -1,13 +1,14 @@
 define(['app', 'angular', 'directives/forms-input-list', 'directives/input-email'], function(app, angular){
 
-return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope, authHttp, $location, $filter, $timeout) {
+return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', function ($scope, authHttp, $location, $filter, $timeout, returnUrl) {
 
     //============================================================
     //
     //
     //============================================================
     function initialize() {
-        
+        $scope.returnUrl = returnUrl.get() || '/';
+
         authHttp.get('/api/v2013/users/' + $scope.user.userID).then(function onsuccess (response) {
 
             $scope.document = response.data;
@@ -16,7 +17,6 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', function ($scope,
             $scope.emailsCc  = ($scope.document.EmailsCc  ||'').split(';');
 
         }).catch(function onerror (response) {
-
             $scope.error = response.data;
         });
 
