@@ -1,6 +1,6 @@
 define(['app', 'angular', 'directives/forms-input-list', 'directives/input-email'], function(app, angular){
 
-return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', function ($scope, authHttp, $location, $filter, $timeout, returnUrl) {
+return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', '$q', function ($scope, authHttp, $location, $filter, $timeout, returnUrl, $q) {
 
     //============================================================
     //
@@ -28,17 +28,19 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', func
             $scope.error = response.data;
         });
 
-        authHttp.get('/api/v2013/roles', { cache: true }).then(function (response) {
-    		var map = {};
-    		response.data.forEach(function (role) {
-    			map[role.roleId] = role;
-    		});
-    		$scope.roles = map;
+        var rolePromises = [authHttp.get('/api/v2013/roles', { cache: true }), authHttp.get('/api/v2013/users/'+$scope.user.userID+'/roles')]
+        
+        $q.all(rolePromises)
+        .then(function (response) {
+            var map = {}
+            _.each(response[0].data, function (role) {
+                map[role.roleId] = role;
+            });            
+            $scope.userRoles = _.map(response[1].data, function(r){
+                return map[r].name
+            });
 	    });
 
-        authHttp.get('/api/v2013/users/'+$scope.user.userID+'/roles').then(function (res) {
-            $scope.userRoles = res.data;
-        });
     }
 
     //============================================================
