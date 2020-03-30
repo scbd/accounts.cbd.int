@@ -1,10 +1,20 @@
 define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
     return ['$scope', '$http', '$route', '$location', '$filter', '$q', function($scope, $http, $route, $location, $filter, $q) {
-
+    
+    
     $scope.pageSize = 25;
     $scope.tabSetSize = 10;
     $scope.set = 0;
+
+    var qs = $location.search();
+    if(qs.government)
+      $scope.government = qs.government
+    if(qs.role)
+      $scope.roleFilter = Number(qs.role);
+    if(qs.freetext)
+      $scope.freetext = qs.freetext
+      
     updatePager(0);
 
   $http.get('/api/v2013/roles', { cache: true }).then(function (response) {
@@ -41,18 +51,25 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
   var cancelPopulate;
   var debouncedPopulate = _.debounce(populate, 250);
-
+  var prevRequestCancelled = false;
 	function populate () {
 
         if(cancelPopulate) {
             cancelPopulate.resolve();
             cancelPopulate = undefined;
+            prevRequestCancelled = true;
         }
 
+        $location.search({government:$scope.government})
+        $location.search({role:$scope.roleFilter})
+        $location.search({freetext:$scope.freetext})
+
+        $scope.returnUrl = 'returnUrl=' + encodeURIComponent($location.$$url);
         cancelPopulate = $q.defer();
-
-        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise }).then(function (response) {
-
+        $scope.loading = true;
+        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
+        .then(function (response) {
+            prevRequestCancelled=false;
             $scope.userCount =  parseInt(response.headers("record-count"));
 
             var users = _.map(response.data, function (user) {
@@ -61,7 +78,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
                     user.government = user.government.toUpperCase();
 
                 return user;
-    		});
+    		    });
 
             $scope.users = users;
 
@@ -72,6 +89,14 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
             updatePager();
 
             return users;
+        })
+        .catch(function(e){
+          if(e.xhrStatus != 'abort')
+            prevRequestCancelled=false;
+        })
+        .finally(function(){
+          if(!prevRequestCancelled)
+            $scope.loading = false;
         });
 	}
 

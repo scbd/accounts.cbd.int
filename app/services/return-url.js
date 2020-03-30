@@ -23,10 +23,15 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
         //============================================================
         function getReturnUrl() {
 
-            var url = $location.search().returnUrl || $location.search().returnurl || $location.search()['return-url'];
+            var url = $location.search().returnUrl || $location.search().returnurl || $location.search()['return-url']
+                      || $location.search()['redirect_uri'];
             
-            if(isTrusted(url))
+            if(isTrusted(url)){
                 return url;
+            }
+            else{
+                console.log('not trusted url', url)
+            }
         }
 
         //============================================================
@@ -40,6 +45,7 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
 
             $location.search('return-url', null);
             $location.search('returnurl',  null);
+            $location.search('redirect_uri',  null);
             $location.search('returnUrl',  url);
         }
 
