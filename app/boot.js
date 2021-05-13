@@ -10,7 +10,6 @@ require.config({
         'lodash':   cdnHost + 'lodash@3.10.1/index',
         'text':     cdnHost + 'requirejs-text@2.0.15/text',
         'urijs':    cdnHost + 'uri.js@0.1.3/src/uri',
-
     },
     urlArgs: gitVersion
 });
@@ -20,6 +19,18 @@ if (!require.defined('angular')) {
         return window.angular;
     });
 }
+
+var reCAPTCHA_site_key = "6Lfj3pQUAAAAAKszUI1k4i9AceoyRNUd2G7tw74Y";
+define('grecaptcha', ['https://www.recaptcha.net/recaptcha/api.js?render='+encodeURIComponent(reCAPTCHA_site_key)], function(grecaptcha) {
+
+    grecaptcha = grecaptcha || window.grecaptcha;
+
+    grecaptcha.executeEx = function(opt){ // Create a executeEx to avoid passing key everywhere
+        return this.execute(reCAPTCHA_site_key, opt);
+    }.bind(grecaptcha);
+
+    return grecaptcha;
+});
 
 require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
 

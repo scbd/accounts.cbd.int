@@ -13,6 +13,8 @@ var apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
 var gitVersion  = (process.env.VERSION || process.env.COMMIT || `UNKNOWN-${Math.random()*1985|0}`);
 var date        = new Date();
 var year        = date.getFullYear();
+var captchaV2key= process.env.CAPTCHA_V2_KEY || '';
+var captchaV3key= process.env.CAPTCHA_V3_KEY || '';
 
 console.info(`info: accounts.cbd.int`);
 console.info(`info: Git version: ${gitVersion}`);

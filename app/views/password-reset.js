@@ -1,6 +1,6 @@
-define(['app', 'directives/input-email'], function(){
+define(['grecaptcha', 'app', 'directives/input-email'], function(grecaptcha){
 
-return ['$scope', '$http', '$location', function ($scope, $http, $location) {
+return ['$scope', '$http', '$location', '$q', function ($scope, $http, $location, $q) {
 
     //============================================================
     //
@@ -8,7 +8,11 @@ return ['$scope', '$http', '$location', function ($scope, $http, $location) {
     //============================================================
     $scope.actionSubmit = function() {
 
-        $http.post('/api/v2013/users/'+encodeURIComponent($scope.email)+'/password-resets', angular.toJson({})).then(function(res) {
+        return $q.resolve(grecaptcha.executeEx({action:"passwordreset"})).then(function(token) {
+
+            return $http.post('/api/v2013/users/'+encodeURIComponent($scope.email)+'/password-resets', {}, { headers : { 'X-Captcha-Token' : token } });
+        
+        }).then(function(res) {
 
             $location.path('/password/reset/sent');
 

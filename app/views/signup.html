@@ -82,7 +82,7 @@
 							</div>
 							<div class="row">
 								<div class="col-xs-12">
-									<div class="form-group" ng-class="{ 'has-warning': form.email.$invalid }">
+									<div class="form-group" ng-class="{ 'has-warning': form.password.$invalid }">
 										<label>Password</label>
 										<div class="input-group" style="margin-bottom:2px; padding-left: 0px">
 											<span class="input-group-addon"><i class="fa fa-key"></i></span>
@@ -92,7 +92,8 @@
 												<i class="fa" ng-class="{'fa-eye': passwordType=='password','fa-eye-slash' : passwordType=='text'}"></i>
 											</span>
 										</div>
-										<p class="help-block error" ng-show="form.password.$invalid && !form.password.$error.password">This field is mandatory</p>
+										<p class="help-block error" ng-show="form.password.$error.required">This field is mandatory</p>
+										<p class="help-block error" ng-show="form.password.$error.rules && !form.password.$error.required">Password does not satisfy the current policy requirements</p>
 									</div>
 								</div>
 							</div>
@@ -100,6 +101,7 @@
 								<div class="col-xs-12">
 									<p>By signing up, you agree to our <a href="http://www.cbd.int/terms" target="_blank">Terms of Use</a> and confirm that you have read our <a href="http://www.cbd.int/privacy" target="_blank">Privacy Policy</a>.</p>
 
+                                    <div vc-recaptcha ng-model="captcha.challenge" size="normal" key="'6Lfa5yAUAAAAAOZ_mTlRAMM06lABal8C2mU62Az9'" on-create="captcha.widgetId = widgetId"></div>
 									<button type="submit" class="btn btn-primary">Submit</button>
 									<button type="button" class="btn btn-default" ng-click="$root.returnUrl.navigate('/signin')">Cancel</button>
 
@@ -107,7 +109,6 @@
 							</div>
 						</div>
 					</div>
-
 
 				</form>
 			</div>
@@ -128,7 +129,7 @@
 
             </div>
 
-            <password-rules ng-if="document.Password" password="document.Password" is-valid="passwordValid"></password-rules>
+            <password-rules ng-if="document.Password" password="$parent.document.Password" is-valid="$parent.passwordValid"></password-rules>
 
             <p> Already have an account? <a ng-click="$root.returnUrl.navigate('/signin')" href="#">Sign In</a></p>
 
