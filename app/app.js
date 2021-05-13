@@ -14,5 +14,8 @@ define(['angular'], function (angular) { 'use strict';
 
     }]);
 
+    app.value("captchaSiteKeyV2", (document && document.documentElement.attributes['captcha-site-key-v2'].value));
+    app.value("captchaSiteKeyV3", (document && document.documentElement.attributes['captcha-site-key-v3'].value));
+    
 	return app;
 });

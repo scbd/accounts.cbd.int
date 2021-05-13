@@ -35,13 +35,13 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
-  res.render('template', { gitVersion: gitVersion, year:year });
+  res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
 
 app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER
 
-app.listen(process.env.PORT || 8000, function () {
+app.listen(process.env.PORT || 7000, function () {
 	console.info(`Server listening on ${this.address().port}`);
 });
 // Handle proxy errors ignore

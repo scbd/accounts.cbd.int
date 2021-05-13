@@ -20,18 +20,6 @@ if (!require.defined('angular')) {
     });
 }
 
-var reCAPTCHA_site_key = "6Lfj3pQUAAAAAKszUI1k4i9AceoyRNUd2G7tw74Y";
-define('grecaptcha', ['https://www.recaptcha.net/recaptcha/api.js?render='+encodeURIComponent(reCAPTCHA_site_key)], function(grecaptcha) {
-
-    grecaptcha = grecaptcha || window.grecaptcha;
-
-    grecaptcha.executeEx = function(opt){ // Create a executeEx to avoid passing key everywhere
-        return this.execute(reCAPTCHA_site_key, opt);
-    }.bind(grecaptcha);
-
-    return grecaptcha;
-});
-
 require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
 
     ng.element(document).ready(function () {

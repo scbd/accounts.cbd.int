@@ -1,4 +1,4 @@
-define(['grecaptcha', 'app', 'directives/input-email', 'directives/security/password-rules'], function(grecaptcha){
+define(['app', 'directives/input-email', 'directives/security/password-rules', './recaptcha.directive.js'], function(){
 
 return ['$scope', '$http', 'authentication', 'apiToken', 'user', '$q', function ($scope, $http, authentication, apiToken, user, $q) {
     $scope.passwordType = 'password';
@@ -31,11 +31,8 @@ return ['$scope', '$http', 'authentication', 'apiToken', 'user', '$q', function 
             Password     : $scope.document.Password,
         };
 
-        return $q.resolve(grecaptcha.executeEx({action:"signup"})).then(function(token){
-
-            return $http.post('/api/v2013/users', data, { headers : { 'X-Captcha-Token' : token } });
-
-        }).then(function(res) {
+        return $http.post('/api/v2013/users', data, { headers : { 'x-captcha-v2-token' : $scope.grecaptchaToken } })
+        .then(function(res) {
 
             var credentials = {  // auto signin
                 'email':    $scope.document.Email, 
@@ -53,6 +50,7 @@ return ['$scope', '$http', 'authentication', 'apiToken', 'user', '$q', function 
 
         }).catch(function (res) {
             $scope.error = res.data || res;
+            $scope.resetCaptcha();
         })
         .finally(function(){
             $scope.isLoading = false;
