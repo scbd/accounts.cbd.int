@@ -29,7 +29,10 @@
 								<p class="help-block error" ng-show="form.email.$error.required">This field is required</p>
 								<p class="help-block error" ng-show="form.email.$error.email">Email is not valid / complete</p>
 							</div>
-							<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">Submit</button>
+							<div style="margin-top: 10px;">
+								<recaptcha-v2></recaptcha-v2>
+							</div>
+							<button type="submit" class="btn btn-primary" ng-disabled="form.$invalid || !grecaptchaToken">Submit</button>
 						</form>
 					</div>
 				</div>
