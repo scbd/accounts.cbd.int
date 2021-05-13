@@ -35,7 +35,6 @@
     "depd": "1.1.2",
     "setprototypeof": "1.1.0",
     "statuses": "1.5.0",
-    "http-errors": "1.6.3",
-    "ms": "2.0.0"
+    "http-errors": "1.6.3"
   }
 }

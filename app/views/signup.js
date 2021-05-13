@@ -1,6 +1,6 @@
 define(['app', 'directives/input-email', 'directives/security/password-rules', './recaptcha.directive.js'], function(){
 
-return ['$scope', '$http', 'authentication', 'apiToken', 'user', '$q', function ($scope, $http, authentication, apiToken, user, $q) {
+return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scope, $http, authentication, apiToken, user) {
     $scope.passwordType = 'password';
 
     if(user.isAuthenticated)

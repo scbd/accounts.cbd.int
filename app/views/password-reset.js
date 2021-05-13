@@ -1,6 +1,6 @@
-define(['app', 'directives/input-email', './recaptcha.directive.js'], function(grecaptcha){
+define(['app', 'directives/input-email', './recaptcha.directive.js'], function(){
 
-return ['$scope', '$http', '$location', '$q', function ($scope, $http, $location, $q) {
+return ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     //============================================================
     //

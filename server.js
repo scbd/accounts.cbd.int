@@ -41,7 +41,7 @@ app.get('/*', (req, res) => {
 app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER
 
-app.listen(process.env.PORT || 7000, function () {
+app.listen(process.env.PORT || 8000, function () {
 	console.info(`Server listening on ${this.address().port}`);
 });
 // Handle proxy errors ignore
