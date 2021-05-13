@@ -10,7 +10,6 @@ require.config({
         'lodash':   cdnHost + 'lodash@3.10.1/index',
         'text':     cdnHost + 'requirejs-text@2.0.15/text',
         'urijs':    cdnHost + 'uri.js@0.1.3/src/uri',
-
     },
     urlArgs: gitVersion
 });
