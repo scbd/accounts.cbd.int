@@ -70,8 +70,8 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 			},
 			set : function(token) {
 
-				if(token) $cookies.put   ("authenticationToken", token, { path: '/' });
-				else      $cookies.remove("authenticationToken", token, { path: '/' });
+				if(token) $cookies.put   ("authenticationToken", token, { path: '/', samesite: 'None', secure: true });
+				else      $cookies.remove("authenticationToken", token, { path: '/', samesite: 'None', secure: true });
 			}
 		};
 	}]);
