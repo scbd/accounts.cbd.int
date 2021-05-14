@@ -163,10 +163,13 @@
 								<div class="col-sm-12 col-xs-12">
 									<div class="form-group">
 										<label for="zip">My Roles</label>
-										<hr />
-										<span class="badge badge-important" ng-repeat="role in userRoles track by $index" style="font-size:10px;margin-right:4px">
-											{{roles[role].name}}
-										</span>
+										<table class="table table-bordered">
+											<tr ng-repeat="role in userRoles|orderBy track by $index" >
+												<td>
+													{{role}}
+												</td>
+											</tr>
+										</table>
 									</div>
 								</div>
 							</div>
