@@ -13,11 +13,9 @@ function setFromStorage(key, value) {
 function removeFromStorage(key) {
     return localStorage.removeItem(key);
 }
-var trustedHosts = [
-    [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
-    [/^cbddev\.xyz$/i, /.*\.cbddev\.xyz$/i],
-    [/^cbd\.int$/i, /.*\.cbd\.int$/i]
-];
+
+var trustedHosts = [<%=trustedDomains%>];
+
 function receiveMessage(event) {
 
     //TODO:remove permanently
