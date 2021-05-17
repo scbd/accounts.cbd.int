@@ -1,5 +1,6 @@
 'use strict';
 // CREATER ADD & ADD MIDDLEWARES
+var _            = require('lodash');
 var express      = require('express');
 var proxy        = require('http-proxy').createProxyServer({});
 var app          = express();
@@ -9,7 +10,8 @@ var app          = express();
 app.set('views', `${__dirname}/app`);
 app.set('view engine', 'ejs');
 
-var apiUrl      = process.env.API_URL || 'https://api.cbddev.xyz';
+var domains     =(process.env.DOMAINS  || 'cbddev.xyz').split(';').map(o=>o.trim()).filter(o=>!!o);
+var apiUrl      = process.env.API_URL  || `https://api.${domains[0]}`;
 var gitVersion  = (process.env.VERSION || process.env.COMMIT || `UNKNOWN-${Math.random()*1985|0}`);
 var date        = new Date();
 var year        = date.getFullYear();
@@ -25,6 +27,13 @@ console.info(`info: IS DEV: ${process.env.IS_DEV}`);
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
 app.use('/app',           express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
 app.use('/app/libs',      express.static(__dirname + '/node_modules/@bower_components', { setHeaders: setCustomCacheControl }));
+
+app.get('/app/authorize.html', (req, res) => {
+  var trustedDomains = domains.map(domain=>`/(^|.+\\.)${_.escapeRegExp(domain)}$/i`);
+  setCustomCacheControl(res);
+  res.render('authorize', { trustedDomains:  trustedDomains.join(', ') });
+});
+
 app.all('/app/*',         function(req, res) { res.status(404).send(); } );
 
 app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, secure: false, changeOrigin:true } ); } );
