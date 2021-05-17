@@ -1,4 +1,15 @@
-﻿var document = { location : { hostname: '' }  };
+﻿var localStorage = window.localStorage;
+function getFromStorage(key) {
+    return localStorage.getItem(key);
+}
+function setFromStorage(key, value) {
+    return localStorage.setItem(key, value);
+}
+function removeFromStorage(key) {
+    return localStorage.removeItem(key);
+}
+
+var document = { location : { hostname: '' }  };
 
 var DOMAINS = ["cbd.int", "staging.cbd.int", "cbddev.xyz"];
 var HOSTS   = ["www", "absch", "chm", "bch", "beta.bch"];
@@ -59,36 +70,34 @@ function receiveMessage(event) {
     }
     return console.log(`isTrusted: ${isTrustedDomain?'Yes':'No '} - Accessing ${document.location.hostname} from ${event.origin}`);
 
+    
     if(isTrustedDomain){
-
         var message = JSON.parse(event.data);
-
         if(message.type=='getAuthenticationToken') {
             
             var response = { 
                 type                : 'authenticationToken', 
-                authenticationToken : getCookie('authenticationToken'), 
-                authenticationEmail : getCookie('email'), 
-                expiration         : getCookie('expiration') 
+                authenticationToken : getFromStorage('authenticationToken'), 
+                authenticationEmail : getFromStorage('email'), 
+                expiration          : getFromStorage('expiration') 
             };
             if(response && response.expiration){
                 if(new Date(response.expiration).getTime() <= new Date().getTime()){
                     response.sessionexpired = true;
+                    removeFromStorage('authenticationToken', null);
+                    removeFromStorage('expiration', null);
                 }
             }
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
-
         if(message.type=='setAuthenticationToken') {
-
-            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, message.expiration);
-            else                            setCookie('authenticationToken', null); //Delete the cookie
-
-            if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
-            if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
-
-            if(message.expiration)        setCookie('expiration', message.expiration, 365);
-            else                          setCookie('expiration', null); //Delete the cookie
+            if(message.authenticationToken) setFromStorage('authenticationToken', message.authenticationToken, message.expiration);
+            else                            removeFromStorage('authenticationToken'); //Delete from storage
+            if(message.authenticationEmail)        setFromStorage('email', message.authenticationEmail, 365);
+            if(message.authenticationEmail===null) removeFromStorage('email'); //Delete from storage
+            if(message.expiration)        setFromStorage('expiration', message.expiration);
+            else                          removeFromStorage('expiration'); //Delete from storage
         }
     }
+
 }

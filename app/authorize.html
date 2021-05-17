@@ -2,30 +2,16 @@
 <html lang="en">
 <body>
 <script>
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i].trim();
-        if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-    }
-    return "";
+    
+var localStorage = window.localStorage;
+function getFromStorage(key) {
+    return localStorage.getItem(key);
 }
-function setCookie(cname, cvalue, exdays)
-{
-    if(cvalue===null || cvalue === undefined)
-        exdays = -365;
-    var parts = [cname + "=" + (cvalue||"")];
-    if(exdays) {
-        var d = new Date();
-        if(typeof exdays == 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,8}Z/.test(exdays))
-            d = new Date(exdays)
-        else      
-            d.setDate(d.getDate()+exdays);
-        parts.push("expires="+d.toGMTString())
-    }    
-    parts.push("path=/");
-    document.cookie =  parts.join("; ");
+function setFromStorage(key, value) {
+    return localStorage.setItem(key, value);
+}
+function removeFromStorage(key) {
+    return localStorage.removeItem(key);
 }
 var trustedHosts = [
     [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
@@ -33,6 +19,12 @@ var trustedHosts = [
     [/^cbd\.int$/i, /.*\.cbd\.int$/i]
 ];
 function receiveMessage(event) {
+
+    //TODO:remove permanently
+    document.cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    document.cookie = "expiry=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+    document.cookie = "email=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
     var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
     var origin = event.origin;
     if(origin=='http://localhost' || /^http:\/\/localhost:/.test(origin)) origin = 'https://localhost.'+secureDomain;
@@ -66,24 +58,26 @@ function receiveMessage(event) {
             
             var response = { 
                 type                : 'authenticationToken', 
-                authenticationToken : getCookie('authenticationToken'), 
-                authenticationEmail : getCookie('email'), 
-                expiration         : getCookie('expiration') 
+                authenticationToken : getFromStorage('cbd_authentication_token'), 
+                authenticationEmail : getFromStorage('cbd_authentication_email'), 
+                expiration          : getFromStorage('cbd_authentication_expiration') 
             };
             if(response && response.expiration){
                 if(new Date(response.expiration).getTime() <= new Date().getTime()){
                     response.sessionexpired = true;
+                    removeFromStorage('cbd_authentication_token', null);
+                    removeFromStorage('cbd_authentication_expiration', null);
                 }
             }
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
         if(message.type=='setAuthenticationToken') {
-            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, message.expiration);
-            else                            setCookie('authenticationToken', null); //Delete the cookie
-            if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
-            if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
-            if(message.expiration)        setCookie('expiration', message.expiration, 365);
-            else                          setCookie('expiration', null); //Delete the cookie
+            if(message.authenticationToken) setFromStorage('cbd_authentication_token', message.authenticationToken, message.expiration);
+            else                            removeFromStorage('cbd_authentication_token'); //Delete from storage
+            if(message.authenticationEmail)        setFromStorage('cbd_authentication_email', message.authenticationEmail, 365);
+            if(message.authenticationEmail===null) removeFromStorage('cbd_authentication_email'); //Delete from storage
+            if(message.expiration)        setFromStorage('cbd_authentication_expiration', message.expiration);
+            else                          removeFromStorage('cbd_authentication_expiration'); //Delete from storage
         }
     }
 }
