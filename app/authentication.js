@@ -1,10 +1,5 @@
 define(['app', 'angular'], function (app, ng) { 'use strict';
 
-    //TODO:remove permanently
-    document.cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
-    document.cookie = "expiry=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
-    document.cookie = "email=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
-
 	app.factory('authentication', ["$http", "$q", '$rootScope', function($http, $q, $rootScope) {
 
 		var currentUser = null;
@@ -45,9 +40,9 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 	    //
 	    //============================================================
 		function signOut () {
-			window.localStorage.removeItem('cbd_authentication_token')
-			window.localStorage.removeItem('cbd_authentication_expiry');
-			
+
+			document.cookie = "authenticationToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT";
+
 			reset();
 
 			return $http.delete('/api/v2013/authentication/token');
@@ -67,14 +62,16 @@ define(['app', 'angular'], function (app, ng) { 'use strict';
 
 	}]);
 
-	app.factory('apiToken', [function() {
+	app.factory('apiToken', ["$cookies", function($cookies) {
+
 		return {
 			get : function() {
-				return  window.localStorage.getItem("cbd_authentication_token");
+				return $cookies.get("authenticationToken");
 			},
 			set : function(token) {
-				if(token) window.localStorage.setItem("cbd_authentication_token", token);
-				else      window.localStorage.removeItem("cbd_authentication_token");
+
+				if(token) $cookies.put   ("authenticationToken", token, { path: '/' });
+				else      $cookies.remove("authenticationToken", token, { path: '/' });
 			}
 		};
 	}]);
