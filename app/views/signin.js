@@ -34,6 +34,9 @@ define(['app', 'authentication'], function() {
             if($scope.rememberMe) $cookies.put   ('email', $scope.email, { path:'/', expires: expires, samesite: 'None', secure: true });
             else                  $cookies.remove('email', { path:'/' });
 
+            if(success.data.expiration) $cookies.put   ("expiration", success.data.expiration, { path:'/', expires: new Date(success.data.expiration), samesite: 'None', secure: true });
+            else                        $cookies.remove('expiration', { path:'/' });            
+
             authentication.reset();
 
             $scope.$root.returnUrl.goBack();
