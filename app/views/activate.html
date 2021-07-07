@@ -30,7 +30,7 @@
 
 				var headers = { Authorization: "Ticket " + getQueryStringValue("key") };
 		        $.ajax({
-					url:'https://km-api.cbd.int/api/v2013/activate/email',
+					url:'https://api.cbd.int/api/v2013/activate/email',
 					type : 'put',
 					headers: headers,
 					success : function onsuccess (response) {
