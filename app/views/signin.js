@@ -1,11 +1,10 @@
 define(['app', 'authentication'], function() {
 
-    return ['$scope', '$http', 'authentication', 'user', 'apiToken', function ($scope, $http, authentication, user, apiToken) {
+    return ['$scope', '$http', '$cookies', 'authentication', 'user', 'apiToken', function ($scope, $http, $cookies, authentication, user, apiToken) {
 
-    var localStorage = window.localStorage;   
 	$scope.password   = "";
-    $scope.email      = localStorage.getItem("cbd_authentication_email") || "";
-    $scope.rememberMe = !!localStorage.getItem("cbd_authentication_email");
+    $scope.email      = $cookies.get("email") || "";
+    $scope.rememberMe = !!$cookies.get("email");
 
     $scope.isForbidden = false;
     $scope.isAuthenticated = user.isAuthenticated;
@@ -27,12 +26,16 @@ define(['app', 'authentication'], function() {
         $http.post('/api/v2013/authentication/token', credentials).then(function onsuccess(success) {
 
             apiToken.set(success.data.authenticationToken);
-            
-            if($scope.rememberMe) localStorage.setItem('cbd_authentication_email', $scope.email);
-            else                  localStorage.removeItem('cbd_authentication_email');
 
-            if(success.data.expiration) localStorage.setItem("cbd_authentication_expiration", success.data.expiration);
-            else      localStorage.removeItem("cbd_authentication_expiration");
+            var expires = new Date();
+
+            expires.setDate(expires.getDate()+365);
+            
+            if($scope.rememberMe) $cookies.put   ('email', $scope.email, { path:'/', expires: expires, samesite: 'None', secure: true });
+            else                  $cookies.remove('email', { path:'/' });
+
+            if(success.data.expiration) $cookies.put   ("expiration", success.data.expiration, { path:'/', expires: new Date(success.data.expiration), samesite: 'None', secure: true });
+            else                        $cookies.remove('expiration', { path:'/' });            
 
             authentication.reset();
 
@@ -56,7 +59,6 @@ define(['app', 'authentication'], function() {
         $scope.isError = false;
         $scope.error = null;
     };
-
 
     if(user.isAuthenticated) {
 		$scope.$root.returnUrl.goBack();
