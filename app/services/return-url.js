@@ -58,7 +58,10 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
             var parsedUrl = parseUrl(url);
             var returnUrl = getReturnUrl();
 
-            if(parsedUrl.hostname!=$location.host()) { 
+            var fromHost = formatHost($location.protocol(), $location.host(),   $location.port());
+            var toHost   = formatHost(parsedUrl.protocol,   parsedUrl.hostname, parsedUrl.port);
+
+            if(fromHost != toHost) { 
                 window.location.href = url;
             }
             else {
@@ -104,6 +107,17 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
                 console.error(e);
                 return {};
             }
+        }
+
+        //============================================================
+        //
+        //
+        //============================================================
+        function formatHost(protocol, host, port) {
+            protocol = protocol.replace(/\:$/g, ''); //trimEnd(':');
+            port     = port || ({ http: 80, https: 443 })[protocol];
+
+            return protocol+"://"+host+":"+port;
         }
 	}]);
 });
