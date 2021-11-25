@@ -84,11 +84,11 @@ function receiveMessage(event) {
             window.parent.postMessage(JSON.stringify(response), event.origin);
         }
         if(message.type=='setAuthenticationToken') {
-            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, message.expiration);
+            if(message.authenticationToken) setCookie('authenticationToken', message.authenticationToken, 0);
             else                            setCookie('authenticationToken', null); //Delete the cookie
             if(message.authenticationEmail)        setCookie('email', message.authenticationEmail, 365);
             if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
-            if(message.expiration)        setCookie('expiration', message.expiration, 365);
+            if(message.expiration)        setCookie('expiration', message.expiration, 0);
             else                          setCookie('expiration', null); //Delete the cookie
         }
     }
