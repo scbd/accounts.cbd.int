@@ -30,12 +30,13 @@ define(['app', 'authentication'], function() {
             var expires = new Date();
 
             expires.setDate(expires.getDate()+365);
-            
-            if($scope.rememberMe) $cookies.put   ('email', $scope.email, { path:'/', expires: expires, samesite: 'None', secure: true });
-            else                  $cookies.remove('email', { path:'/' });
 
-            if(success.data.expiration) $cookies.put   ("expiration", success.data.expiration, { path:'/', samesite: 'None', secure: true });
-            else                        $cookies.remove('expiration', { path:'/' });            
+            
+            if($scope.rememberMe)       $cookies.put   ('email', $scope.email, { expires: expires, path:'/', samesite: 'None', secure: true });
+            else                        $cookies.remove('email',               { expires: expires, path:'/', samesite: 'None', secure: true });
+
+            if(success.data.expiration) $cookies.put   ("expiration", success.data.expiration,   { path:'/', samesite: 'None', secure: true });
+            else                        $cookies.remove('expiration',                            { path:'/', samesite: 'None', secure: true });
 
             authentication.reset();
 
