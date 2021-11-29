@@ -25,11 +25,8 @@ function setCookie(cname, cvalue, exdays)
         parts.push("expires="+d.toGMTString())
     }    
     parts.push("path=/");
-
-    if(!d || d > new Date()) { // only set for session OR non-expired cookie
-        parts.push("SameSite=None");
-        parts.push("Secure");
-    }
+    parts.push("SameSite=None");
+    parts.push("Secure");
 
     document.cookie =  parts.join("; ");
 }
