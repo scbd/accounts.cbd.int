@@ -87,6 +87,12 @@ function receiveMessage(event) {
             if(message.authenticationEmail===null) setCookie('email', null); //Delete the cookie
             if(message.expiration)        setCookie('expiration', message.expiration, 0);
             else                          setCookie('expiration', null); //Delete the cookie
+
+            var response = { 
+                type : 'authenticationTokenUpdated', 
+            };
+
+            window.parent.postMessage(JSON.stringify(response), event.origin);
         }
     }
 }
