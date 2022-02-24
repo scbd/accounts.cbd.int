@@ -35,6 +35,7 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
+  res.setHeader('X-Frame-Options', 'DENY')
   res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
 
