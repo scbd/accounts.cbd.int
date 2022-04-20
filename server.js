@@ -21,6 +21,9 @@ console.info(`info: Git version: ${gitVersion}`);
 console.info(`info: API address: ${apiUrl}`);
 console.info(`info: IS DEV: ${process.env.IS_DEV}`);
 
+app.use(                       function(req,res,next) { res.setHeader('X-Frame-Options', 'DENY' ); next(); });
+app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-Options', 'ALLOW'); next(); });
+
 // Configure static files to serve
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
 app.use('/app',           express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
@@ -35,7 +38,6 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
-  res.setHeader('X-Frame-Options', 'DENY')
   res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
 
