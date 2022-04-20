@@ -2,7 +2,7 @@
   "name": "accounts-cbd-int",
   "description": "accounts.cbd.int",
   "dependencies": {
-    "@bower_components/angular-flex": "git://github.com/scbd/angular-flex.git#1.0.3",
+    "@bower_components/angular-flex": "https://github.com/scbd/angular-flex.git#1.0.3",
     "@bower_components/bootstrap-duallistbox": "istvan-ujjmeszaros/bootstrap-duallistbox#2.1.1",
     "ejs": "2.6.1",
     "express": "4.16.3",
