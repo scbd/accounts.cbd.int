@@ -1,8 +1,15 @@
 'use strict';
-// CREATER ADD & ADD MIDDLEWARES
-var express      = require('express');
-var proxy        = require('http-proxy').createProxyServer({});
-var app          = express();
+
+import      express      from 'express'         ;
+import      HttpProxy    from 'http-proxy'      ;
+import      samlEndPoint from './saml/index.js' ;
+import * as url          from 'url'             ;
+
+
+const __dirname  = url.fileURLToPath(new URL('.', import.meta.url));
+
+const proxy = HttpProxy.createProxyServer({});
+const app   = express                    (  );
 
 
 // Configure options
@@ -28,7 +35,7 @@ app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-O
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
 app.use('/app',           express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
 app.use('/app/libs',      express.static(__dirname + '/node_modules/@bower_components', { setHeaders: setCustomCacheControl }));
-app.all('/app/*',         function(req, res) { res.status(404).send(); } );
+//app.all('/app/*',         function(req, res) { res.status(404).send(); } );
 
 app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, secure: false, changeOrigin:true } ); } );
 ///non angularjs file for activating email
@@ -40,8 +47,9 @@ app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
   res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
+samlEndPoint(app)
 
-app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
+// app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER
 
 app.listen(process.env.PORT || 8000, function () {
@@ -66,3 +74,4 @@ function setCustomCacheControl(res, path) {
 
     res.setHeader('Cache-Control', 'public, max-age=0');
 }
+

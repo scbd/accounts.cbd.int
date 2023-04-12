@@ -29,8 +29,10 @@ define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict'
             if (!user)
                 return;
 
-            require(["https://www.cbd.int/app/js/slaask.js"], function(_slaask) {
+            require(["https://cdn.slaask.com/chat.js"], function() {
 
+                const _slaask =  window._slaask
+                
                 if (user.isAuthenticated) {
                     _slaask.identify(user.name, {
                         'user-id' : user.userID,
