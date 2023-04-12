@@ -1,4 +1,4 @@
-FROM node:10.6.0-alpine
+FROM node:18.0-alpine
 
 RUN apk update && apk upgrade && \
     apk add --no-cache git curl yarn
