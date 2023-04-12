@@ -36,6 +36,10 @@ export default (router) => {
   router.use('/saml', $await(loadInstitution({ appDomain })));
   router.use('/saml', $await(loadUser({ encryptionKey: jwtSecret, issuer: authIssuer })));
 
+  const cert = path.join(certPath, 'cert.pem')
+  const certExists = fs.existsSync(path)
+
+  if(certExists)
   router.use(`/saml`, controller({
     authIssuer, 
     basePath: `/saml`,
