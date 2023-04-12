@@ -56,7 +56,7 @@ export default function(req, res, next) {
         else if(err instanceof JsonWebTokenError) { console.error(`Load-user-dynamic-roles ${err.message}`); }
         else                                      { console.error(`Error Load-user-dynamic-roles:`, err); }
 //TODO - redirect error
-        res.redirect('/participants/login?error=invalidSamlSignature');
+        res.redirect('/signin?error=invalidSamlSignature');
     }
 
     next();

@@ -41,13 +41,14 @@ app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, sec
 ///non angularjs file for activating email
 app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate.html'));
 
+samlEndPoint(app)
 // SET TEMPLATE
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
   res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
-samlEndPoint(app)
+
 
 // app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER

@@ -7,9 +7,8 @@ export default function({ appDomain }) {
     let institution = req.headers['x-institution'];
     
     if(!institution) {
-      const host = req.headers['x-forwarded-host'] || req.headers['host'];
-
-      const institutionRe = /^([a-z]+)\..*/;
+      const host          = req.headers['x-forwarded-host'] || req.headers['host'];
+      const institutionRe = /^(.+)\..*/;
   
       if(institutionRe.test(host))
         institution = host.replace(institutionRe, "$1");

@@ -18,7 +18,9 @@ const providers = [];
 
 export default function Controller({ certificate, authIssuer, basePath }) {
 
+
     if(!certificate) throw new Error("No certificate provided")
+
     if(!authIssuer)  throw new Error("No authIssuer provided")
 
     dumpCertificateInformation(certificate.cert);
@@ -26,8 +28,8 @@ export default function Controller({ certificate, authIssuer, basePath }) {
     const router = Router();
 
     router.get ('/metadata',  $await(getIdPMetadata));
-    router.get ('/signin', $await(parseSamlRequest), $await(securizeOrLogin), $await(providerHooks), $await(sendSamlResponse));
-    router.post('/signin', $await(parseSamlRequest), $await(securize({})),    $await(providerHooks), $await(sendSamlResponse));
+    router.get ('/signin',    $await(parseSamlRequest), $await(securizeOrLogin), $await(providerHooks), $await(sendSamlResponse));
+    router.post('/signin',    $await(parseSamlRequest), $await(securize({})),    $await(providerHooks), $await(sendSamlResponse));
 
     return router;
 
@@ -46,7 +48,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
                 const { institutionDomain, absoluteUrl } = req;
 
                 const context     = { returnUrl : `${absoluteUrl}&noloop=1` };
-                const redirectUrl = `/participants/login?context=${encodeURIComponent(JSON.stringify(context))}`;
+                const redirectUrl = `/signin?context=${encodeURIComponent(JSON.stringify(context))}`;
 
                 return res.redirect(redirectUrl);
             }
