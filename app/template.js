@@ -14,7 +14,7 @@ define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict'
         };
 
         $scope.isAdmin = function() {
-			return $scope.user && _.contains($scope.user.roles, "Administrator");
+            return $scope.user && _.intersection($scope.user.roles, ['Administrator', 'Administrator-Accounts']).length > 0;
 		};
 
 		function loadCurrentUser() {
@@ -43,7 +43,7 @@ define(['app','lodash', 'services/return-url'], function (app, _) { 'use strict'
                     }
                 }
 
-                if(!_slaask.initialized) {
+                if(_slaask && !_slaask.initialized) {
                     _slaask.init('ae83e21f01860758210a799872e12ac4');
                 }
             });
