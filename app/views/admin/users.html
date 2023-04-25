@@ -7,21 +7,26 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-search"></i></span>
-					<input type="text" class="form-control" ng-model="freetext" placeholder="name or email">
+					<input type="text" class="form-control" ng-model="freetext" placeholder="name or email" ng-change="reloadUsers()">
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
 					<div class="row">
 						<div class="col-lg-6">
-								Government:	<select class="form-control" ng-model="government" ng-options="c.code as c.name for c in countriesList"></select>
-								<span  class="btn btn-default btn-small"  ng-click="government = undefined;"> clear government </span>
+								Government:	<select class="form-control" ng-model="government" ng-options="c.code as c.name for c in countriesList" ng-change="reloadUsers()"></select>
+								<span  class="btn btn-default btn-xs pull-right" ng-show="government"  ng-click="government = undefined;reloadUsers()"> clear government </span>
 						</div>
 						<div class="col-lg-6">
-								Roles:	<select class="form-control" ng-model="roleFilter" ng-options="r.roleId as r.name for r in roleList"></select>
-								<span  class="btn btn-default btn-small"  ng-click="roleFilter = undefined;"> clear role </span>
+								Roles:	<select class="form-control" ng-model="roleFilter" ng-options="r.roleId as r.name for r in roleList" ng-change="reloadUsers()"></select>
+								<span  class="btn btn-default btn-xs pull-right" ng-show="roleFilter"  ng-click="roleFilter = undefined;reloadUsers();"> clear role </span>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="input-group1" class="pull-right">
+					<a href="/admin/users/new" ><button type="button" class="btn btn-info">Create User</button></a>
 				</div>
 			</div>
 			<div class="row" ng-if="loading">
@@ -47,8 +52,21 @@
 			<a href ng-click="actionSetPage(currentPage+10)">Next 10 »</a>
 		</li>
 	</ul>
-
-	<a href="/admin/users/new"><button type="button" class="btn btn-info">Create</button></a>
+	<div class="">
+		<ul class="pagination" style="margin:0">
+			<li ng-if="userCount" class="disabled">
+				<a href>Total user(s) {{userCount}}</a>
+			</li>
+			<li class="disabled" ng-if="pageCount">
+				<a href>Total page(s) {{pageCount}}</a>
+			</li>
+			<li>
+				<a href>
+					Page Size <select ng-model="pageSize" ng-options="r.size as r.size for r in pageSizes" ng-change="actionSetPage(0)"></select>
+				</a>
+			</li>
+		</ul>
+	</div>
 
 	<table class="table table-striped" style="margin-top:30px">
 		<tr>
