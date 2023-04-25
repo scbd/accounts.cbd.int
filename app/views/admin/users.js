@@ -2,8 +2,9 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
     return ['$scope', '$http', '$route', '$location', '$filter', '$q', function($scope, $http, $route, $location, $filter, $q) {
     
-    
+    $scope.pageSizes = [{size:25}, {size:50}, {size:100}, {size:300}]
     $scope.pageSize = 25;
+    $scope.currentPage = 0;
     $scope.tabSetSize = 10;
     $scope.set = 0;
 
@@ -14,8 +15,12 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
       $scope.roleFilter = Number(qs.role);
     if(qs.freetext)
       $scope.freetext = qs.freetext
+    if(qs.currentPage)
+      $scope.currentPage = Number(qs.currentPage||0)-1
+    if(qs.pageSize)
+      $scope.pageSize = Number(qs.pageSize||25);
       
-    updatePager(0);
+    // updatePager($scope.currentPage||0);
 
   $http.get('/api/v2013/roles', { cache: true }).then(function (response) {
     		var map = {};
@@ -50,7 +55,10 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
   });//$http.get("/api/v2013/roles", {
 
   var cancelPopulate;
-  var debouncedPopulate = _.debounce(populate, 250);
+  var debouncedPopulate = _.debounce(function(){
+          setPage(0);
+          populate();
+      }, 250);
   var prevRequestCancelled = false;
 	function populate () {
 
@@ -60,14 +68,14 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
             prevRequestCancelled = true;
         }
 
-        $location.search({government:$scope.government})
-        $location.search({role:$scope.roleFilter})
-        $location.search({freetext:$scope.freetext})
+        $location.search('government', $scope.government);
+        $location.search('role',$scope.roleFilter);
+        $location.search('freetext',$scope.freetext);
 
         $scope.returnUrl = 'returnUrl=' + encodeURIComponent($location.$$url);
         cancelPopulate = $q.defer();
         $scope.loading = true;
-        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*25, l: 25 , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
+        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*$scope.pageSize, l: $scope.pageSize , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
         .then(function (response) {
             prevRequestCancelled=false;
             $scope.userCount =  parseInt(response.headers("record-count"));
@@ -86,7 +94,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
 
         }).then(function(users){
 
-            updatePager();
+            updatePager($scope.currentPage||0);
 
             return users;
         })
@@ -107,6 +115,8 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
   function setPage (page) {
 
       $scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
+      $location.search('pageSize',$scope.pageSize)
+      $location.search('currentPage',$scope.currentPage+1)
 	}
 
   //============================================================
@@ -127,7 +137,7 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
     function updatePager(currentPage) {
 
         var userCount = $scope.userCount || ($scope.users || []).length || $scope.tabSetSize;
-        $scope.pageCount = Math.ceil(userCount / 25);
+        $scope.pageCount = Math.ceil(userCount / $scope.pageSize);
         $scope.set=calcSet(currentPage || $scope.currentPage || 0);
         $scope.pages     = _.range($scope.pageCount).splice($scope.set,($scope.tabSetSize));
         if(currentPage!==undefined)
@@ -152,13 +162,20 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
     	  }
 	};//$scope.actionDelete = function actionDelete (userID)
 
-  $scope.actionSetPage = setPage;
-  $scope.$watch('government',  debouncedPopulate);
-  $scope.$watch('roleFilter',  debouncedPopulate);
-  $scope.$watch('currentPage', debouncedPopulate);
-  $scope.$watch('freetext',  _.debounce(function(){
-        setPage(0);
-        populate();
-    }, 250));
+  $scope.actionSetPage = function(page){
+    setPage(page)
+    populate();
+  };
+  $scope.reloadUsers = debouncedPopulate
+  // $scope.$watch('government',  debouncedPopulate);
+  // $scope.$watch('roleFilter',  debouncedPopulate);
+  // $scope.$watch('currentPage', debouncedPopulate);
+  // $scope.$watch('freetext',    debouncedPopulate)
+  // _.debounce(function(){
+  //       setPage(0);
+  //       populate();
+  //   }, 250));
+
+  populate ();
   }];
 });

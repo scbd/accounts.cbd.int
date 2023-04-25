@@ -8,6 +8,10 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
         //==================================
         //
         //==================================
+        $scope.UserGroups = [
+            { code: 'SCBD', name : 'SCBD'}
+        ];
+
         $scope.save = save;
         $scope.cancel = function(){
             if($location.search().returnUrl)
