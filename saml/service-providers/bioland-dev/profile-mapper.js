@@ -1,5 +1,5 @@
-import { uid, email, givenname as firstName, surname as lastName, } from "../../constants/claims.js"
-import { unspecified } from "../../constants/name-identifer-formats.js"
+import { name, uid, email, givenname as firstName, surname as lastName, } from "../../services/saml-constants/claims.js"
+import { unspecified } from "../../services/saml-constants/name-identifer-formats.js"
 import _ from "lodash"
 
 const ZERO_WIDTH_JOINER = '\u200D';
@@ -27,14 +27,9 @@ export default class  {
         claims[key] = null; // force null of empty array
     }
     
-    claims[uid.id]       = user.uid;
-    claims[email.id]     = user.uid;
-    claims[firstName.id] = user.firstName;
-    claims[lastName.id]  = user.lastName;
-
-
-    claims[firstName.id] = (claims[firstName.id]||'').trim() || ZERO_WIDTH_JOINER; // Use zero-width invisible char to avoid asking for name;
-    claims[lastName.id]  = (claims[lastName.id] ||'').trim() || ZERO_WIDTH_JOINER;
+    claims[uid.id]     = user.userID;
+    claims[email.id]   = user.email;
+    claims[name.id]    = user.email;
 
     return claims;
   }
@@ -44,7 +39,6 @@ export default class  {
    * get user ID metadata used in the metadata endpoint.
    */
   getNameIdentifier() {
-
     return { 
       nameIdentifier: this.getClaims()[uid.id],
       nameIdentifierFormat: unspecified
@@ -57,9 +51,7 @@ export default class  {
   get metadata() { 
     return  [
       uid,
-      email,
-      firstName,
-      lastName,
+      email
     ];
   }
 }

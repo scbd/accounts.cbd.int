@@ -1,4 +1,4 @@
-import ApiError from '../helpers/api-error.js';
+import ApiError from '../services/api-error.js';
 
 export default function (options = {}) {
 

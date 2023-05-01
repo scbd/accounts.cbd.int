@@ -1,4 +1,4 @@
-import interactioSpLoader    from './interactio/interactio.js';
+import biolandDevSpLoader from './bioland-dev/index.js'
 
 let providers_cache = null;
 
@@ -7,12 +7,13 @@ export async function getProviders() {
     if(!providers_cache) {
 
         let providers = [
-            await interactioSpLoader(),
+            // await interactioSpLoader(),
+            await biolandDevSpLoader()
         ];
 
         for(let provider of providers) {
             providers_cache = providers_cache || {};
-            providers_cache[provider.entityID] = { ...provider };
+            providers_cache[ provider.entityID ] = { ...provider };
         }
     }
 
@@ -23,6 +24,5 @@ export async function findProvider(entityID) {
 
     const providers = await getProviders();
 
-    return providers[entityID];
+    return providers[ entityID ];
 }
-

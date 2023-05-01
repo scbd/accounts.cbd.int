@@ -1,17 +1,10 @@
-import ApiError from '../helpers/api-error.js';
+import ApiError from '../services/api-error.js';
 
-export default function({ roles }) {
+export default  () => (req, res ,next) => {
+    const { userID, isAuthenticated } = req.user || {}
 
-  roles = roles || [];
-
-  return (req,res,next) => {
-    
-    if(!req.user)
+    if(!isAuthenticated || userID == 1)
       throw new ApiError(401, "Authentication required")
 
-    if(roles.length)
-      throw new Error("Roles/Tags checking not implemented")
-
     next();
-  }
 }

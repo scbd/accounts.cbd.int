@@ -34,7 +34,13 @@ export const surname = {
     displayName: 'Surname / Last name',
     description: 'The surname / last name of the user'
 };
-  
+
+export const name = {
+    id: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+    optional: true,
+    displayName: 'Name',
+    description: 'Provides a human readable value that identifies the subject of the token. This value is not guaranteed to be unique within a tenant and is designed to be used only for display purposes.'
+};
 export const identityProvider = {
     id: 'http://schemas.microsoft.com/identity/claims/identityprovider',
     optional: true,
@@ -49,4 +55,5 @@ export const claims = [
     givenname,
     surname,
     identityProvider,
+    name
 ];

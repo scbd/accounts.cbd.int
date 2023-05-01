@@ -1,20 +1,19 @@
-import fs              from 'fs'
-import path            from 'path'
-import express         from 'express'
-import cookieParser    from 'cookie-parser'
-import ApiError        from './helpers/api-error.js';
-import loadUser        from './middlewares/load-user.js'
-import loadAbsolutUrl  from './middlewares/absolute-url.js'
-import loadInstitution from './middlewares/load-institution.js'
-import requestTimeout  from './middlewares/request-timeout.js'
-import saveResponseBody from './middlewares/save-response-body.js'
-import $await          from './middlewares/await.js';
-import controller           from './controller.js'
-import morgan          from 'morgan'
+import fs               from 'fs'                                 ;
+import path             from 'path'                               ;
+import cookieParser     from 'cookie-parser'                      ;
+import ApiError         from './services/api-error.js'            ;
+import loadUser         from './middlewares/load-user.js'         ;
+import loadAbsolutUrl   from './middlewares/absolute-url.js'      ;
+import loadInstitution  from './middlewares/load-institution.js'  ;
+import requestTimeout   from './middlewares/request-timeout.js'   ;
+import saveResponseBody from './middlewares/save-response-body.js';
+import $await           from './middlewares/await.js'             ;
+import controller       from './controller.js'                    ;
+import morgan           from 'morgan'                             ;
+
 import { port, appDomain, authIssuer, certPath, jwtSecret, requestTtl } from './config.js'
 
 export default (router) => {
-  // const router = express.Router();
 
   morgan.token('user',  (req)=> { 
     return req.user ? `\n${JSON.stringify(req.user, null, ' ')}` : '';
@@ -36,18 +35,18 @@ export default (router) => {
   router.use('/saml', $await(loadInstitution({ appDomain })));
   router.use('/saml', $await(loadUser({ encryptionKey: jwtSecret, issuer: authIssuer })));
 
-  const cert       = path.join(certPath, 'cert.pem')
+  const cert       = path.join(certPath, 'idp.crt')
   const certExists = fs.existsSync(cert)
 
   if(certExists)
-  router.use(`/saml`, controller({
-    authIssuer, 
-    basePath: `/saml`,
-    certificate : {
-      cert: fs.readFileSync(path.join(certPath, 'cert.pem')),
-      key:  fs.readFileSync(path.join(certPath, 'cert.key'))
-    }, 
-  }));
+    router.use(`/saml`, controller({
+      authIssuer, 
+      basePath    : `/saml`,
+      certificate : {
+                      cert: fs.readFileSync(path.join(certPath, 'idp.crt')),
+                      key:  fs.readFileSync(path.join(certPath, 'idp.key'))
+                    }, 
+    }));
 
   // Error Handler
   router.use((err, req, res, next)=>{
@@ -64,8 +63,3 @@ export default (router) => {
     console.error(`*** Uncaught Exception: ${err.message}\n${err.stack}`);
   });
 }
-
-
-
-
-

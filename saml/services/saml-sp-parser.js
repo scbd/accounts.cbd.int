@@ -1,8 +1,6 @@
 import xmldom from 'xmldom';
-import xpath from 'xpath';
+import xpath  from 'xpath' ;
 
-const BINDING_HTTP_REDIRECT = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect";
-const BINDING_HTTP_POST     = "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST";
 
 const NAMESPACES = {
     "md":   "urn:oasis:names:tc:SAML:2.0:metadata",
@@ -24,8 +22,8 @@ export default function parse(input) {
     const digestMethods             = loadDigestMethods(xDoc);
     const signingMethods            = loadSigningMethods(xDoc);
     const nameIDFormats             = loadNameIDFormats(xDoc);
-    const assertionConsumerServices = loadAssertionConsumerServices(xDoc)
-    const singleLogoutServices      = loadSingleLogoutServices(xDoc)
+    const assertionConsumerServices = loadAssertionConsumerServices(xDoc);
+    const singleLogoutServices      = loadSingleLogoutServices(xDoc);
 
     const {
         protocolSupport,
@@ -49,7 +47,6 @@ export default function parse(input) {
 
     return spInfo;
 }
-
 
 
 function loadSingleLogoutServices(xDoc) {

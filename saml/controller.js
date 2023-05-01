@@ -2,22 +2,19 @@ import x509  from 'x509.js';
 import util  from 'util'   ;
 import samlp from 'samlp'  ;
 
-import      DefaultProfileMapper from './saml/profile-mappers/default-profile-mapper.js';
-import * as authnClasses         from './saml/constants/authn-context-classes.js'       ;
+import      DefaultProfileMapper from './services/default-profile-mapper.js';
+import * as authnClasses         from './services/saml-constants/authn-context-classes.js';
 
-import   ApiError       from './helpers/api-error.js'           ;
-import   $await         from './middlewares/await.js'           ;
-import   securize       from './middlewares/security.js'        ;
-import { Router       } from 'express'                          ;
-import { findProvider } from './saml/service-providers/index.js';
+import   ApiError       from './services/api-error.js'      ;
+import   $await         from './middlewares/await.js'       ;
+import   securize       from './middlewares/security.js'    ;
+import { Router       } from 'express'                      ;
+import { findProvider } from './service-providers/index.js' ;
 
 const samlp_parseRequest = util.promisify(samlp.parseRequest);
 
-const providers = [];
-
 
 export default function Controller({ certificate, authIssuer, basePath }) {
-
 
     if(!certificate) throw new Error("No certificate provided")
 
@@ -39,16 +36,15 @@ export default function Controller({ certificate, authIssuer, basePath }) {
     function securizeOrLogin(req, res, next) {
 
         try {
-            securize({})(req, res, next);
+            securize()(req, res, next);
         }
         catch (err) {
 
-            if(err.status==401 && req.absoluteUrl && !req.query.noloop)
+            if(err.status==401 && req.absoluteUrl && !req.query?.noloop)
             {
-                const { institutionDomain, absoluteUrl } = req;
+                const { absoluteUrl } = req;
 
-                const context     = { returnUrl : `${absoluteUrl}&noloop=1` };
-                const redirectUrl = `/signin?context=${encodeURIComponent(JSON.stringify(context))}`;
+                const redirectUrl = `/signin?returnUrl=${encodeURIComponent(`${absoluteUrl}&noloop=1`)}`;
 
                 return res.redirect(redirectUrl);
             }
@@ -72,7 +68,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             }
 
             return {
-                issuer: `https://${institution}.${authIssuer}${basePath}`,
+                issuer: `https://${authIssuer}${basePath}`,
                 profileMapper: wrapProfileClass(profileMapper),
                 cert: certificate.cert,
                 key: certificate.key,
@@ -90,8 +86,9 @@ export default function Controller({ certificate, authIssuer, basePath }) {
      * 
      */
     async function getIdPMetadata(req, res, next) {
-        console.log('----------------')
+
         const options = { ... await baseOptions(req.institution), key: null };
+
         samlp.metadata(options)(req, res, next)
     }
 
@@ -106,7 +103,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             data = await samlp_parseRequest(req);
         }
         catch(err) {
-            //console.error('Error parsing saml request:', err?.message || err)            
+            console.error('Error parsing saml request:', err?.message || err)            
         }
 
         if (!data)
@@ -140,27 +137,20 @@ export default function Controller({ certificate, authIssuer, basePath }) {
     
         const authOptions = {
             ... await baseOptions(req.institution, issuer ),
-            signAssertion:     true,
-            signResponse:      true,
-            includeAttributeNameFormat: false,
-            lifetimeInSeconds:    5*60, // 5 minutes
-            authnContextClassRef: authnClasses.unspecified,// authnClasses.passwordProtectedTransport,
-            inResponseTo: authnRequest.id,
-            acsUrl:       authnRequest.acsUrl,
-            recipient:    authnRequest.acsUrl,
-            destination:  authnRequest.acsUrl,
-            forceAuthn:   authnRequest.forceAuthn,
-            RelayState:   authnRequest.relayState,
+            signAssertion             : false                   ,
+            signResponse              : true                    ,
+            includeAttributeNameFormat: false                   ,
+            lifetimeInSeconds         : 5*60                    , // 5 minutes
+            authnContextClassRef      : authnClasses.unspecified,
+            inResponseTo              : authnRequest.id         ,
+            acsUrl                    : authnRequest.acsUrl     ,
+            recipient                 : authnRequest.acsUrl     ,
+            destination               : authnRequest.acsUrl     ,
+            forceAuthn                : authnRequest.forceAuthn ,
+            RelayState                : authnRequest.relayState ,
             getPostURL: function (audience, samlRequestDom, req, callback) {
                 return callback( null, authnRequest.acsUrl)
             }
-            //typedAttributes: false,
-            // signatureAlgorithm: options.signatureAlgorithm,
-            // digestAlgorithm: options.digestAlgorithm,
-            // audiences: options.audience,
-            // encryptionPublicKey: options.encryptionPublicKey,
-            // encryptionCert: options.encryptionCert,
-            // signatureNamespacePrefix: options.signatureNamespacePrefix
         };
     
         samlp.auth(authOptions)(req, res, next);
@@ -202,7 +192,7 @@ async function getProvider(serviceProviderID) {
     var provider = await findProvider(serviceProviderID);
 
     if(!provider)
-        throw new ApiError(400, `Invalid SAMLRequest - Unknown SP Issuer: ${data.issuer}`)
+        throw new ApiError(400, `Invalid SAMLRequest - Unknown SP Issuer: ${serviceProviderID}`)
 
     return provider;
 }

@@ -1,5 +1,5 @@
-import { uid, email, givenname as firstName, surname as lastName, } from "../constants/claims.js"
-import { unspecified } from "../constants/name-identifer-formats.js"
+import { uid, email, givenname as firstName, surname as lastName, } from "./saml-constants/claims.js"
+import { unspecified } from "./saml-constants/name-identifer-formats.js"
 
 const FieldClaimMapping = {
     uid,
@@ -30,6 +30,7 @@ export default class DefaultProfileMapper {
 
     mappedKeys.forEach((key) => { 
       const claim = FieldClaimMapping[key];
+      
       claims[claim.id] = user[key];
     })
   
@@ -53,9 +54,7 @@ export default class DefaultProfileMapper {
   get metadata() { 
     return  [
       uid,
-      email,
-      firstName,
-      lastName,
+      email
     ];
   }
 }

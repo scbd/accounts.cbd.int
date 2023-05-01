@@ -28,6 +28,7 @@ console.info(`info: Git version: ${gitVersion}`);
 console.info(`info: API address: ${apiUrl}`);
 console.info(`info: IS DEV: ${process.env.IS_DEV}`);
 
+samlEndPoint(app)
 app.use(                       function(req,res,next) { res.setHeader('X-Frame-Options', 'DENY' ); next(); });
 app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-Options', 'ALLOW'); next(); });
 
@@ -41,7 +42,7 @@ app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, sec
 ///non angularjs file for activating email
 app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate.html'));
 
-samlEndPoint(app)
+
 // SET TEMPLATE
 
 app.get('/*', (req, res) => {

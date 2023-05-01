@@ -30,7 +30,7 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
                 return url;
             }
             else{
-                console.log('not trusted url', url)
+                console.warn('getReturnUrl: not trusted url', url)
             }
         }
 
@@ -55,13 +55,16 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
         //============================================================
         function navigate(url) {
 
+            const isSaml  = url.includes('/saml/signin')
+
             var parsedUrl = parseUrl(url);
             var returnUrl = getReturnUrl();
 
             var fromHost = formatHost($location.protocol(), $location.host(),   $location.port());
             var toHost   = formatHost(parsedUrl.protocol,   parsedUrl.hostname, parsedUrl.port);
 
-            if(fromHost != toHost) { 
+            
+            if(fromHost != toHost || isSaml) { 
                 window.location.href = url;
             }
             else {
@@ -85,6 +88,7 @@ define(['app', 'lodash'], function (app, _) { 'use strict';
                 /.*\.cbd.int$/i,
                 /^cbddev.xyz$/i,
              /.*\.cbddev.xyz$/i,
+             /.*\.localhost$/i,
                  /^localhost$/i
             ];
 

@@ -1,4 +1,3 @@
-
 // src: https://stackoverflow.com/questions/33732509/express-js-how-to-intercept-response-send-response-json
 
 export default function(req, res, next) {
