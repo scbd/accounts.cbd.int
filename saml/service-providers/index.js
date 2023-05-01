@@ -7,7 +7,6 @@ export async function getProviders() {
     if(!providers_cache) {
 
         let providers = [
-            // await interactioSpLoader(),
             await biolandDevSpLoader()
         ];
 

@@ -11,7 +11,7 @@ import $await           from './middlewares/await.js'             ;
 import controller       from './controller.js'                    ;
 import morgan           from 'morgan'                             ;
 
-import { port, appDomain, authIssuer, certPath, jwtSecret, requestTtl } from './config.js'
+import { appDomain, authIssuer, certPath, requestTtl } from './config.js'
 
 export default (router) => {
 
@@ -33,7 +33,7 @@ export default (router) => {
   router.use('/saml', $await(loadAbsolutUrl()));
   router.use('/saml', $await(cookieParser()));
   router.use('/saml', $await(loadInstitution({ appDomain })));
-  router.use('/saml', $await(loadUser({ encryptionKey: jwtSecret, issuer: authIssuer })));
+  router.use('/saml', $await(loadUser({ issuer: authIssuer })));
 
   const cert       = path.join(certPath, 'idp.crt')
   const certExists = fs.existsSync(cert)
