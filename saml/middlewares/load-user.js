@@ -1,6 +1,6 @@
-import _       from 'lodash'     ;
-import request from 'superagent' ;
-
+import   _         from 'lodash'             ;
+import   request   from 'superagent'         ;
+import { apiUrl  } from '#~/saml//config.js' ;
 
 export default  function ({ encryptionKey, issuer }) {
     return async (req, res, next) => {
@@ -22,7 +22,7 @@ export default  function ({ encryptionKey, issuer }) {
 //class Skip { constructor(message) { this.message = message } }
 
 async function getAuthUser(token){
-    const { _body } = await request.get(`http://accounts-saml.localhost:8000/api/v2013/authentication/user`)
+    const { _body } = await request.get(`${apiUrl}/api/v2013/authentication/user`)
                             .set('Authorization', `Ticket ${token}`)
 
     return _body
