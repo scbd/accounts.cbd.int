@@ -2,7 +2,7 @@ import   _         from 'lodash'             ;
 import   request   from 'superagent'         ;
 import { apiUrl  } from '#~/saml//config.js' ;
 
-export default  function ({ encryptionKey, issuer }) {
+export default  function () {
     return async (req, res, next) => {
         
         try {
