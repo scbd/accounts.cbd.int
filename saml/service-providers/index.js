@@ -1,13 +1,13 @@
-import biolandDevSpLoader from './bioland-dev/index.js'
+import biolandDevSpLoader from './bioland/index.js'
 
-let providers_cache = null;
-
+let providers_cache = await biolandDevSpLoader();
+console.log(providers_cache)
 export async function getProviders() {
 
     if(!providers_cache) {
 
         let providers = [
-            await biolandDevSpLoader()
+             ... await biolandDevSpLoader()
         ];
 
         for(let provider of providers) {

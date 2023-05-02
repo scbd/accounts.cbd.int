@@ -15,7 +15,8 @@
     "samlp": "7.0.2",
     "superagent": "8.0.9",
     "x509.js": "1.0.0",
-    "xmldom": "0.6.0"
+    "xmldom": "0.6.0",
+    "bioland-config": "https://github.com/scbd/bioland-config.git"
   },
   "devDependencies": {
     "@bower_components/angular": "angular/bower-angular#1.7.4",
