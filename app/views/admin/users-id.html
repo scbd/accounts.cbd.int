@@ -169,7 +169,7 @@
 								<div class="form-group">
 									<label>Government</label>
 									<div><select class="form-control" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select>
-									<span  class="btn btn-default btn-small"  ng-click="document.Government = undefined;"> clear government </span></div>
+									<span  class="btn btn-default btn-xs pull-right" ng-show="document.Government"  ng-click="document.Government = undefined;"> clear government </span></div>
 								</div>
 
 							</div>
@@ -178,7 +178,11 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label>User Group</label>
-									<input type="text" name="userGroup" class="form-control" ng-model="document.UserGroup">
+									<div>	
+										<!-- <input ng-show="false" type="text" name="userGroup" class="form-control" ng-model="document.UserGroup"> -->
+										<select name="userGroup"  class="form-control" ng-model="document.UserGroup" ng-options="c.code as c.name for c in UserGroups"></select>
+										<span  class="btn btn-default btn-xs pull-right" ng-show="document.UserGroup"  ng-click="document.UserGroup = undefined;"> clear user group </span>
+									</div>
 								</div>
 
 							</div>
