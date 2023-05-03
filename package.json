@@ -15,7 +15,8 @@
     "samlp": "7.0.2",
     "superagent": "8.0.9",
     "x509.js": "1.0.0",
-    "xmldom": "0.6.0"
+    "xmldom": "0.6.0",
+    "fs-extra": "^11.1.1"
   },
   "devDependencies": {
     "@bower_components/angular": "angular/bower-angular#1.7.4",
@@ -31,8 +32,7 @@
     "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
     "@bower_components/text": "requirejs/text#2.0.15",
     "bioland-config": "https://github.com/scbd/bioland-config.git",
-    "bioland-dev": "https://github.com/scbd/bioland-config.git#dev",
-    "fs-extra": "^11.1.1"
+    "bioland-dev": "https://github.com/scbd/bioland-config.git#dev"
   },
   "engine": "node >= 16",
   "private": true,
