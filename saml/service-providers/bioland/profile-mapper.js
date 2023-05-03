@@ -26,10 +26,10 @@ export default class  {
       if(_.isArray(claims[key]) && !claims[key].length)
         claims[key] = null; // force null of empty array
     }
-    
+
     claims[uid.id]     = user.userID;
     claims[email.id]   = user.email;
-    claims[name.id]    = user.email;
+    claims[name.id]    = user.name;
 
     return claims;
   }
@@ -51,7 +51,8 @@ export default class  {
   get metadata() { 
     return  [
       uid,
-      email
+      email,
+      name
     ];
   }
 }

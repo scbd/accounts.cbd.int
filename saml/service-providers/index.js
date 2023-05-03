@@ -1,19 +1,15 @@
-import biolandDevSpLoader from './bioland/index.js'
+import biolandLoader from './bioland/index.js'
 
-let providers_cache = await biolandDevSpLoader();
-console.log(providers_cache)
+const providers_cache = {}
+
 export async function getProviders() {
 
-    if(!providers_cache) {
+    if(!Object.keys(providers_cache).length) {
 
-        let providers = [
-             ... await biolandDevSpLoader()
-        ];
+        const providers = { ...(await biolandLoader()) };
 
-        for(let provider of providers) {
-            providers_cache = providers_cache || {};
-            providers_cache[ provider.entityID ] = { ...provider };
-        }
+        for (const key in providers)
+            providers_cache[ key ] = { ...providers[key] };
     }
 
     return providers_cache;

@@ -10,7 +10,7 @@ lib-cov
 *.vimrc
 *.DS_STORE
 yarn.lock
-
+saml/service-providers/bioland/list.js
 pids
 logs
 results
