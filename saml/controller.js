@@ -2,9 +2,8 @@ import x509  from 'x509.js';
 import util  from 'util'   ;
 import samlp from 'samlp'  ;
 
-import      DefaultProfileMapper from './services/default-profile-mapper.js';
 import * as authnClasses         from './services/saml-constants/authn-context-classes.js';
-
+import   profileMapper   from '#~/saml/service-providers/bioland/profile-mapper.js' ;
 import   ApiError       from './services/api-error.js'      ;
 import   $await         from './middlewares/await.js'       ;
 import   securize       from './middlewares/security.js'    ;
@@ -56,17 +55,8 @@ export default function Controller({ certificate, authIssuer, basePath }) {
     /** ********************
      * 
      */
-    async function baseOptions(institution, serviceProviderID) {
+    async function baseOptions() {
         try {
-
-            let profileMapper = DefaultProfileMapper;
-
-            if(serviceProviderID) {
-                var provider = await getProvider(serviceProviderID);
-
-                profileMapper = provider.profileMapper || profileMapper;
-            }
-
             return {
                 issuer: `https://${authIssuer}${basePath}`,
                 profileMapper: wrapProfileClass(profileMapper),
@@ -78,7 +68,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             }
         }
         catch (err) {
-            throw new ApiError(404, "Institution not found or configured");
+            throw new ApiError(404, 'Base options for IdP not found or configured');
         }
     }
 

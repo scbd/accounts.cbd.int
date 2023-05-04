@@ -38,7 +38,7 @@
   "private": true,
   "scripts": {
     "start": "node server",
-    "clean-install": "if test -f yarn.lock; then rm yarn.lock; fi && if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
+    "clean-install": "if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
   },
   "engines": {
     "yarn": ">= 1.6.0"

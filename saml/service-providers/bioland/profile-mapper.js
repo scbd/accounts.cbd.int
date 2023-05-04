@@ -1,8 +1,7 @@
-import { name, uid, email, givenname as firstName, surname as lastName, } from "../../services/saml-constants/claims.js"
-import { unspecified } from "../../services/saml-constants/name-identifer-formats.js"
-import _ from "lodash"
+import { name       , uid, email } from "../../services/saml-constants/claims.js"
+import { unspecified }             from "../../services/saml-constants/name-identifer-formats.js"
+import   _                         from "lodash"
 
-const ZERO_WIDTH_JOINER = '\u200D';
 
 export default class  {
 

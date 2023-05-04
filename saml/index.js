@@ -39,7 +39,7 @@ export default (router) => {
     if(err instanceof ApiError)
         return res.status(err.status).send({ status:err.status, message: err.message });
 
-    res.status(400).send({ status: 500, message:  "Internal server Error"} );
+    res.status(500).send({ status: 500, message:  "Internal server Error"} );
 
     console.error("*** Unhandled Exception:", err);
   })

@@ -36,7 +36,7 @@ app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-O
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
 app.use('/app',           express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
 app.use('/app/libs',      express.static(__dirname + '/node_modules/@bower_components', { setHeaders: setCustomCacheControl }));
-//app.all('/app/*',         function(req, res) { res.status(404).send(); } );
+app.all('/app/*',         function(req, res) { res.status(404).send(); } );
 
 app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, secure: false, changeOrigin:true } ); } );
 ///non angularjs file for activating email
