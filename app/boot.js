@@ -20,7 +20,7 @@ if (!require.defined('angular')) {
     });
 }
 
-require(['angular', 'app', 'routes', 'template', 'authentication','factories/referrer', 'providers/extended-route'], function (ng, app) {
+require(['angular', 'app', 'routes', 'template', 'authentication','factories/host-that-sends', 'providers/extended-route'], function (ng, app) {
 
     ng.element(document).ready(function () {
          ng.bootstrap(document, [app.name]);
