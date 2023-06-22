@@ -139,8 +139,6 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             forceAuthn                : authnRequest.forceAuthn ,
             RelayState                : authnRequest.relayState ,
             getPostURL                : function (audience, samlRequestDom, req, callback) { return callback( null, authnRequest.acsUrl) }
-                return callback( null, authnRequest.acsUrl)
-            }
         };
     
         samlp.auth(authOptions)(req, res, next);
@@ -179,18 +177,17 @@ export default function Controller({ certificate, authIssuer, basePath }) {
 
 async function getProvider(serviceProviderID) {
 
-    var provider = await findProvider(serviceProviderID);
+    const  provider = await findProvider(serviceProviderID);
 
-    if(!provider)
-        throw new ApiError(400, `Invalid SAMLRequest - Unknown SP Issuer: ${serviceProviderID}`)
+    if(!provider) throw new ApiError(400, `Invalid SAMLRequest - Unknown SP Issuer: ${serviceProviderID}`)
+
+    if(new Date() > new Date(provider.provider.validUntil)) throw new ApiError(400, `Invalid SAMLRequest -  SP metadata has expired: ${serviceProviderID} - ${new Date()} > ${new Date(provider.provider.validUntil)}`)
 
     return provider;
 }
 
 function wrapProfileClass(ProfileClass) {
     const wrappedProfileClass = function(user) { return new ProfileClass(user); }
-        return new ProfileClass(user);
-    }
 
     wrappedProfileClass.prototype.metadata = ProfileClass.prototype.metadata
 
@@ -204,7 +201,6 @@ function dumpCertificateInformation(certBuffer) {
     const { subject, notAfter } = certificate;
     const   expiresIn           = ((new Date(notAfter) - new Date()) / 24 / 60 / 60 / 1000) | 0;
     const   expired             =  (new Date(notAfter) - new Date()) < 0;
-
 
     console.log(`
 =============================================
