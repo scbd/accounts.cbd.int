@@ -77,3 +77,18 @@ function setCustomCacheControl(res, path) {
     res.setHeader('Cache-Control', 'public, max-age=0');
 }
 
+  // Error Handler
+  app.use((err, req, res) => {
+
+    if(err instanceof ApiError)
+        return res.status(err.status).send({ status:err.status, message: err.message });
+
+    res.status(500).send({ status: 500, message:  "Internal server Error"} );
+
+    console.error("*** Unhandled Exception:", err);
+  })
+
+
+  process.on('uncaughtException', function (err) {
+    console.error(`*** Uncaught Exception: ${err.message}\n${err.stack}`);
+  });
