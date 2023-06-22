@@ -58,13 +58,13 @@ export default function Controller({ certificate, authIssuer, basePath }) {
     async function baseOptions() {
         try {
             return {
-                issuer: `https://${authIssuer}${basePath}`,
-                profileMapper: wrapProfileClass(profileMapper),
-                cert: certificate.cert,
-                key: certificate.key,
+                issuer              : `https://${authIssuer}${basePath}`,
+                profileMapper       : wrapProfileClass(profileMapper),
+                cert                : certificate.cert,
+                key                 : certificate.key,
                 redirectEndpointPath: basePath,
-                postEndpointPath: basePath,
-                logoutEndpointPaths: {}
+                postEndpointPath    : basePath,
+                logoutEndpointPaths : {}
             }
         }
         catch (err) {
@@ -99,15 +99,15 @@ export default function Controller({ certificate, authIssuer, basePath }) {
         if (!data)
             throw new ApiError(400, "Invalid SAMLRequest");
 
-        const validProvider = getProvider(data.issuer);
+        await getProvider(data.issuer); // ensure valid or error
 
         req.authnRequest = {
-            relayState: req?.query?.RelayState || req?.body?.RelayState,
-            id: data.id,
-            issuer: data.issuer,
-            destination: data.destination,
-            acsUrl: data.assertionConsumerServiceURL,
-            forceAuthn: data.forceAuthn === 'true'
+            relayState   : req?.query?.RelayState || req?.body?.RelayState,
+            id           : data.id,
+            issuer       : data.issuer,
+            destination  : data.destination,
+            acsUrl       : data.assertionConsumerServiceURL,
+            forceAuthn   : data.forceAuthn === 'true'
         };
 
         next();
@@ -138,7 +138,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             destination               : authnRequest.acsUrl     ,
             forceAuthn                : authnRequest.forceAuthn ,
             RelayState                : authnRequest.relayState ,
-            getPostURL: function (audience, samlRequestDom, req, callback) {
+            getPostURL                : function (audience, samlRequestDom, req, callback) { return callback( null, authnRequest.acsUrl) }
                 return callback( null, authnRequest.acsUrl)
             }
         };
@@ -188,7 +188,7 @@ async function getProvider(serviceProviderID) {
 }
 
 function wrapProfileClass(ProfileClass) {
-    const wrappedProfileClass = function(user) {
+    const wrappedProfileClass = function(user) { return new ProfileClass(user); }
         return new ProfileClass(user);
     }
 
@@ -202,8 +202,8 @@ function dumpCertificateInformation(certBuffer) {
     const certificate = x509.parseCert(certBuffer);
 
     const { subject, notAfter } = certificate;
-    const expiresIn = ((new Date(notAfter) - new Date()) / 24 / 60 / 60 / 1000) | 0;
-    const expired   =  (new Date(notAfter) - new Date()) < 0;
+    const   expiresIn           = ((new Date(notAfter) - new Date()) / 24 / 60 / 60 / 1000) | 0;
+    const   expired             =  (new Date(notAfter) - new Date()) < 0;
 
 
     console.log(`
