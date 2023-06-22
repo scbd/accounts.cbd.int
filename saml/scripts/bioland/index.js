@@ -21,7 +21,7 @@ export default async function load() {
                         .filter( x => x)
                         
     for (const sp of settled) 
-        serviceProviders[sp.entityID] = sp
+        serviceProviders[sp.entityID] = sp.metaUrl
     
         writeFile (serviceProviders) 
     return serviceProviders
@@ -34,6 +34,7 @@ async function readServiceProviderMeta(url){
         const { entityID } = provider;
 
         return {
+            metaUrl: url,
             entityID,
             provider
         }
