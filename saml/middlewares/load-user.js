@@ -14,6 +14,7 @@ export default  function () {
             next();
         }
         catch(err) {
+            delete req.user; // make sure anonymous on error
             next();
         }
     }
