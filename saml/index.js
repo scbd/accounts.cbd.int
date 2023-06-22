@@ -9,7 +9,7 @@ import saveResponseBody from './middlewares/save-response-body.js';
 import $await           from './middlewares/await.js'             ;
 import controller       from './controller.js'                    ;
 
-import { authIssuer, certPath, requestTtl } from './config.js'
+import { authIssuer, cert, certKey, requestTtl } from './config.js'
 
 export default (router) => {
 
@@ -20,7 +20,6 @@ export default (router) => {
   router.use('/saml', $await(cookieParser()));
   router.use('/saml', $await(loadUser()));
 
-  const cert       = path.join(certPath, 'idp.crt')
   const certExists = fs.existsSync(cert)
 
   if(certExists)
@@ -28,8 +27,8 @@ export default (router) => {
       authIssuer, 
       basePath    : `/saml`,
       certificate : {
-                      cert: fs.readFileSync(path.join(certPath, 'idp.crt')),
-                      key:  fs.readFileSync(path.join(certPath, 'idp.key'))
+                      cert: fs.readFileSync(cert),
+                      key : fs.readFileSync(certKey)
                     }, 
     }));
 
