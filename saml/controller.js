@@ -3,7 +3,7 @@ import util  from 'util'   ;
 import samlp from 'samlp'  ;
 
 import * as authnClasses         from './services/saml-constants/authn-context-classes.js';
-import   profileMapper   from '#~/saml/service-providers/bioland/profile-mapper.js' ;
+import   profileMapper   from '#~/saml/service-providers/profile-mapper.js' ;
 import   ApiError       from './services/api-error.js'      ;
 import   $await         from './middlewares/await.js'       ;
 import   securize       from './middlewares/security.js'    ;

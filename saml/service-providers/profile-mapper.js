@@ -1,5 +1,5 @@
-import { name       , uid, email } from "../../services/saml-constants/claims.js"
-import { unspecified }             from "../../services/saml-constants/name-identifer-formats.js"
+import { name       , uid, email } from "../services/saml-constants/claims.js"
+import { unspecified }             from "../services/saml-constants/name-identifer-formats.js"
 import   _                         from "lodash"
 
 
