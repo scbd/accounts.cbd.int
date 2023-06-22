@@ -23,7 +23,7 @@ export default  function () {
 
 async function getAuthUser(token){
     const { _body } = await request.get(`${apiUrl}/api/v2013/authentication/user`)
-                            .set('Authorization', `Ticket ${token}`)
+                            .set('Authorization', `Bearer ${token}`)
 
     return _body
 }
