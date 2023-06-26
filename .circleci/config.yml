@@ -1,8 +1,8 @@
-﻿version: 2
+version: 2
 
 _defaults: &defaults
   docker:
-    - image: docker:17.05.0-ce
+    - image: cimg/base:stable
   working_directory: ~/scbd/accounts.cbd.int
   parallelism: 1
 
