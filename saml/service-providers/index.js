@@ -50,7 +50,7 @@ function isChacheExpired(entityID){
 
 async function getSpList(){
     try {
-        return (await import('./list.js/index.js')).default
+        return (await import('./list.js')).default
     } catch (e) {
         return []
     }
