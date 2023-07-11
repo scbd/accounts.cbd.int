@@ -4,7 +4,7 @@ export default function (options = {}) {
 
     const ttl = options?.ttl || 20 * 1000;
 
-    console.log(`Request will automatically timeout after: ${ttl / 1000} seconds if no response is sent`);
+    console.debug(`Request will automatically timeout after: ${ttl / 1000} seconds if no response is sent`);
 
     return (req, res, next) => {
 
