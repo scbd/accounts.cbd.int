@@ -12,13 +12,11 @@ SAML
 
     ENV Vars:
 
-        AUTH_ISSUER - accounts-saml.cbddev.xyz
+        AUTH_ISSUER - accounts.cbddev.xyz
         API_URL     - https://api.cbddev.xyz
 
     Secrets:
 
         certs/idp.key
         certs/idp.crt
-        saml/scripts/bioland/index.js - exports default object of SP's 
-
-        { "https://rjh.bioland.cbddev.xyz":{ "entityID": 'https://rjh.bioland.cbddev.xyz', provider: {...}}
+        saml/service-providers/list.js - list of SP's 
