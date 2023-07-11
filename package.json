@@ -30,9 +30,7 @@
     "@bower_components/lodash": "lodash/lodash#3.10.1",
     "@bower_components/outdated-browser": "burocratik/outdated-browser#1.1.2",
     "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
-    "@bower_components/text": "requirejs/text#2.0.15",
-    "bioland-config": "https://github.com/scbd/bioland-config.git",
-    "bioland-dev": "https://github.com/scbd/bioland-config.git#dev"
+    "@bower_components/text": "requirejs/text#2.0.15"
   },
   "engine": "node >= 16",
   "private": true,
