@@ -6,7 +6,7 @@ import loadUser         from './middlewares/load-user.js'         ;
 import loadAbsolutUrl   from './middlewares/absolute-url.js'      ;
 import requestTimeout   from './middlewares/request-timeout.js'   ;
 import saveResponseBody from './middlewares/save-response-body.js';
-import $await           from './middlewares/await.js'             ;
+import asyncWrap           from './middlewares/await.js'             ;
 import controller       from './controller.js'                    ;
 
 import { authIssuer, cert, certKey, requestTtl } from './config.js'
@@ -16,9 +16,9 @@ export default (router) => {
   router.use('/saml', saveResponseBody);
   router.use('/saml', requestTimeout({ ttl: requestTtl }));
 
-  router.use('/saml', $await(loadAbsolutUrl()));
-  router.use('/saml', $await(cookieParser()));
-  router.use('/saml', $await(loadUser()));
+  router.use('/saml', asyncWrap(loadAbsolutUrl()));
+  router.use('/saml', asyncWrap(cookieParser()));
+  router.use('/saml', asyncWrap(loadUser()));
 
   const certExists = fs.existsSync(cert)
 
