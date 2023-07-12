@@ -1,10 +1,11 @@
 import ApiError from '../services/api-error.js';
+import winston  from '../services/logger.js'   ;
 
 export default function (options = {}) {
 
     const ttl = options?.ttl || 20 * 1000;
 
-    console.debug(`Request will automatically timeout after: ${ttl / 1000} seconds if no response is sent`);
+    winston.debug(`Request will automatically timeout after: ${ttl / 1000} seconds if no response is sent`);
 
     return (req, res, next) => {
 

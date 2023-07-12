@@ -2,13 +2,14 @@ import x509  from 'x509.js';
 import util  from 'util'   ;
 import samlp from 'samlp'  ;
 
-import * as authnClasses         from './services/saml-constants/authn-context-classes.js';
-import   profileMapper   from '#~/saml/service-providers/profile-mapper.js' ;
-import   ApiError       from './services/api-error.js'      ;
-import   $await         from './middlewares/await.js'       ;
-import   securize       from './middlewares/security.js'    ;
-import { Router       } from 'express'                      ;
-import { findProvider } from './service-providers/index.js' ;
+import * as authnClasses    from './services/saml-constants/authn-context-classes.js' ;
+import      profileMapper   from '#~/saml/service-providers/profile-mapper.js'        ;
+import      ApiError        from './services/api-error.js'                            ;
+import      $await          from './middlewares/await.js'                             ;
+import      securize        from './middlewares/security.js'                          ;
+import {    Router        } from 'express'                                            ;
+import {    findProvider  } from './service-providers/index.js'                       ;
+import      winston         from './services/logger.js'                               ;
 
 const samlp_parseRequest = util.promisify(samlp.parseRequest);
 
@@ -93,7 +94,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
             data = await samlp_parseRequest(req);
         }
         catch(err) {
-            console.error('Error parsing saml request:', err?.message || err)            
+            winston.error('Error parsing saml request:', err?.message || err)            
         }
 
         if (!data)
@@ -166,7 +167,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
                 else     next();
             }
             catch(e) {
-                console.error('ProviderHook error', e)
+                winston.error('ProviderHook error', e)
                 next(e);
             }
         };
@@ -202,7 +203,7 @@ function dumpCertificateInformation(certBuffer) {
     const   expiresIn           = ((new Date(notAfter) - new Date()) / 24 / 60 / 60 / 1000) | 0;
     const   expired             =  (new Date(notAfter) - new Date()) < 0;
 
-    console.log(`
+    winston.debug(`
 =============================================
 =============================================
 ==         CERTIFICATE INFORMATION         ==

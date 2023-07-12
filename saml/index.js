@@ -1,12 +1,10 @@
 import fs               from 'fs'                                 ;
-import path             from 'path'                               ;
 import cookieParser     from 'cookie-parser'                      ;
-import ApiError         from './services/api-error.js'            ;
 import loadUser         from './middlewares/load-user.js'         ;
 import loadAbsolutUrl   from './middlewares/absolute-url.js'      ;
 import requestTimeout   from './middlewares/request-timeout.js'   ;
 import saveResponseBody from './middlewares/save-response-body.js';
-import asyncWrap           from './middlewares/await.js'             ;
+import asyncWrap        from './middlewares/await.js'             ;
 import controller       from './controller.js'                    ;
 
 import { authIssuer, cert, certKey, requestTtl } from './config.js'
