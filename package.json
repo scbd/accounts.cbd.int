@@ -1,12 +1,23 @@
 {
   "name": "accounts-cbd-int",
   "description": "accounts.cbd.int",
+  "type": "module",
   "dependencies": {
     "@bower_components/angular-flex": "https://github.com/scbd/angular-flex.git#1.0.3",
     "@bower_components/bootstrap-duallistbox": "istvan-ujjmeszaros/bootstrap-duallistbox#2.1.1",
+    "cookie-parser": "1.4.6",
     "ejs": "2.6.1",
     "express": "4.16.3",
-    "http-proxy": "1.17"
+    "fs-extra": "^11.1.1",
+    "http-proxy": "1.17",
+    "jsonwebtoken": "9.0.0",
+    "lodash": "4.17.21",
+    "morgan": "1.10.0",
+    "samlp": "7.0.2",
+    "superagent": "8.0.9",
+    "winston": "^3.10.0",
+    "x509.js": "1.0.0",
+    "xmldom": "0.6.0"
   },
   "devDependencies": {
     "@bower_components/angular": "angular/bower-angular#1.7.4",
@@ -22,10 +33,11 @@
     "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
     "@bower_components/text": "requirejs/text#2.0.15"
   },
-  "engine": "node >= 8",
+  "engine": "node >= 16",
   "private": true,
   "scripts": {
-    "start": "node server"
+    "start": "node server",
+    "clean-install": "if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
   },
   "engines": {
     "yarn": ">= 1.6.0"
@@ -36,5 +48,8 @@
     "setprototypeof": "1.1.0",
     "statuses": "1.5.0",
     "http-errors": "1.6.3"
+  },
+  "imports": {
+    "#~/*": "./*"
   }
 }

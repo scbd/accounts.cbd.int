@@ -1,8 +1,15 @@
 'use strict';
-// CREATER ADD & ADD MIDDLEWARES
-var express      = require('express');
-var proxy        = require('http-proxy').createProxyServer({});
-var app          = express();
+
+import      express      from 'express'                   ;
+import      HttpProxy    from 'http-proxy'                ;
+import      samlEndPoint from './saml/index.js'           ;
+import * as url          from 'url'                       ;
+import      winston      from './saml/services/logger.js' ;
+
+const __dirname  = url.fileURLToPath(new URL('.', import.meta.url));
+
+const proxy = HttpProxy.createProxyServer({});
+const app   = express                    (  );
 
 
 // Configure options
@@ -16,11 +23,12 @@ var year        = date.getFullYear();
 var captchaV2key= process.env.CAPTCHA_V2_KEY || '';
 var captchaV3key= process.env.CAPTCHA_V3_KEY || '';
 
-console.info(`info: accounts.cbd.int`);
-console.info(`info: Git version: ${gitVersion}`);
-console.info(`info: API address: ${apiUrl}`);
-console.info(`info: IS DEV: ${process.env.IS_DEV}`);
+winston.info(`info: accounts.cbd.int`);
+winston.info(`info: Git version: ${gitVersion}`);
+winston.info(`info: API address: ${apiUrl}`);
+winston.info(`info: IS DEV: ${process.env.IS_DEV}`);
 
+samlEndPoint(app)
 app.use(                       function(req,res,next) { res.setHeader('X-Frame-Options', 'DENY' ); next(); });
 app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-Options', 'ALLOW'); next(); });
 
@@ -34,6 +42,7 @@ app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, sec
 ///non angularjs file for activating email
 app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate.html'));
 
+
 // SET TEMPLATE
 
 app.get('/*', (req, res) => {
@@ -41,16 +50,17 @@ app.get('/*', (req, res) => {
   res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
 });
 
-app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
+
+// app.all('/app/*', (req, res) => res.status(404).send("404 - Not Found"));
 // START HTTP SERVER
 
 app.listen(process.env.PORT || 8000, function () {
-	console.info(`Server listening on ${this.address().port}`);
+	winston.info(`Server listening on ${this.address().port}`);
 });
 // Handle proxy errors ignore
 
 proxy.on('error', function (e,req, res) {
-    console.error('proxy error:', e);
+    winston.error('proxy error:', e);
     res.status(502).send();
 });
 process.on('SIGTERM', ()=>process.exit());
@@ -66,3 +76,19 @@ function setCustomCacheControl(res, path) {
 
     res.setHeader('Cache-Control', 'public, max-age=0');
 }
+
+  // Error Handler
+  app.use((err, req, res) => {
+
+    if(err instanceof ApiError)
+        return res.status(err.status).send({ status:err.status, message: err.message });
+
+    res.status(500).send({ status: 500, message:  "Internal server Error"} );
+
+    winston.error("*** Unhandled Exception:", err);
+  })
+
+
+  process.on('uncaughtException', function (err) {
+    winston.error(`*** Uncaught Exception: ${err.message}\n${err.stack}`);
+  });
