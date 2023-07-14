@@ -1,16 +1,23 @@
 import profileMapper from './profile-mapper.js'                ;
 import webRead       from '#~/saml/services/web-reader.js'     ;
 import spParser      from '#~/saml/services/saml-sp-parser.js' ;
+import winston       from '#~/saml/services/logger.js'         ;
 
 const providers_cache = {}
 
 export async function findProvider(entityID) {
     const spList = await getSpList()
 
+    winston.debug('findProvider.spList', spList)
+
+    winston.debug('findProvider.providers_cache', providers_cache)
+
     if(!spList[entityID]) return undefined;
     if(isCached(entityID)) return providers_cache[entityID];
 
     const metaData = await readServiceProviderMeta(spList[entityID]);
+
+    winston.debug('findProvider.metaData', metaData)
 
     if(!metaData) return undefined;
 

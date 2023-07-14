@@ -177,7 +177,7 @@ export default function Controller({ certificate, authIssuer, basePath }) {
 }
 
 async function getProvider(serviceProviderID) {
-
+    winston.debug('getProvider.serviceProviderID', serviceProviderID)
     const  provider = await findProvider(serviceProviderID);
 
     if(!provider) throw new ApiError(400, `Invalid SAMLRequest - Unknown SP Issuer: ${serviceProviderID}`)
