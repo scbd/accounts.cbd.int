@@ -8,16 +8,10 @@ const providers_cache = {}
 export async function findProvider(entityID) {
     const spList = await getSpList()
 
-    winston.debug('findProvider.spList', spList)
-
-    winston.debug('findProvider.providers_cache', providers_cache)
-
     if(!spList[entityID]) return undefined;
     if(isCached(entityID)) return providers_cache[entityID];
 
     const metaData = await readServiceProviderMeta(spList[entityID]);
-
-    winston.debug('findProvider.metaData', metaData)
 
     if(!metaData) return undefined;
 
