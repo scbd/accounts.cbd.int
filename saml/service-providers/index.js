@@ -59,6 +59,7 @@ async function getSpList(){
     try {
         return (await import('./list.js')).default
     } catch (e) {
+        winston.error(e);
         return []
     }
 }
