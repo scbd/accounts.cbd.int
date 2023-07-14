@@ -13,11 +13,15 @@ export default  function () {
 
             winston.debug('loadUser.getAuthUser',`${apiUrl}/api/v2013/authentication/user`);
             
-            req.user = await getAuthUser(authenticationToken)
+            req.user = await getAuthUser(authenticationToken);
+
+            winston.debug('loadUser. req.user', req.user);
             next();
         }
         catch(err) {
-            winston.debug(err)
+            winston.debug('loadUser.getAuthUser',`${apiUrl}/api/v2013/authentication/user`);
+
+            winston.debug('loadUser',err);
 
             delete req.user; // make sure anonymous on error
             next();
