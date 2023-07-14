@@ -6,6 +6,7 @@ import   winston   from '#~/saml/services/logger.js' ;
 export default  function () {
     return async (req, res, next) => {
         winston.debug('loadUser req.cookies',req.cookies);
+        winston.debug('loadUser req.cookies',req.headers);
         try {
             const { authenticationToken } = req.cookies;
 
