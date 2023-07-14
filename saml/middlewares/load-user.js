@@ -11,6 +11,8 @@ export default  function () {
 
             if(!authenticationToken) return next();
 
+            winston.debug('loadUser.getAuthUser',`${apiUrl}/api/v2013/authentication/user`);
+            
             req.user = await getAuthUser(authenticationToken)
             next();
         }
