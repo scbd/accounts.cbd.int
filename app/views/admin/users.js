@@ -115,8 +115,8 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
   function setPage (page) {
 
       $scope.currentPage = Math.max(0, Math.min($scope.pageCount-1, page|0));
-      $location.search('pageSize',$scope.pageSize)
-      $location.search('currentPage',$scope.currentPage+1)
+      $location.search('pageSize',$scope.pageSize||25)
+      $location.search('currentPage',($scope.currentPage||0)+1)
 	}
 
   //============================================================
