@@ -75,7 +75,9 @@ define(['app', 'lodash', 'authentication'], function(app, _) { 'use strict';
         $scope.returnUrl = 'returnUrl=' + encodeURIComponent($location.$$url);
         cancelPopulate = $q.defer();
         $scope.loading = true;
-        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: $scope.currentPage*$scope.pageSize, l: $scope.pageSize , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
+        var pageSize = $scope.pageSize||25;
+        var skip = ($scope.currentPage||0) * (pageSize)
+        return $http.get('/api/v2013/users', { params: { q: $scope.freetext, sk: skip, l: pageSize , government : $scope.government, role: $scope.roleFilter }, timeout: cancelPopulate.promise })
         .then(function (response) {
             prevRequestCancelled=false;
             $scope.userCount =  parseInt(response.headers("record-count"));
