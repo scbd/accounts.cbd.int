@@ -27,6 +27,53 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
             }
         });
 
+        $scope.showLogs = function(){
+            if($scope.userActionLogs)
+                return;
+
+            $scope.waiting = true;
+            $http.get("/api/v2013/users/" + $route.current.params.id + '/action-logs', { params : {s: {requestDate:-1}} })
+            .then(function(result) {
+                console.log(result);
+                $scope.userActionLogs = result.data;
+                $scope.userActionLogs.forEach(action=>{
+                    if(action.type=='UserRoleAdditionRequest' || action.type=='UserRoleDeletionRequest'){
+                        var role = _.find($scope.roleList||[], {roleId:action.request.roleId});
+                        if(role){
+                            action.role = role;
+                        }
+                        else{
+                            $http.get("/api/v2013/roles/"+ action.request.roleId, { cache: true }).then(function(result) {
+                                action.role = result.data
+                            })
+                        }
+                    }
+                    else if(action.type == 'UserUpdateRequest'){
+                        const prevUpdates = result.data.find(e=>e.actionId < action.actionId && e.type == 'UserUpdateRequest');
+                        if(prevUpdates){
+                            const changes = [];
+                            for (const prop in action.request) {
+                                if (Object.hasOwnProperty.call(action.request, prop)) {
+                                    if(action.request[prop]!= prevUpdates.request[prop]){
+                                        changes.push({prop:prop, new : action.request[prop], old : prevUpdates.request[prop]})
+                                    }                                
+                                }
+                            }
+                            action.changes= changes;
+                        }
+                    }
+                });               
+
+            })
+            .finally(function(){
+                $scope.waiting = false;
+            });
+        }
+
+        $scope.showAction = function(action){
+            action.showRequest = !action.showRequest
+        }
+
         load();
 
         return this;
@@ -197,6 +244,23 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
             $scope.error = err;
 
             $('html, body').animate({ scrollTop: $("#users-id").offset().top }, 250);
+        }
+
+        function compare(original, copy) {
+            for (let [k, v] of Object.entries(original)) {
+              if (typeof v === "object" && v !== null) {
+                if (!copy.hasOwnProperty(k)) {
+                  copy[k] = v; // 2
+                } else {
+                  compare(v, copy?.[k]);
+                }
+              } else {
+                if (Object.is(v, copy?.[k])) {
+                  delete copy?.[k]; // 1
+                }
+              }
+            }
+            return JSON.stringify(copy);
         }
     }];
 
