@@ -27,6 +27,39 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
             }
         });
 
+        $scope.showLogs = function(){
+            if($scope.userActionLogs)
+                return;
+
+            $scope.waiting = true;
+            $http.get("/api/v2013/users/" + $route.current.params.id + '/action-logs', { params : {s: {requestDate:-1}} })
+            .then(function(result) {
+                console.log(result);
+                $scope.userActionLogs = result.data;
+                $scope.userActionLogs.forEach(action=>{
+                    if(action.type=='UserRoleAdditionRequest' || action.type=='UserRoleDeletionRequest'){
+                        var role = _.find($scope.roleList||[], {roleId:action.request.roleId});
+                        if(role){
+                            action.role = role;
+                        }
+                        else{
+                            $http.get("/api/v2013/roles/"+ action.request.roleId, { cache: true }).then(function(result) {
+                                action.role = result.data
+                            })
+                        }
+                    }
+                });               
+
+            })
+            .finally(function(){
+                $scope.waiting = false;
+            });
+        }
+
+        $scope.showAction = function(action){
+            action.showRequest = !action.showRequest
+        }
+
         load();
 
         return this;
