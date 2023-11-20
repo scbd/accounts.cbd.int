@@ -48,6 +48,20 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
                             })
                         }
                     }
+                    else if(action.type == 'UserUpdateRequest'){
+                        const prevUpdates = result.data.find(e=>e.actionId < action.actionId && e.type == 'UserUpdateRequest');
+                        if(prevUpdates){
+                            const changes = [];
+                            for (const prop in action.request) {
+                                if (Object.hasOwnProperty.call(action.request, prop)) {
+                                    if(action.request[prop]!= prevUpdates.request[prop]){
+                                        changes.push({prop:prop, new : action.request[prop], old : prevUpdates.request[prop]})
+                                    }                                
+                                }
+                            }
+                            action.changes= changes;
+                        }
+                    }
                 });               
 
             })
@@ -230,6 +244,23 @@ define(['app', 'lodash', 'angular', 'jquery', 'directives/bootstrap/dual-list', 
             $scope.error = err;
 
             $('html, body').animate({ scrollTop: $("#users-id").offset().top }, 250);
+        }
+
+        function compare(original, copy) {
+            for (let [k, v] of Object.entries(original)) {
+              if (typeof v === "object" && v !== null) {
+                if (!copy.hasOwnProperty(k)) {
+                  copy[k] = v; // 2
+                } else {
+                  compare(v, copy?.[k]);
+                }
+              } else {
+                if (Object.is(v, copy?.[k])) {
+                  delete copy?.[k]; // 1
+                }
+              }
+            }
+            return JSON.stringify(copy);
         }
     }];
 

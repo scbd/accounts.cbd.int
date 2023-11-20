@@ -213,7 +213,7 @@
 								<tr ng-repeat="action in userActionLogs">
 									<td>{{action.type}}</td>
 									<td>{{action.requestedByInfo.firstName}} {{action.requestedByInfo.lastName}}</td>
-									<td>{{action.requestDate}}</td>
+									<td>{{action.requestDate.substring(0, 16).replace('T', ' ')}}</td>
 									<td>
 										<div ng-if="action.type=='UserRoleAdditionRequest' || action.type=='UserRoleDeletionRequest'">
 											<span ng-if="action.role">
@@ -221,8 +221,20 @@
 												</span>
 										</div>
 										<div ng-if="action.type!='UserRoleAdditionRequest' && action.type!='UserRoleDeletionRequest'">
-											<button class="btn btn-danger btn-xs" ng-click="showAction(action)">Show action</button>
-											<code ng-if="action.showRequest">{{action.request | json}}</code>
+											<button class="btn btn-danger btn-xs" ng-click="showAction(action)" ng-if="!action.changes">Show action</button>
+											<code ng-if="!action.changes && action.showRequest">{{action.request | json}}</code>
+											<table ng-if="action.changes" class="table table-bordered">
+												<tr>
+													<td>Field</td>
+													<td>New</td>
+													<td>Old</td>
+												</tr>
+												<tr ng-repeat="change in action.changes">
+													<td>{{change.prop}}</td>
+													<td>{{change.new}}</td>
+													<td>{{change.old}}</td>
+												</tr>
+											</table>
 										</div>										
 									</td>	
 									<td>{{action.realm}}</td>								
