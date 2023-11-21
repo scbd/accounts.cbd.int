@@ -1,107 +1,108 @@
-define(['require', 'app', 'angular', 'authentication'], function(require, app, angular) { 'use strict';
+import require from 'require';
+import app from '~/app';
+import angular from 'angular';
+import '~/authentication';
 
-    var baseUrl = require.toUrl('');
+var baseUrl = require.toUrl('');
 
-    app.provider('extendedRoute', ["$routeProvider", function($routeProvider) {
+app.provider('extendedRoute', ["$routeProvider", function($routeProvider) {
 
-        var __when = $routeProvider.when.bind($routeProvider);
+    var __when = $routeProvider.when.bind($routeProvider);
 
-        //============================================================
-        //
-        //
-        //============================================================
-        function new_when(path, route) {
+    //============================================================
+    //
+    //
+    //============================================================
+    function new_when(path, route) {
 
-            var templateUrl = route.templateUrl;
-            var templateModule;
+        var templateUrl = route.templateUrl;
+        var templateModule;
 
-            if(templateUrl) {
+        if(templateUrl) {
 
-                if(templateUrl.indexOf('/')!==0) {
-                    route.templateUrl = baseUrl + templateUrl;
-                    templateModule  = changeExtension(templateUrl, '');
-                }
-                else {
-                    templateModule = changeExtension(templateUrl, '.js');
-                }
+            if(templateUrl.indexOf('/')!==0) {
+                route.templateUrl = baseUrl + templateUrl;
+                templateModule  = changeExtension(templateUrl, '');
             }
-
-            var ext = { resolve: route.resolve || {} };
-
-            if(!route.controller && route.resolveController && typeof(route.resolveController)=="string")
-                templateModule = route.resolveController;
-
-            if(!route.controller && route.resolveController) {
-                ext.controller         = proxy;
-                ext.resolve.controller = resolveController(templateModule);
+            else {
+                templateModule = changeExtension(templateUrl, '.js');
             }
-
-            if(route.resolveUser) {
-                ext.resolve.user = resolveUser();
-            }
-
-            return __when(path, angular.extend(route, ext));
         }
 
-        //********************************************************************************
-        //********************************************************************************
-        //********************************************************************************
-        //********************************************************************************
+        var ext = { resolve: route.resolve || {} };
 
-        function changeExtension(path, ext) {
+        if(!route.controller && route.resolveController && typeof(route.resolveController)=="string")
+            templateModule = route.resolveController;
 
-            return path.replace(/(\.[a-z0-9]+$)/gi, ext);
+        if(!route.controller && route.resolveController) {
+            ext.controller         = proxy;
+            ext.resolve.controller = resolveController(templateModule);
         }
 
-
-        //============================================================
-        //
-        //
-        //============================================================
-        function proxy($injector, $scope, $route, controller) {
-
-            if(!controller)
-                return;
-
-            var locals = angular.extend($route.current.locals, { $scope: $scope });
-
-            return $injector.instantiate(controller, locals);
-        }
-        proxy.$inject = ['$injector', '$scope', '$route', 'controller'];
-
-        //============================================================
-        //
-        //
-        //============================================================
-        function resolveUser() {
-            return ['$q', '$rootScope', 'authentication', function($q, $rootScope, authentication) {
-                return $q.when(authentication.getUser()).then(function (user) {
-                    return user;
-                });
-            }];
+        if(route.resolveUser) {
+            ext.resolve.user = resolveUser();
         }
 
-        //============================================================
-        //
-        //
-        //============================================================
-        function resolveController(controllerModule) {
+        return __when(path, angular.extend(route, ext));
+    }
 
-            return ['$q', function($q) {
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
+    //********************************************************************************
 
-                var deferred = $q.defer();
+    function changeExtension(path, ext) {
 
-                require([controllerModule], function (module) {
-                    deferred.resolve(module);
-                }, function(){
-                    deferred.reject("controller not found: " + controllerModule);
-                });
+        return path.replace(/(\.[a-z0-9]+$)/gi, ext);
+    }
 
-                return deferred.promise;
-            }];
-        }
 
-        return angular.extend($routeProvider, { when: new_when });
-    }]);
+    //============================================================
+    //
+    //
+    //============================================================
+    function proxy($injector, $scope, $route, controller) {
 
-});
+        if(!controller)
+            return;
+
+        var locals = angular.extend($route.current.locals, { $scope: $scope });
+
+        return $injector.instantiate(controller, locals);
+    }
+    proxy.$inject = ['$injector', '$scope', '$route', 'controller'];
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function resolveUser() {
+        return ['$q', '$rootScope', 'authentication', function($q, $rootScope, authentication) {
+            return $q.when(authentication.getUser()).then(function (user) {
+                return user;
+            });
+        }];
+    }
+
+    //============================================================
+    //
+    //
+    //============================================================
+    function resolveController(controllerModule) {
+
+        return ['$q', function($q) {
+
+            var deferred = $q.defer();
+
+            require([controllerModule], function (module) {
+                deferred.resolve(module);
+            }, function(){
+                deferred.reject("controller not found: " + controllerModule);
+            });
+
+            return deferred.promise;
+        }];
+    }
+
+    return angular.extend($routeProvider, { when: new_when });
+}]);

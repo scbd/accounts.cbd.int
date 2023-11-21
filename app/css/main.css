@@ -1,6 +1,6 @@
 @import url("https://cdn.cbd.int/bootstrap@3.3.5/dist/css/bootstrap.min.css");
 @import url("https://cdn.cbd.int/font-awesome@4.7.0/css/font-awesome.css");
-@import url("../libs/bootstrap-duallistbox/bootstrap-duallistbox/bootstrap-duallistbox.css");
+@import url("https://cdn.jsdelivr.net/gh/istvan-ujjmeszaros/bootstrap-duallistbox@2.1.1/bootstrap-duallistbox/bootstrap-duallistbox.css");
 @import url("accounts.css");
 @import url("chm.css");
 @import url("colors.css");
