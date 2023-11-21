@@ -1,5 +1,13 @@
 FROM node:18.0-alpine
 
+ARG BRANCH='master'
+ENV BRANCH $BRANCH
+
+ARG VERSION
+ENV VERSION $VERSION
+
+RUN echo 'running on branch ' $VERSION
+
 RUN apk update && apk upgrade && \
     apk add --no-cache git curl yarn nano
 
@@ -7,9 +15,11 @@ WORKDIR /usr/src/app
 
 COPY package.json .npmrc ./
 
-RUN yarn install --production
-
 COPY . ./
+
+RUN yarn install
+
+RUN yarn run build
 
 ENV PORT 8000
 EXPOSE 8000

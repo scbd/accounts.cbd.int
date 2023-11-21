@@ -41,13 +41,13 @@ export default function bootApp(window, require, defineX) {
             'vueFile'                   : cdnHost + 'npm/requirejs-vue@1.1.5/requirejs-vue',
             'shim'                      : cdnHost + 'gh/zetlen/require-shim@master/src/shim',
 
-            // 'angular-vue'               : `${cdnHost}npm/@scbd/angular-vue@4.0.0/dist/index.min`,
+            'angular-vue'               : `${cdnHost}npm/@scbd/angular-vue@4.0.0/dist/index.min`,
             'bootstrap-duallistbox'     : `${cdnHost}gh/istvan-ujjmeszaros/bootstrap-duallistbox@2.1.1/bootstrap-duallistbox/jquery.bootstrap-duallistbox`
             
         },
         'shim': {
             'angular-flex'                  : { 'deps': ['angular'] },
-            // 'angular-vue'                   : { 'deps': ['angular', 'vue']},
+            'angular-vue'                   : { 'deps': ['angular', 'vue']},
             'vueFile'                       : { 'deps': ['vue']},
             
         },

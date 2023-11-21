@@ -1,4 +1,4 @@
-// import 'angular-vue'
+import 'angular-vue'
 
 export { default as template } from './vue-view-wrapper.html';
 

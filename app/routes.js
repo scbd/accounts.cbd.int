@@ -5,8 +5,8 @@ import './authentication';
 import '~/providers/realm';
 
 import { securize, mapView, currentUser } from './mixin';
-import * as angularViewWrapper from './views/shared/angular-view-wrapper'
-// import * as vueViewWrapper     from './views/shared/vue-view-wrapper'
+import * as angularViewWrapper from '~/views/shared/angular-view-wrapper'
+import * as vueViewWrapper     from '~/views/shared/vue-view-wrapper'
 
 function logError(err) {
     console.log(err)
