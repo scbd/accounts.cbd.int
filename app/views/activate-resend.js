@@ -1,6 +1,9 @@
-define(['app', 'directives/input-email', './recaptcha.directive.js'], function(){
+import '~/app';
+import '~/directives/input-email';
+import './recaptcha.directive.js';
 
-return ['$scope', '$http', '$location', function ($scope, $http, $location) {
+export { default as template } from './activate-resend.html';
+export default ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
     //============================================================
     //
@@ -19,4 +22,3 @@ return ['$scope', '$http', '$location', function ($scope, $http, $location) {
         })
     };
 }];
-});

@@ -1,6 +1,6 @@
-define(['app'], function(){
+import '~/app';
 
-  return ['$scope','referrer', function ($scope,referrer) {
-      $scope.referrer = referrer.get();
-  }];
-});
+export { default as template } from './signup-done.html';
+export default ['$scope','referrer', function ($scope,referrer) {
+    $scope.referrer = referrer.get();
+}];

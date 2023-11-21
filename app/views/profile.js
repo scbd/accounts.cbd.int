@@ -1,6 +1,10 @@
-define(['app', 'angular', 'directives/forms-input-list', 'directives/input-email'], function(app, angular){
+import app from '~/app';
+import angular from 'angular';
+import '~/directives/forms-input-list';
+import '~/directives/input-email';
 
-return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', '$q', function ($scope, authHttp, $location, $filter, $timeout, returnUrl, $q) {
+export { default as template } from './profile.html';
+export default ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', '$q', function ($scope, authHttp, $location, $filter, $timeout, returnUrl, $q) {
 
     //============================================================
     //
@@ -73,4 +77,3 @@ return ['$scope', '$http', '$location', '$filter', '$timeout', 'returnUrl', '$q'
     
     
 }];
-});

@@ -1,20 +1,21 @@
-define(['app', 'authentication'], function(){
+import '~/app';
+import '~/authentication';
 
-	return ['$scope', '$location', '$window', 'authentication', 'user', function ($scope, $location, $window, authentication, user) {
+export { default as template } from './index.html';
+export default ['$scope', '$location', '$window', 'authentication', 'user', function ($scope, $location, $window, authentication, user) {
 
-		if(!user.isAuthenticated) {
-			$location.replace();
-			$location.path('/signin');
-			return;
-		}
-		
-		$scope.ready = true;
+    if(!user.isAuthenticated) {
+        $location.replace();
+        $location.path('/signin');
+        return;
+    }
+    
+    $scope.ready = true;
 
-		$scope.actionSignOut = function () {
+    $scope.actionSignOut = function () {
 
-			authentication.signOut().finally(function () {
-				$window.location.href = '/signin'; // force page reload to clear everyting from memory
-        	});
-	    };
-	}];
-});
+        authentication.signOut().finally(function () {
+            $window.location.href = '/signin'; // force page reload to clear everyting from memory
+        });
+    };
+}];

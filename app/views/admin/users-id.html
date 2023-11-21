@@ -35,7 +35,7 @@
 		<div ng-show="status=='loading'"><em>Loading...</em></div>
 
 		<div ng-hide="status=='hidden'||status=='loading'">
-			<form name="form" role="form" ng-submit="save()" novalidate>
+			<form name="form" role="form"  novalidate>
 
 				<div class="panel panel-default panel-identity">
 					<div class="panel-body">
@@ -194,7 +194,56 @@
 					</div>
 				</div>
 
-				<button type="submit" class="btn btn-primary">Save</button>
+				<div class="panel panel-default">
+					<div class="panel-body">
+
+						<div class="form-group">
+							<label>User Logs</label>
+							<div class="pull-right">
+								<button class="btn btn-default" ng-disabled="waiting" ng-click="showLogs()">Show logs</button>
+							</div>
+							<table class="table table-bordered" ng-if="userActionLogs">
+								<tr>
+									<td>Type</td>
+									<td>Requested By</td>
+									<td>Requested On</td>
+									<td>Action</td>
+									<td>Application</td>
+								</tr>
+								<tr ng-repeat="action in userActionLogs">
+									<td>{{action.type}}</td>
+									<td>{{action.requestedByInfo.firstName}} {{action.requestedByInfo.lastName}}</td>
+									<td>{{action.requestDate.substring(0, 16).replace('T', ' ')}}</td>
+									<td>
+										<div ng-if="action.type=='UserRoleAdditionRequest' || action.type=='UserRoleDeletionRequest'">
+											<span ng-if="action.role">
+												{{action.role.name}} (<code>{{action.role.code}}</code>)
+												</span>
+										</div>
+										<div ng-if="action.type!='UserRoleAdditionRequest' && action.type!='UserRoleDeletionRequest'">
+											<button class="btn btn-danger btn-xs" ng-click="showAction(action)" ng-if="!action.changes">Show action</button>
+											<code ng-if="!action.changes && action.showRequest">{{action.request | json}}</code>
+											<table ng-if="action.changes" class="table table-bordered">
+												<tr>
+													<td>Field</td>
+													<td>New</td>
+													<td>Old</td>
+												</tr>
+												<tr ng-repeat="change in action.changes">
+													<td>{{change.prop}}</td>
+													<td>{{change.new}}</td>
+													<td>{{change.old}}</td>
+												</tr>
+											</table>
+										</div>										
+									</td>	
+									<td>{{action.realm}}</td>								
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary" ng-click="save()">Save</button>
 				<button class="btn btn-default" ng-disabled="waiting" ng-click="cancel()">Cancel</button>
 				
 			</form>
