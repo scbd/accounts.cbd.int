@@ -3,8 +3,6 @@
   "description": "accounts.cbd.int",
   "type": "module",
   "dependencies": {
-    "@bower_components/angular-flex": "https://github.com/scbd/angular-flex.git#1.0.3",
-    "@bower_components/bootstrap-duallistbox": "istvan-ujjmeszaros/bootstrap-duallistbox#2.1.1",
     "cookie-parser": "1.4.6",
     "ejs": "2.6.1",
     "express": "4.16.3",
@@ -20,24 +18,37 @@
     "xmldom": "0.6.0"
   },
   "devDependencies": {
-    "@bower_components/angular": "angular/bower-angular#1.7.4",
-    "@bower_components/angular-animate": "angular/bower-angular-animate#1.7.4",
-    "@bower_components/angular-cookies": "angular/bower-angular-cookies#1.7.4",
-    "@bower_components/angular-route": "angular/bower-angular-route#1.7.4",
-    "@bower_components/angular-sanitize": "angular/bower-angular-sanitize#1.7.4",
-    "@bower_components/bootstrap": "twbs/bootstrap#3.3.5",
-    "@bower_components/font-awesome": "FortAwesome/Font-Awesome#4.7.0",
-    "@bower_components/jquery": "jquery/jquery-dist#2.1.4",
-    "@bower_components/lodash": "lodash/lodash#3.10.1",
-    "@bower_components/outdated-browser": "burocratik/outdated-browser#1.1.2",
-    "@bower_components/requirejs": "jrburke/requirejs-bower#2.1.22",
-    "@bower_components/text": "requirejs/text#2.0.15"
+    "@babel/core": "7.12.10",
+    "@babel/preset-env": "7.12.11",
+    "@buxlabs/amd-to-es6": "^0.16.3",
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-babel": "5.2.2",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "11.1.0",
+    "@scbd/angular-vue": "4.0.0",
+    "@vue/compiler-sfc": "3.0.5",
+    "glob": "^7.1.6",
+    "rollup": "2.77.0",
+    "rollup-plugin-amd": "^4.0.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-dynamic-import-variables": "^1.1.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-string": "^3.0.0",
+    "rollup-plugin-terser": "7.0.2",
+    "rollup-plugin-vue": "4.2.0",
+    "vue-template-compiler": "2.7.14"
   },
   "engine": "node >= 16",
   "private": true,
   "scripts": {
-    "start": "node server",
-    "clean-install": "if test -f node_modules; then rm -rf node_modules; fi && yarn install --force"
+    "server": "node server",
+    "start": "node server.js",
+    "build": "rm -rf ./dist && npx rollup -c",
+    "dev": "rm -rf ./dist && npx rollup -c --watch",
+    "dev1": "npx rollup -c --watch",
+    "eslint": "npx eslint . --fix",
+    "clean-reinstall": "rm -rf ./node_modules && yarn install"
   },
   "engines": {
     "yarn": ">= 1.6.0"
