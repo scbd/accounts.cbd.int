@@ -6,6 +6,8 @@ import      samlEndPoint from './saml/index.js'           ;
 import * as url          from 'url'                       ;
 import      winston      from './saml/services/logger.js' ;
 
+import { bundleUrls, cdnHost } from './app/boot.js';
+
 const __dirname  = url.fileURLToPath(new URL('.', import.meta.url));
 
 const proxy = HttpProxy.createProxyServer({});
@@ -22,6 +24,7 @@ var date        = new Date();
 var year        = date.getFullYear();
 var captchaV2key= process.env.CAPTCHA_V2_KEY || '';
 var captchaV3key= process.env.CAPTCHA_V3_KEY || '';
+let appVersion = process.env.TAG      || gitVersion;
 
 winston.info(`info: accounts.cbd.int`);
 winston.info(`info: Git version: ${gitVersion}`);
@@ -34,8 +37,9 @@ app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-O
 
 // Configure static files to serve
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
-app.use('/app',           express.static(__dirname + '/app'     , { setHeaders: setCustomCacheControl }));
-app.use('/app/libs',      express.static(__dirname + '/node_modules/@bower_components', { setHeaders: setCustomCacheControl }));
+
+app.use('/app',           express.static(__dirname + '/dist/app', { setHeaders: setCustomCacheControl }));
+app.use('/app',           express.static(__dirname + '/app', { setHeaders: setCustomCacheControl }));
 app.all('/app/*',         function(req, res) { res.status(404).send(); } );
 
 app.all('/api/*', function(req, res) { proxy.web(req, res, { target: apiUrl, secure: false, changeOrigin:true } ); } );
@@ -47,7 +51,15 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
-  res.render('template', { gitVersion: gitVersion, year:year, captchaV2key, captchaV3key });
+  res.render('template', { 
+    gitVersion: gitVersion, year:year, captchaV2key, captchaV3key,
+    baseUrl: req.headers.base_url || '/',
+    appVersion: appVersion,
+
+    cdnHost            : cdnHost,
+    angularBundle      : bundleUrls.angularBundle,
+    initialCss         : bundleUrls.initialCss
+  }); 
 });
 
 
