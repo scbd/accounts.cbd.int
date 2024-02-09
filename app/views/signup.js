@@ -1,6 +1,10 @@
-define(['app', 'directives/input-email', 'directives/security/password-rules', './recaptcha.directive.js'], function(){
+import '~/app';
+import '~/directives/input-email';
+import '~/directives/security/password-rules';
+import './recaptcha.directive.js';
 
-return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scope, $http, authentication, apiToken, user) {
+export { default as template } from './signup.html';
+export default ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scope, $http, authentication, apiToken, user) {
     $scope.passwordType = 'password';
 
     if(user.isAuthenticated)
@@ -74,4 +78,3 @@ return ['$scope', '$http', 'authentication', 'apiToken', 'user', function ($scop
         $scope.passwordType = $scope.passwordType != 'password' ? 'password' : 'text';
     };
 }];
-});

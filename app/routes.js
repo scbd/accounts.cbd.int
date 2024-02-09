@@ -1,71 +1,66 @@
-define(['app', 'lodash', 'authentication', 'providers/extended-route', 'providers/realm'], function (app, _) { 'use strict';
+import app from '~/app.js';
+import _ from 'lodash';
+import './authentication';
+// import 'providers/extended-route';
+import '~/providers/realm';
 
-    app.config(['extendedRouteProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+import { securize, mapView, currentUser } from './mixin';
+import * as angularViewWrapper from '~/views/shared/angular-view-wrapper'
+import * as vueViewWrapper     from '~/views/shared/vue-view-wrapper'
 
-        $locationProvider.html5Mode(true);
-        $locationProvider.hashPrefix('!');
+function logError(err) {
+    console.log(err)
+    throw err;
+}
 
-        $routeProvider.
-            when('/',                     { templateUrl: '/app/views/index.html'                , resolveUser : true, resolveController : true }).
-            when('/oauth2/authorize',     { templateUrl: '/app/views/oauth2/authorize.html'     , resolveUser : true, resolveController : true , resolve : { securized : securize()} }).
-            //when('/activate', mrendered from server.js
-            when('/activate/resend',      { templateUrl: '/app/views/activate-resend.html'      , resolveUser : true, resolveController : true }).
-            when('/password',             { templateUrl: '/app/views/password.html'             , resolveUser : true, resolveController : true, resolve : { securized : securize() } }).
-            when('/password/reset',       { templateUrl: '/app/views/password-reset.html'       , resolveUser : true, resolveController : true, }).
-            when('/password/reset/sent',  { templateUrl: '/app/views/password-reset-sent.html'  , resolveUser : true, }).
-            when('/password/reset/set',   { templateUrl: '/app/views/password-reset-set.html'   , resolveUser : true, resolveController : true }).
-            when('/password/reset/done',  { templateUrl: '/app/views/password-reset-done.html'  , resolveUser : true, }).
-            when('/profile',              { templateUrl: '/app/views/profile.html'              , resolveUser : true, resolveController : true, resolve : { securized : securize() } }).
-            when('/profile/done',         { templateUrl: '/app/views/profile-done.html'         , resolveUser : true, resolveController : true,resolve : { securized : securize() } }).
-            when('/recovery',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
-            when('/activity',             { templateUrl: '/app/views/help/offline.html'         , resolveUser : true, }).
-            when('/signin',               { templateUrl: '/app/views/signin.html'               , resolveUser : true, resolveController : true }).
-            when('/signout',              { templateUrl: '/app/views/signout.html'              , resolveUser : true, resolveController : true }).
-            when('/signup',               { templateUrl: '/app/views/signup.html'               , resolveUser : true, resolveController : true, resolve : { user: currentUser() } }).
-            when('/signup/done',          { templateUrl: '/app/views/signup-done.html'          , resolveUser : true, resolveController : true, resolve : { user: currentUser() } }).
-            when('/help/403',             { templateUrl: '/app/views/help/403.html'             , resolveUser : true, }).
-            when('/help/404',             { templateUrl: '/app/views/help/404.html'             , resolveUser : true, }).
-            when('/admin/users',          { templateUrl: '/app/views/admin/users.html'          , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator', 'Administrator-Accounts']) }, reloadOnSearch:false }).
-            when('/admin/users/:id',      { templateUrl: '/app/views/admin/users-id.html'       , resolveUser : true, resolveController : true, resolve : { securized : securize(['Administrator', 'Administrator-Accounts']) } }).
-            otherwise({redirectTo:'/help/404'});
-    }]);
+const routeTemplates = {
+    'home'                 : { component: ()=>import('~/views/index.js'                ).catch(logError) },
+    'oauth2_authorize'     : { component: ()=>import('~/views/oauth2/authorize.js'     ).catch(logError) },
+    'activate_resend'      : { component: ()=>import('~/views/activate-resend.js'      ).catch(logError) },
+    'password'             : { component: ()=>import('~/views/password.js'             ).catch(logError) },
+    'password_reset'       : { component: ()=>import('~/views/password-reset.js'       ).catch(logError) },
+    'password_reset_sent'  : { component: ()=>import('~/views/password-reset-sent.js'  ).catch(logError) },
+    'password_reset_set'   : { component: ()=>import('~/views/password-reset-set.js'   ).catch(logError) },
+    'profile'              : { component: ()=>import('~/views/profile.js'              ).catch(logError) },
+    'profile_done'         : { component: ()=>import('~/views/profile-done.js'         ).catch(logError) },
+    'recovery'             : { component: ()=>import('~/views/help/offline.js'         ).catch(logError) },
+    'activity'             : { component: ()=>import('~/views/help/offline.js'         ).catch(logError) },
+    'signin'               : { component: ()=>import('~/views/signin.js'               ).catch(logError) },
+    'signout'              : { component: ()=>import('~/views/signout.js'              ).catch(logError) },
+    'signup'               : { component: ()=>import('~/views/signup.js'               ).catch(logError) },
+    'signup_done'          : { component: ()=>import('~/views/signup-done.js'          ).catch(logError) },
+    'help_403'             : { component: ()=>import('~/views/help/403.js'             ).catch(logError) },
+    'help_404'             : { component: ()=>import('~/views/help/404.js'             ).catch(logError) },
+    'admin_users'          : { component: ()=>import('~/views/admin/users.js'          ).catch(logError) },
+    'admin_users_id'       : { component: ()=>import('~/views/admin/users-id.js'       ).catch(logError) },
+}
 
-    //============================================================
-    //
-    //
-    //============================================================
-    function securize(roles)
-    {
-        return ["$location", "$q", "authentication", "returnUrl", function ($location, $q, authentication, returnUrl) {
+app.config(["$routeProvider", '$locationProvider', function ($routeProvider, $locationProvider) {
+    
+    $locationProvider.html5Mode(true);
+    $locationProvider.hashPrefix("!");
+    
+    $routeProvider.
+        when('/',                     { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.home                ,  user: currentUser(), }}).
+        when('/oauth2/authorize',     { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.oauth2_authorize    ,  user: currentUser(), securized : securize() }}).
+        when('/activate/resend',      { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.activate_resend     ,  user: currentUser(), }}).
+        when('/password',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password            ,  user: currentUser(), securized : securize()}}).
+        when('/password/reset',       { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password_reset      ,  user: currentUser(), }}).
+        when('/password/reset/sent',  { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password_reset_sent  , user: currentUser(),  }}).
+        when('/password/reset/set',   { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password_reset_set   , user: currentUser(),  }}).        
+        when('/profile',              { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.profile             ,  user: currentUser(), securized : securize() }}).
+        when('/profile/done',         { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.profile_done        ,  user: currentUser(), securized : securize() }}).
+        when('/recovery',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.recovery            ,  user: currentUser(), }}).
+        when('/activity',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.activity            ,  user: currentUser(), }}).
+        when('/signin',               { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.signin              ,  user: currentUser(), }}).
+        when('/signout',              { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.signout             ,  user: currentUser(), }}).
+        when('/signup',               { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.signup              ,  user: currentUser()}}).
+        when('/signup/done',          { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.signup_done         ,  user: currentUser()}}).
+        when('/help/403',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.help_403            ,  user: currentUser(), }}).
+        when('/help/404',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.help_404            ,  user: currentUser(), }}).
+        when('/admin/users',          { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.admin_users         ,  user: currentUser(), securized : securize(['Administrator', 'Administrator-Accounts']) }, reloadOnSearch:false }).
+        when('/admin/users/:id',      { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.admin_users_id      ,  user: currentUser(), securized : securize(['Administrator', 'Administrator-Accounts'])  }}).
+        
+        otherwise({redirectTo:'/help/404'});
+}]);
 
-            return $q.when(authentication.getUser()).then(function (user) {
-                if (!user.isAuthenticated) {
-
-                    $location.search({ returnurl: returnUrl.get() || $location.url() });
-                    $location.path('/signin');
-                }
-                else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {
-
-                    console.log("securize: not authorized");
-
-                    $location.search({ path: $location.url() });
-                    $location.path('/help/403');
-                }
-
-                return user;
-            });
-        }];
-    }
-
-    //============================================================
-    //
-    //
-    //============================================================
-    function currentUser()
-    {
-        return ["authentication", function (authentication) {
-
-            return authentication.getUser();
-        }];
-    }
-});

@@ -1,113 +1,114 @@
-define(['app', 'angular', 'jquery', 'text!./forms-input-list.html'], function(app, angular, $, templateHTML){
+import app from '~/app';
+import angular from 'angular';
+import $ from 'jquery';
+import templateHTML from './forms-input-list.html';
 
-    app.directive('formsInputList', [function() {
-        return {
-            restrict: 'EAC',
-            template: templateHTML,
-            replace: true,
-            transclude: false,
-            require : "ngModel",
-            scope: {
-                placeholder : "@",
-                binding     : "=ngModel",
-                required    : "@",
-                icon        : "@"
-            },
-            link: function ($scope, $element, attrs, ngModelController)
+app.directive('formsInputList', [function() {
+    return {
+        restrict: 'EAC',
+        template: templateHTML,
+        replace: true,
+        transclude: false,
+        require : "ngModel",
+        scope: {
+            placeholder : "@",
+            binding     : "=ngModel",
+            required    : "@",
+            icon        : "@"
+        },
+        link: function ($scope, $element, attrs, ngModelController)
+        {
+            $scope.skipLoad = false;
+            $scope.texts    = [];
+            if(!$scope.icon)
+                $scope.icon = 'fa-phone';
+
+            if(ngModelController) {
+                $scope.$watch('binding',function(oldVal,newval){
+                    $scope.load();
+                });
+                $scope.$watch('binding', function() {
+                    ngModelController.$setViewValue($scope.binding);
+                });
+            }
+
+            //==============================
+            //
+            //==============================
+            $scope.load = function ()
             {
-                $scope.skipLoad = false;
-                $scope.texts    = [];
-                if(!$scope.icon)
-                    $scope.icon = 'fa-phone';
-
-                if(ngModelController) {
-                    $scope.$watch('binding',function(oldVal,newval){
-                        $scope.load();
-                    });
-                    $scope.$watch('binding', function() {
-                        ngModelController.$setViewValue($scope.binding);
-                    });
+                if($scope.skipLoad)
+                {
+                    $scope.skipLoad = false;
+                    return;
                 }
 
-                //==============================
-                //
-                //==============================
-                $scope.load = function ()
+                var oBinding = $scope.binding || [];
+
+                $scope.texts = [];
+
+                angular.forEach(oBinding, function(text)
                 {
-                    if($scope.skipLoad)
-                    {
-                        $scope.skipLoad = false;
-                        return;
-                    }
+                    $scope.texts.push({value : text});
+                });
+            };
 
-                    var oBinding = $scope.binding || [];
+            //==============================
+            //
+            //==============================
+            $scope.remove = function (index)
+            {
+                $scope.texts.splice(index, 1);
 
-                    $scope.texts = [];
+                $scope.save();
+            };
 
-                    angular.forEach(oBinding, function(text)
-                    {
-                        $scope.texts.push({value : text});
-                    });
-                };
+            //==============================
+            //
+            //==============================
+            $scope.save = function ()
+            {
+                var oNewBinding = [];
+                var oText       = $scope.texts;
 
-                //==============================
-                //
-                //==============================
-                $scope.remove = function (index)
+                angular.forEach(oText, function(text)
                 {
-                    $scope.texts.splice(index, 1);
+                    if($.trim(text.value)!="")
+                        oNewBinding.push($.trim(text.value));
+                });
 
-                    $scope.save();
-                };
-
-                //==============================
-                //
-                //==============================
-                $scope.save = function ()
-                {
-                    var oNewBinding = [];
-                    var oText       = $scope.texts;
-
-                    angular.forEach(oText, function(text)
-                    {
-                        if($.trim(text.value)!="")
-                            oNewBinding.push($.trim(text.value));
-                    });
-
-                    if($scope.binding) {
-                        $scope.binding  = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
-                    }
-
-                    $scope.skipLoad = true;
-                };
-
-                //==============================
-                //
-                //==============================
-                $scope.getTexts = function ()
-                {
-                    if($scope.texts.length==0)
-                        $scope.texts.push({value : ""});
-
-                    var sLastValue = $scope.texts[$scope.texts.length-1].value;
-
-                    //NOTE: IE can set value to 'undefined' for a moment
-                    if(sLastValue && sLastValue!="")
-                        $scope.texts.push({value : ""});
-
-                    return $scope.texts;
-                };
-
-                //==============================
-                //
-                //==============================
-                $scope.isRequired = function()
-                {
-                    return $scope.required!=undefined
-                        && $.isEmptyObject($scope.binding);
+                if($scope.binding) {
+                    $scope.binding  = !$.isEmptyObject(oNewBinding) ? oNewBinding : undefined;
                 }
+
+                $scope.skipLoad = true;
+            };
+
+            //==============================
+            //
+            //==============================
+            $scope.getTexts = function ()
+            {
+                if($scope.texts.length==0)
+                    $scope.texts.push({value : ""});
+
+                var sLastValue = $scope.texts[$scope.texts.length-1].value;
+
+                //NOTE: IE can set value to 'undefined' for a moment
+                if(sLastValue && sLastValue!="")
+                    $scope.texts.push({value : ""});
+
+                return $scope.texts;
+            };
+
+            //==============================
+            //
+            //==============================
+            $scope.isRequired = function()
+            {
+                return $scope.required!=undefined
+                    && $.isEmptyObject($scope.binding);
             }
         }
-    }]);
-
-});
+    }
+}]);

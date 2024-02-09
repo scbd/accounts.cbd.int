@@ -1,35 +1,35 @@
-define(['app', 'text!./password-rules.html'], function(app, template) { 'use strict';
+import app from '~/app';
+import template from './password-rules.html';
 
-    app.directive('passwordRules', [function () {
-        return {
-            restrict: 'E',
-            template : template,
-            scope: {
-                password : "=",
-                isValid : "="
-            },
-            link: function ($scope) {
+app.directive('passwordRules', [function () {
+    return {
+        restrict: 'E',
+        template : template,
+        scope: {
+            password : "=",
+            isValid : "="
+        },
+        link: function ($scope) {
 
-                $scope.$watch("password", function(password) {
+            $scope.$watch("password", function(password) {
 
-                    password = password||"";
+                password = password||"";
 
-                    var validRuleCount = 0;
-                    var invalidChars = 0;
+                var validRuleCount = 0;
+                var invalidChars = 0;
 
-        			if (/[a-z]/.test(password)) validRuleCount++;
-        			if (/[A-Z]/.test(password)) validRuleCount++;
-        			if (/[0-9]/.test(password)) validRuleCount++;
-        			if (/[!@#$%^&*()_+<>?/~|[\]\-\\]/.test(password)) validRuleCount++;
+                if (/[a-z]/.test(password)) validRuleCount++;
+                if (/[A-Z]/.test(password)) validRuleCount++;
+                if (/[0-9]/.test(password)) validRuleCount++;
+                if (/[!@#$%^&*()_+<>?/~|[\]\-\\]/.test(password)) validRuleCount++;
 
-                    if (/\s/.test(password)) invalidChars++;
+                if (/\s/.test(password)) invalidChars++;
 
-                    $scope.length       = password.length>=10;
-                    $scope.complexity   = validRuleCount >=2;
-                    $scope.invalidChars = invalidChars;
-                    $scope.isValid      = $scope.length && $scope.complexity && !invalidChars;
-                });
-            }
-        };
-    }]);
-});
+                $scope.length       = password.length>=10;
+                $scope.complexity   = validRuleCount >=2;
+                $scope.invalidChars = invalidChars;
+                $scope.isValid      = $scope.length && $scope.complexity && !invalidChars;
+            });
+        }
+    };
+}]);

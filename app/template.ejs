@@ -8,14 +8,10 @@
     <meta name="description" content="Accounts: Convention on Biological Diversity">
 
     <script src="https://www.recaptcha.net/recaptcha/api.js"></script>
-    <script src="https://cdn.cbd.int/requirejs@2.2.0/require.js"></script>    
-    <script src="https://cdn.cbd.int/jquery@2.1.4/dist/jquery.min.js"></script>
-    <script src="https://cdn.cbd.int/bootstrap@3.3.5/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.cbd.int/angular@1.7.4/angular.min.js"></script>
-    <script src="/app/libs/angular-flex/angular-flex.js?v=<%=gitVersion%>"></script>
-    <script src="https://cdn.cbd.int/angular-route@1.7.4/angular-route.min.js"></script>
-    <script src="https://cdn.cbd.int/angular-cookies@1.7.4/angular-cookies.min.js"></script>
-    <script src="/app/boot.js?v=<%=gitVersion%>"></script>
+
+  <link rel="stylesheet" type="text/css" href="<%=cdnHost%>combine/<%=initialCss%>" />
+  <link rel="stylesheet" type="text/css" href="<%=cdnHost%>npm/font-awesome@4.4.0/css/font-awesome.min.css">
+
     <link rel="shortcut icon" href="/app/favicon.ico?v=<%=gitVersion%>">
     <link rel="stylesheet" type="text/css" href="/app/css/main.css?v=<%=gitVersion%>">
     <style>[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }</style>
@@ -201,6 +197,22 @@
             </div>
         </div>
     </div>
+
+    
+      <script src="<%=cdnHost%>npm/regenerator-runtime@0.13.7/runtime.js"></script>
+      <script src="<%=cdnHost%>combine/<%=angularBundle%>"></script>
+    
+      <script>
+        window.scbd = {
+            appVersion : '<%=appVersion%>'
+        }
+        require.config({ baseUrl : "<%=baseUrl%>app/" });
+    
+        require(["boot"], function(boot){
+            var bootFn = boot.default || boot;
+            bootFn(window, require, define);
+        });
+    </script>
 
     <script src="https://cdn.cbd.int/outdated-browser@1.0.2/outdatedbrowser/outdatedbrowser.min.js"></script>
     <link rel="stylesheet" href="https://cdn.cbd.int/outdated-browser@1.0.2/outdatedbrowser/outdatedbrowser.min.css">
