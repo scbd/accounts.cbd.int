@@ -33,8 +33,7 @@ function setCookie(cname, cvalue, exdays)
 var trustedHosts = [
     [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
     [/^cbddev\.xyz$/i, /.*\.cbddev\.xyz$/i],
-    [/^cbd\.int$/i, /.*\.cbd\.int$/i],
-    [/^dev.drupal.www.infra.cbd.int$/i]
+    [/^cbd\.int$/i, /.*\.cbd\.int$/i]
 ];
 function receiveMessage(event) {
     var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
