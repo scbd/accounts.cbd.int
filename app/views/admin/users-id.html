@@ -167,9 +167,12 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label>Government</label>
-									<div><select class="form-control" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select>
-									<span  class="btn btn-default btn-xs pull-right" ng-show="document.Government"  ng-click="document.Government = undefined;"> clear government </span></div>
+									<div ng-class="{'alert alert-danger' : !canGrantGovernment()}">
+										<label>Government</label>
+										<div><select class="form-control" ng-disabled="!canGrantGovernment()" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select>
+										<span  class="btn btn-default btn-xs pull-right" ng-show="document.Government"  ng-click="document.Government = undefined;"> clear government </span></div>
+										<strong ng-if="!canGrantGovernment()" >Assigning Government to SCBD staff or user with a Admin role is not allowed.</strong>
+									</div>
 								</div>
 
 							</div>
@@ -180,7 +183,7 @@
 									<label>User Group</label>
 									<div>	
 										<!-- <input ng-show="false" type="text" name="userGroup" class="form-control" ng-model="document.UserGroup"> -->
-										<select name="userGroup"  class="form-control" ng-model="document.UserGroup" ng-options="c.code as c.name for c in UserGroups"></select>
+										<select name="userGroup"  class="form-control" ng-disabled="document.Government" ng-model="document.UserGroup" ng-options="c.code as c.name for c in UserGroups"></select>
 										<span  class="btn btn-default btn-xs pull-right" ng-show="document.UserGroup"  ng-click="document.UserGroup = undefined;"> clear user group </span>
 									</div>
 								</div>
@@ -243,8 +246,14 @@
 						</div>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-primary" ng-click="save()">Save</button>
-				<button class="btn btn-default" ng-disabled="waiting" ng-click="cancel()">Cancel</button>
+				<div ng-class="{'alert alert-danger' : !canGrantGovernment() && document.Government}">
+					<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="!canGrantGovernment() && document.Government">Save</button>
+					<button class="btn btn-default" ng-disabled="waiting" ng-click="cancel()">Cancel</button>
+					<p ng-if="!canGrantGovernment() && document.Government">
+						Assigning Government to SCBD staff or user with a Admin role is not allowed.
+						<br>Please either remove Government or any Admin roles from this user's profile.
+					</p>
+				</div>
 				
 			</form>
 		</div>

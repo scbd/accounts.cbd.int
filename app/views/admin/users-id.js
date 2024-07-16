@@ -80,6 +80,24 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
         action.showRequest = !action.showRequest
     }
 
+    $scope.canGrantGovernment = function(){
+        console.log($scope.document);
+        if($scope.document?.UserID){
+            if($scope.document.UserGroup?.includes('SCBD'))
+                return false;
+            
+            if($scope.roles?.length){
+                const hasAdminLikeRole = $scope.roleList.filter(e=>$scope.roles.includes(e.roleId)).find(e=>/admin/ig.test(e.code) || /admin/ig.test(e.name))
+
+                if(hasAdminLikeRole)
+                    return false;
+            }
+            return true
+        }
+
+        return false;
+    }
+
     load();
 
     return this;
