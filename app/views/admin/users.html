@@ -5,21 +5,22 @@
 	<div class="bs-filter">
 		<form ng-submit="signIn()">
 			<div class="form-group">
+				<span  class="btn btn-default pull-right" style="margin-left: 2px;" ng-show="freetext"  ng-click="freetext = undefined;reloadUsers();"> Clear </span>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-search"></i></span>
-					<input type="text" class="form-control" ng-model="freetext" placeholder="name or email" ng-change="reloadUsers()">
-				</div>
+					<input type="text" class="form-control" ng-model="freetext" placeholder="name or email" ng-change="reloadUsers()">					
+				</div>				
 			</div>
 			<div class="form-group">
 				<div class="input-group">
 					<div class="row">
 						<div class="col-lg-6">
 								Government:	<select class="form-control" ng-model="government" ng-options="c.code as c.name for c in countriesList" ng-change="reloadUsers()"></select>
-								<span  class="btn btn-default btn-xs pull-right" ng-show="government"  ng-click="government = undefined;reloadUsers()"> clear government </span>
+								<span  class="btn btn-default btn-xs pull-right" ng-show="government"  ng-click="government = undefined;reloadUsers()"> Clear government </span>
 						</div>
 						<div class="col-lg-6">
 								Roles:	<select class="form-control" ng-model="roleFilter" ng-options="r.roleId as r.name for r in roleList" ng-change="reloadUsers()"></select>
-								<span  class="btn btn-default btn-xs pull-right" ng-show="roleFilter"  ng-click="roleFilter = undefined;reloadUsers();"> clear role </span>
+								<span  class="btn btn-default btn-xs pull-right" ng-show="roleFilter"  ng-click="roleFilter = undefined;reloadUsers();"> Clear role </span>
 						</div>
 					</div>
 				</div>
@@ -30,7 +31,8 @@
 				</div>
 			</div>
 			<div class="row" ng-if="loading">
-				<i class="fa fa-spin fa-spinner"></i> Searching...
+				<div class="col-md-2 col-md-offset-5">
+				<i class="fa fa-spin fa-spinner fa-2x"></i> Searching...</div>
 			</div>
 		</form>
 	</div>
@@ -89,6 +91,11 @@
 			<td nowrap>
 				<a ng-href="/admin/users/{{user.userID}}?{{returnUrl}}" class="btn btn-info"><i class="fa fa-edit"></i></a>
 				<button class="btn btn-warning" ng-click="actionDelete(user.userID)" ng-disabled="user.userID<=1"><i class="fa fa-trash-o"></i></button>
+			</td>
+		</tr>
+		<tr ng-if="!users.length && !loading">
+			<td colspan="3">
+				<div class="alert alert-danger">No user(s) found for your search query</div>
 			</td>
 		</tr>
 	</table>
