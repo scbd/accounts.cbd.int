@@ -1,4 +1,4 @@
-FROM node:18.0-alpine
+FROM node:20.13-alpine
 
 ARG BRANCH='master'
 ENV BRANCH $BRANCH
