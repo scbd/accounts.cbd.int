@@ -2,7 +2,7 @@ import app from '~/app';
 import 'angular';
 import 'bootstrap-duallistbox';
 
-app.directive('duallistbox', ["$timeout", function ($timeout) {
+app.directive('duallistbox', [function () {
     return {
         priority: 0,
         restrict: 'AC',
@@ -15,16 +15,7 @@ app.directive('duallistbox', ["$timeout", function ($timeout) {
                 moveonselect: false
             });
 
-            var syncing;
-            $element.bind("DOMSubtreeModified", function () {
-                if(!syncing) {
-                    syncing = true;
-                    $timeout(function () {
-                        box.trigger('bootstrapduallistbox.refresh');
-                        syncing = false;
-                    }, 500);
-                }
-            });
+            $scope.$applyAsync(()=>box.trigger('bootstrapduallistbox.refresh'));
         }
     };
 }]);
