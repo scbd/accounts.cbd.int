@@ -10,7 +10,7 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
 
     var initialUser  = {};
     var initialRoles = [];
-
+    $scope.self = $scope;
     //==================================
     //
     //==================================
@@ -40,7 +40,7 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
         $scope.waiting = true;
         $http.get("/api/v2013/users/" + $route.current.params.id + '/action-logs', { params : {s: {requestDate:-1}} })
         .then(function(result) {
-            console.log(result);
+            
             $scope.userActionLogs = result.data;
             $scope.userActionLogs.forEach(action=>{
                 if(action.type=='UserRoleAdditionRequest' || action.type=='UserRoleDeletionRequest'){
@@ -81,7 +81,6 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
     }
 
     $scope.canGrantGovernment = function(){
-        console.log($scope.document);
         if($scope.document?.UserID){
             if($scope.document.UserGroup?.includes('SCBD'))
                 return false;
@@ -145,8 +144,7 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
             var qRoles = $http.get('/api/v2013/users/'+userId+'/roles').then(function (res) {
                 return applyRoles(res.data);
             });
-
-            return $q.all([qUser, qRoles]);
+            return $q.all([qUser, qRoles])            
 
         }).catch(handleError);
     }
