@@ -190,9 +190,12 @@
 
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group"  ng-if="roleList.length">
 							<label>Roles</label>
-							<div><select ng-if="roleList.length"  ng-model="roles" ng-options="r.roleId as r.name for r in roleList" multiple="multiple" size="10" class="duallistbox" name="duallistbox_demo1[]"></select></div>
+							<div>
+								<select ng-model="self.roles" ng-options="r.roleId as r.name for r in roleList" 
+									multiple="multiple" size="10" class="duallistbox" name="duallistbox_demo1[]"></select>
+							</div>
 						</div>
 					</div>
 				</div>
