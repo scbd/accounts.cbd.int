@@ -81,7 +81,7 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
     }
 
     $scope.canGrantGovernment = function(){
-        if($scope.document?.UserID){
+        if($scope.document){
             if($scope.document.UserGroup?.includes('SCBD'))
                 return false;
             
