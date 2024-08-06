@@ -167,11 +167,13 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<div ng-class="{'alert alert-danger' : !canGrantGovernment()}">
+									<div ng-class="{'alert alert-info' : !canGrantGovernment()}">
 										<label>Government</label>
 										<div><select class="form-control" ng-disabled="!canGrantGovernment()" ng-model="document.Government" ng-options="c.code as c.name for c in countries"></select>
 										<span  class="btn btn-default btn-xs pull-right" ng-show="document.Government"  ng-click="document.Government = undefined;"> clear government </span></div>
-										<strong ng-if="!canGrantGovernment()" >Assigning Government to SCBD staff or user with a Admin role is not allowed.</strong>
+										<small ng-if="!canGrantGovernment()" >
+											Assigning Government to SCBD staff or user with a Admin role is not allowed. To grant government, remove any admin roles assigned to the user.
+										</small>
 									</div>
 								</div>
 
@@ -200,7 +202,7 @@
 					</div>
 				</div>
 
-				<div class="panel panel-default">
+				<div class="panel panel-default" ng-if="document.UserID">
 					<div class="panel-body">
 
 						<div class="form-group">
