@@ -86,6 +86,7 @@ export default app.factory('returnUrl', ['$location', '$document', '$window', fu
     function isTrusted(unsafeUrl) {
 
         var trustedHosts = [
+        /^scbd.unssc.org$/i,
                /^cbd.int$/i,
             /.*\.cbd.int$/i,
             /^cbddev.xyz$/i,
