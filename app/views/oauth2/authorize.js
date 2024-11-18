@@ -87,6 +87,8 @@ export default ['$scope', '$http', '$browser', '$window', '$location', 'user', f
   }; // scope.authorize
 
   $(document).ready(function() {
-    $scope.authorize();
+    $scope.$applyAsync(function() {
+        $scope.authorize();
+    });
   });
 }]; //return
