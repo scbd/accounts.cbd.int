@@ -51,14 +51,16 @@ export function currentUser() {
   }];
 }
 
-export function securize(roles)
+export function securize(roles=[], goBack=false)
 {
     return ["$location", "$q", "authentication", "returnUrl", function ($location, $q, authentication, returnUrl) {
 
         return $q.when(authentication.getUser()).then(function (user) {
             if (!user.isAuthenticated) {
 
-                $location.search({ returnurl: returnUrl.get() || $location.url() });
+                const returnurl = goBack? $location.url() : returnUrl.get() || $location.url();
+
+                $location.search({ returnurl });
                 $location.path('/signin');
             }
             else if (roles && !_.isEmpty(roles) && _.isEmpty(_.intersection(roles, user.roles))) {

@@ -42,7 +42,7 @@ app.config(["$routeProvider", '$locationProvider', function ($routeProvider, $lo
     
     $routeProvider.
         when('/',                     { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.home                ,  user: currentUser(), }}).
-        when('/oauth2/authorize',     { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.oauth2_authorize    ,  user: currentUser(), securized : securize() }}).
+        when('/oauth2/authorize',     { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.oauth2_authorize    ,  user: currentUser(), securized : securize([],true) }}).
         when('/activate/resend',      { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.activate_resend     ,  user: currentUser(), }}).
         when('/password',             { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password            ,  user: currentUser(), securized : securize()}}).
         when('/password/reset',       { ...mapView(angularViewWrapper), resolve: { ...routeTemplates.password_reset      ,  user: currentUser(), }}).
