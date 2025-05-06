@@ -14,6 +14,8 @@ SAML
 
         AUTH_ISSUER - accounts.cbddev.xyz
         API_URL     - https://api.cbddev.xyz
+        SITE_ALERT  - (Optional) |  Message to display on the top bar. if empty/not set the Alert Bar will no show
+        SITE_ALERT_LEVEL - (Optional) |  Color level: `primary`, `secondary`, `info`, `success`, `warning`, `danger`. Default: danger |
 
     Secrets:
 
