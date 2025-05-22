@@ -31,6 +31,7 @@ function setCookie(cname, cvalue, exdays)
     document.cookie =  parts.join("; ");
 }
 var trustedHosts = [
+    [/^drupal\.www\.infra\.cbd\.int$/i, /.*\.drupal\.www\.infra\.cbd\.int$/i],
     [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
     [/^cbddev\.xyz$/i, /.*\.cbddev\.xyz$/i],
     [/^cbd\.int$/i, /.*\.cbd\.int$/i]
