@@ -4,6 +4,7 @@ import ng from 'angular';
 import $ from 'jquery';
 import '~/directives/bootstrap/dual-list';
 import '~/directives/forms-input-list';
+import '~/views/recaptcha.directive.js';
 
 export { default as template } from './users-id.html';
 export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'returnUrl', function ($http, $scope, $filter, $location, $route, $q, returnUrl) {
@@ -230,9 +231,10 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
     //
     //==================================
     function updateUser(user) {
-
-        if(!user.UserID) return $http.post('/api/v2013/users/',             user).then(function(res) { return applyUser(res.data); } );
-        else             return $http.put ('/api/v2013/users/'+user.UserID, user).then(function()    { return user; } );  // uodate does not return the user;
+        console.log('updateUser', user);
+        const headers = { 'x-captcha-v2-token' : $scope.grecaptchaToken };
+        if(!user.UserID) return $http.post('/api/v2013/users/',             user, {headers}).then(function(res) { return applyUser(res.data); } );
+        else             return $http.put ('/api/v2013/users/'+user.UserID, user, {headers}).then(function()    { return user; } );  // update does not return the user;
     }
 
     //==================================
