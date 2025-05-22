@@ -231,7 +231,6 @@ export default ["$http", '$scope' , '$filter', '$location', '$route', '$q', 'ret
     //
     //==================================
     function updateUser(user) {
-        console.log('updateUser', user);
         const headers = { 'x-captcha-v2-token' : $scope.grecaptchaToken };
         if(!user.UserID) return $http.post('/api/v2013/users/',             user, {headers}).then(function(res) { return applyUser(res.data); } );
         else             return $http.put ('/api/v2013/users/'+user.UserID, user, {headers}).then(function()    { return user; } );  // update does not return the user;
