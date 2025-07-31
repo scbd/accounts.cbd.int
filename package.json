@@ -5,7 +5,7 @@
   "dependencies": {
     "cookie-parser": "1.4.6",
     "ejs": "2.6.1",
-    "express": "4.16.3",
+    "express": "4.19.2",
     "fs-extra": "^11.1.1",
     "http-proxy": "1.17",
     "jsonwebtoken": "9.0.0",
