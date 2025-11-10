@@ -29,9 +29,9 @@
 				}
 
 				var apiDomain = 'https://api.cbd.int';
-				if(/^https:\/\/api\.cbddev\.xyz\//i.test(window.location.href))
+				if(/^https:\/\/accounts\.cbddev\.xyz\//i.test(window.location.href))
 					apiDomain = 'https://api.cbddev.xyz';
-				
+
 				var headers = { Authorization: "Ticket " + getQueryStringValue("key") };
 		        $.ajax({
 					url:'/api/v2013/activate/email',
