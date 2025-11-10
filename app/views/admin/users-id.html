@@ -26,7 +26,7 @@
     		</div>
 
     		<div ng-switch-default class="alert alert-danger">
-    			<strong>Unmagaed error as occured...</strong>
+    			<strong>Unmanaged error has occurred...</strong>
     			<div>{{error.message||error}}</div>
     		</div>
 
@@ -251,8 +251,11 @@
 						</div>
 					</div>
 				</div>
+				<div style="margin-top: 10px;">
+					<recaptcha-v2></recaptcha-v2>
+				</div>
 				<div ng-class="{'alert alert-danger' : !canGrantGovernment() && document.Government}">
-					<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="!canGrantGovernment() && document.Government">Save</button>
+					<button type="submit" class="btn btn-primary" ng-click="save()" ng-disabled="(!canGrantGovernment() && document.Government) || !grecaptchaToken">Save</button>
 					<button class="btn btn-default" ng-disabled="waiting" ng-click="cancel()">Cancel</button>
 					<p ng-if="!canGrantGovernment() && document.Government">
 						Assigning Government to SCBD staff or user with a Admin role is not allowed.

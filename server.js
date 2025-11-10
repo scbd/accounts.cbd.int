@@ -25,6 +25,8 @@ var year        = date.getFullYear();
 var captchaV2key= process.env.CAPTCHA_V2_KEY || '';
 var captchaV3key= process.env.CAPTCHA_V3_KEY || '';
 let appVersion = process.env.TAG      || gitVersion;
+const siteAlert      = process.env.SITE_ALERT || '';
+const siteAlertLevel = process.env.SITE_ALERT_LEVEL || 'danger';
 
 winston.info(`info: accounts.cbd.int`);
 winston.info(`info: Git version: ${gitVersion}`);
@@ -55,7 +57,8 @@ app.get('/*', (req, res) => {
     gitVersion: gitVersion, year:year, captchaV2key, captchaV3key,
     baseUrl: req.headers.base_url || '/',
     appVersion: appVersion,
-
+    siteAlert,
+    siteAlertLevel,
     cdnHost            : cdnHost,
     angularBundle      : bundleUrls.angularBundle,
     initialCss         : bundleUrls.initialCss
