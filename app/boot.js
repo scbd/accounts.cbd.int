@@ -77,7 +77,7 @@ export default function bootApp(window, require, defineX) {
     defineX('angular-animate'      , ['angular'], (ng)=>{ warnImport(); return ng; });
     defineX('angular-cache'        , ['angular'], (ng)=>{ warnImport(); });
     
-    defineX('angular-dependencies' , ['angular', `${cdnHost}combine/${bundleUrls.angularDependencies}`], (ng)=>{ warnImport(); });
+    defineX('angular-dependencies' , ['angular', `${cdnHost}combine/${bundleUrls.angularDependencies}?app=accounts`], (ng)=>{ warnImport(); });
     
     defineX('lodash',   [], ()=>window._);
     defineX('bootstrap',[cdnHost + 'npm/bootstrap@3.3.6/dist/js/bootstrap.js'], (boostrap)=>{ return boostrap;});
