@@ -26,31 +26,31 @@ app.controller('TemplateController', ['$scope', '$rootScope', '$window', 'authen
         });
     }
 
-    $scope.$watch('user', _.debounce(function(user) {
+    // $scope.$watch('user', _.debounce(function(user) {
 
-        if (!user)
-            return;
+    //     if (!user)
+    //         return;
 
-        require(["https://cdn.slaask.com/chat.js"], function() {
+    //     require(["https://cdn.slaask.com/chat.js"], function() {
 
-            const _slaask =  window._slaask
+    //         const _slaask =  window._slaask
             
-            if (user.isAuthenticated) {
-                _slaask.identify(user.name, {
-                    'user-id' : user.userID,
-                    'name' : user.name,
-                    'email' : user.email,
-                });
+    //         if (user.isAuthenticated) {
+    //             _slaask.identify(user.name, {
+    //                 'user-id' : user.userID,
+    //                 'name' : user.name,
+    //                 'email' : user.email,
+    //             });
 
-                if(_slaask.initialized) {
-                    _slaask.slaaskSendUserInfos();
-                }
-            }
+    //             if(_slaask.initialized) {
+    //                 _slaask.slaaskSendUserInfos();
+    //             }
+    //         }
 
-            if(_slaask && !_slaask.initialized) {
-                _slaask.init('ae83e21f01860758210a799872e12ac4');
-            }
-        });
-    }, 1000));
+    //         if(_slaask && !_slaask.initialized) {
+    //             _slaask.init('ae83e21f01860758210a799872e12ac4');
+    //         }
+    //     });
+    // }, 1000));
 
 }]);
