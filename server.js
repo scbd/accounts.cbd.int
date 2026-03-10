@@ -7,6 +7,7 @@ import * as url          from 'url'                       ;
 import      winston      from './saml/services/logger.js' ;
 
 import { bundleUrls, cdnHost } from './app/boot.js';
+import { parseTrustedDomains } from './utils/trusted-domains.js';
 
 const __dirname  = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -27,15 +28,20 @@ var captchaV3key= process.env.CAPTCHA_V3_KEY || '';
 let appVersion = process.env.TAG      || gitVersion;
 const siteAlert      = process.env.SITE_ALERT || '';
 const siteAlertLevel = process.env.SITE_ALERT_LEVEL || 'danger';
+const trustedDomains = parseTrustedDomains(process.env.TRUSTED_DOMAINS);
 
 winston.info(`info: accounts.cbd.int`);
 winston.info(`info: Git version: ${gitVersion}`);
 winston.info(`info: API address: ${apiUrl}`);
 winston.info(`info: IS DEV: ${process.env.IS_DEV}`);
+winston.info(`info: Trusted domains (${trustedDomains.length}): ${trustedDomains.map(d => d.domain).join(', ')}`);
 
 samlEndPoint(app)
-app.use(                       function(req,res,next) { res.setHeader('X-Frame-Options', 'DENY' ); next(); });
-app.use('/app/authorize.html', function(req,res,next) { res.setHeader('X-Frame-Options', 'ALLOW'); next(); });
+app.use((req,res,next) => { res.setHeader('X-Frame-Options', 'DENY' ); next(); });
+app.get('/app/authorize.html', (_req, res) => {
+    res.setHeader('X-Frame-Options', 'ALLOW');
+    res.render(`${__dirname}/dist/app/authorize`, { trustedDomains });
+});
 
 // Configure static files to serve
 app.use('/favicon.png',   express.static(__dirname + '/app/images/favicon.png', { maxAge: 24*60*60*1000 }));
