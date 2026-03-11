@@ -5,9 +5,7 @@ export function parseTrustedDomains(raw) {
         const domainStr = (schemeMatch ? schemeMatch[2] : entry).toLowerCase();
         const prefix    = `^${scheme}:\\/\\/`;
 
-        const regexStr = domainStr.startsWith('*.')
-            ? prefix + '.+\\.' + domainStr.slice(2).replace(/\./g, '\\.') + '$'
-            : prefix + domainStr.replace(/\./g, '\\.')                     + '$';
+        const regexStr = prefix + domainStr.replace(/\./g, '\\.').replace(/\*/g, '.+') + '$';
 
         return { domain: `${scheme}://${domainStr}`, regex: regexStr };
     });
