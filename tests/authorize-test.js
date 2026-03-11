@@ -10,7 +10,7 @@ function isTrusted(trustedDomains, originStr) {
 }
 
 // ── Test config ───────────────────────────────────────────────────────────────
-const TRUSTED_DOMAINS = 'http://localhost;http://localhost:8080;staging.cbd.int;*.staging.cbd.int;cbddev.xyz;*.cbddev.xyz;cbd.int;*.cbd.int;kronos-events.net;*.kronos-events.net';
+const TRUSTED_DOMAINS = 'http://localhost;http://localhost:*;staging.cbd.int;*.staging.cbd.int;cbddev.xyz;*.cbddev.xyz;cbd.int;*.cbd.int;kronos-events.net;*.kronos-events.net;api.*.cbd.int';
 const trustedDomains  = parseTrustedDomains(TRUSTED_DOMAINS);
 
 console.log('Parsed trusted domains:');
@@ -32,6 +32,10 @@ const tests = [
     { origin: 'https://app.cbddev.xyz',           expect: true  },
     { origin: 'https://kronos-events.net',        expect: true  },
     { origin: 'https://app.kronos-events.net',    expect: true  },
+    // Wildcard anywhere
+    { origin: 'https://api.v1.cbd.int',           expect: true  }, // api.*.cbd.int
+    { origin: 'https://api.staging.cbd.int',      expect: true  }, // api.*.cbd.int
+    { origin: 'https://api.cbd.int',              expect: true }, // *.cbd.int allow
     // Expected: NOT trusted
     { origin: 'https://localhost',                expect: false }, // https localhost not listed
     { origin: 'http://cbd.int',                   expect: false }, // http not allowed for cbd.int
