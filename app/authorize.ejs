@@ -20,59 +20,34 @@ function setCookie(cname, cvalue, exdays)
         var d = new Date();
         if(typeof exdays == 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{1,8}Z/.test(exdays))
             d = new Date(exdays)
-        else      
+        else
             d.setDate(d.getDate()+exdays);
         parts.push("expires="+d.toGMTString())
-    }    
+    }
     parts.push("path=/");
     parts.push("SameSite=None");
     parts.push("Secure");
 
     document.cookie =  parts.join("; ");
 }
-var trustedHosts = [
-    [/^staging\.cbd\.int$/i, /.*\.staging\.cbd\.int$/i],
-    [/^cbddev\.xyz$/i, /.*\.cbddev\.xyz$/i],
-    [/^kronos-events\.net$/i, /.*\.kronos-events\.net$/i],
-    [/^cbd\.int$/i, /.*\.cbd\.int$/i]
-];
+var trustedDomains = <%- JSON.stringify(trustedDomains) %>;
 function receiveMessage(event) {
-    var secureDomain = document.location.hostname.replace(/[^\.]+\./, '');
-    var origin = event.origin;
-    if(origin=='http://localhost' || /^http:\/\/localhost:/.test(origin)) origin = 'https://localhost.'+secureDomain;
-    
-    var originDomain = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[3];
-    var originHost   = origin.match(/(?:^(https)\:\/\/)([^\.]+)\.([^\/]+)/)[2];
-    var isTrustedDomain = false;
+    var origin;
+    try { origin = new URL(event.origin); } catch(e) { return; }
 
-    all:for (var j = 0; j < trustedHosts.length; j++) {
-        var domainMatched = false;
-        var originMatched = false;
-        for (var i = 0; i < trustedHosts[j].length; i++) {
-            var trustedHost = trustedHosts[j][i];
-            // If the secure domain was matched then the origin domain needs to be on same domain, case for 4 level domains
-            // eg absch.staging.cbd.int
-            domainMatched = domainMatched || trustedHost.test(secureDomain);
-            originMatched = originMatched || trustedHost.test(originDomain);
-            
-            if(domainMatched && originMatched){
-                isTrustedDomain = true;
-                break all;
-            }
-        }
-        
-        if(domainMatched || originMatched)
-            break;
-    }
-    if(isTrustedDomain){
+    var isTrusted = trustedDomains.some(function(d) {
+        return new RegExp(d.regex, 'i').test(origin.origin);
+    });
+
+    if(isTrusted){
         var message = JSON.parse(event.data);
         if(message.type=='getAuthenticationToken') {
-            
-            var response = { 
-                type                : 'authenticationToken', 
-                authenticationToken : getCookie('authenticationToken'), 
-                authenticationEmail : getCookie('email'), 
-                expiration         : getCookie('expiration') 
+
+            var response = {
+                type                : 'authenticationToken',
+                authenticationToken : getCookie('authenticationToken'),
+                authenticationEmail : getCookie('email'),
+                expiration         : getCookie('expiration')
             };
             if(response && response.expiration){
                 if(new Date(response.expiration).getTime() <= new Date().getTime()){
@@ -89,8 +64,8 @@ function receiveMessage(event) {
             if(message.expiration)        setCookie('expiration', message.expiration, 0);
             else                          setCookie('expiration', null); //Delete the cookie
 
-            var response = { 
-                type : 'authenticationTokenUpdated', 
+            var response = {
+                type : 'authenticationTokenUpdated',
             };
 
             window.parent.postMessage(JSON.stringify(response), event.origin);

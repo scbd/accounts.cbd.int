@@ -14,8 +14,11 @@ SAML
 
         AUTH_ISSUER - accounts.cbddev.xyz
         API_URL     - https://api.cbddev.xyz
-        SITE_ALERT  - (Optional) |  Message to display on the top bar. if empty/not set the Alert Bar will no show
-        SITE_ALERT_LEVEL - (Optional) |  Color level: `primary`, `secondary`, `info`, `success`, `warning`, `danger`. Default: danger |
+        SITE_ALERT            - (Optional) | Message to display on the top bar. if empty/not set the Alert Bar will not show
+        SITE_ALERT_LEVEL      - (Optional) | Color level: `primary`, `secondary`, `info`, `success`, `warning`, `danger`. Default: danger
+        TRUSTED_DOMAINS - (Optional) | Semicolon/comma/pipe-separated list of trusted cross-origin postMessage domains.
+                                        Wildcard subdomain prefix supported. Scheme prefix optional per entry (default: https).
+                                        e.g. http://localhost;staging.cbd.int;*.cbd.int;http://*.kronos-events.net
 
     Secrets:
 
