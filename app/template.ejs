@@ -207,7 +207,8 @@
     
       <script>
         window.scbd = {
-            appVersion : '<%=appVersion%>'
+            appVersion    : '<%=appVersion%>',
+            trustedDomains: <%- JSON.stringify(trustedDomains.map(d => d.regex)) %>
         }
         require.config({ baseUrl : "<%=baseUrl%>app/" });
     

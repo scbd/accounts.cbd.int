@@ -85,19 +85,12 @@ export default app.factory('returnUrl', ['$location', '$document', '$window', fu
     //============================================================
     function isTrusted(unsafeUrl) {
 
-        var trustedHosts = [
-        /^scbd.unssc.org$/i,
-               /^cbd.int$/i,
-            /.*\.cbd.int$/i,
-            /^cbddev.xyz$/i,
-         /.*\.cbddev.xyz$/i,
-         /.*\.localhost$/i,
-             /^localhost$/i
-        ];
+        var url    = parseUrl(unsafeUrl);
+        var origin = url.protocol + '//' + url.host;
 
-        var url = parseUrl(unsafeUrl);
-
-        return !!(url.hostname && _.some(trustedHosts, function(h) { return h.test(url.hostname); }));
+        return !!(url.hostname && _.some(window.scbd.trustedDomains, function(r) {
+            return new RegExp(r, 'i').test(origin);
+        }));
     }
 
     //============================================================
