@@ -59,16 +59,17 @@ app.get('/activate', (req, res) => res.sendFile(__dirname + '/app/views/activate
 
 app.get('/*', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=0')
-  res.render('template', { 
+  res.render('template', {
     gitVersion: gitVersion, year:year, captchaV2key, captchaV3key,
     baseUrl: req.headers.base_url || '/',
     appVersion: appVersion,
     siteAlert,
     siteAlertLevel,
+    trustedDomains,
     cdnHost            : cdnHost,
     angularBundle      : bundleUrls.angularBundle,
     initialCss         : bundleUrls.initialCss
-  }); 
+  });
 });
 
 
