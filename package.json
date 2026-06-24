@@ -18,7 +18,7 @@
     "xmldom": "0.6.0"
   },
   "devDependencies": {
-    "@babel/core": "7.12.10",
+    "@babel/core": "7.29.6",
     "@babel/preset-env": "7.12.11",
     "@buxlabs/amd-to-es6": "^0.16.3",
     "@rollup/plugin-alias": "^3.1.2",
