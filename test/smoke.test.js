@@ -97,6 +97,11 @@ test('GET unknown /app/ file returns 404', async () => {
     assert.equal(res.status, 404);
 });
 
+test('POST to an unmatched route returns 404 (error handler is not a catch-all)', async () => {
+    const res = await fetch(`${baseUrl}/does-not-exist`, { method: 'POST' });
+    assert.equal(res.status, 404);
+});
+
 test('server logged no errors', () => {
     assert.doesNotMatch(output, /error|uncaught|deprecat/i, output);
 });

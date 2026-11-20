@@ -5,6 +5,7 @@ import      HttpProxy    from 'http-proxy'                ;
 import      samlEndPoint from './saml/index.js'           ;
 import * as url          from 'url'                       ;
 import      winston      from './saml/services/logger.js' ;
+import      ApiError     from './saml/services/api-error.js';
 
 import { bundleUrls, cdnHost } from './app/boot.js';
 import { parseTrustedDomains } from './utils/trusted-domains.js';
@@ -77,7 +78,7 @@ app.get('/*', (req, res) => {
 // START HTTP SERVER
 
 app.listen(process.env.PORT || 8000, function () {
-	winston.info(`Server listening on ${this.address().port}`);
+	winston.info(`Server listening on http://localhost:${this.address().port}`);
 });
 // Handle proxy errors ignore
 
@@ -100,7 +101,8 @@ function setCustomCacheControl(res, path) {
 }
 
   // Error Handler
-  app.use((err, req, res) => {
+  // eslint-disable-next-line no-unused-vars -- Express needs all 4 args to recognise an error handler
+  app.use((err, req, res, next) => {
 
     if(err instanceof ApiError)
         return res.status(err.status).send({ status:err.status, message: err.message });
