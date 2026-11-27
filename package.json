@@ -47,7 +47,8 @@
     "build": "rm -rf ./dist && npx rollup -c",
     "dev": "rm -rf ./dist && npx rollup -c --watch",
     "eslint": "npx eslint . --fix",
-    "clean-reinstall": "rm -rf ./node_modules && yarn install"
+    "clean-reinstall": "rm -rf ./node_modules && yarn install",
+    "test": "node --test test/*.test.js"
   },
   "engines": {
     "yarn": ">= 1.6.0",
